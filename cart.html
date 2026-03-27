@@ -298,7 +298,23 @@ function chgQty(n,d,base){qtys[n]=Math.max(1,qtys[n]+d);document.getElementById(
 function removeItem(id){var el=document.getElementById(id);if(el){el.style.opacity='0';el.style.transform='translateX(-16px)';el.style.transition='all 0.3s';setTimeout(function(){el.remove();recalc();},300);}}
 function applyPromo(){var code=document.getElementById('promo-inp').value.trim().toUpperCase();if(code==='DIRECTOR20'){promoApplied=true;document.getElementById('promo-ok').style.display='block';document.getElementById('promo-line').style.display='flex';recalc();}}
 function selShip(el,price){document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel');shipping=parseFloat(price);recalc();}
-function placeOrder(){alert('Order placed! Your PDF is available now and print order ships within 1-2 days.');}
+async function placeOrder(){
+  const items = [
+    {price_data:{currency:'usd',product_data:{name:'Appalachian Dawn (Print)'},unit_amount:4995},quantity:qtys[1]},
+    {price_data:{currency:'usd',product_data:{name:'Lux Perpetua (PDF)'},unit_amount:495},quantity:qtys[2]}
+  ];
+  try {
+    const res = await fetch('https://lionandlambpublishing.com/api/create-checkout-session',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({items})
+    });
+    const data = await res.json();
+    if(data.url) window.location.href = data.url;
+  } catch(err) {
+    alert('Payment error: ' + err.message);
+  }
+}
 recalc();
 // Row helpers
 document.querySelectorAll('.form-row.two').forEach(function(r){if(window.innerWidth>=480){r.style.flexDirection='row';}});
