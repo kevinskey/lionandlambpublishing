@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cart &amp; Checkout — Forte Music</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0f0d0a;--cream:#f7f3ec;--parchment:#ede6d6;--gold:#c49a2a;--burgundy:#7b1f2e;--burgundy-dark:#9a2638;--sage:#3d5a4a;--muted:#6b6257;--border:#d6cfc2;--nav-h:60px;--r:8px}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5}
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(247,243,236,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-mark{display:inline-flex;width:27px;height:27px;background:var(--burgundy);color:var(--cream);border-radius:4px;align-items:center;justify-content:center;font-size:0.9rem}
+.nav-right{font-size:0.8rem;color:var(--muted)}
+.nav-right a{color:var(--muted);text-decoration:none}
+
+/* STEPS */
+.steps{padding:calc(var(--nav-h)+20px) 16px 0;display:flex;align-items:center;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-bottom:24px;gap:0}
+.steps::-webkit-scrollbar{display:none}
+.step{display:flex;align-items:center;gap:7px;font-size:0.78rem;font-weight:600;color:var(--muted);flex-shrink:0}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--border);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:700;flex-shrink:0;transition:all 0.3s}
+.step.active .step-num{background:var(--burgundy);color:#fff}
+.step.active{color:var(--ink)}
+.step.done .step-num{background:var(--sage);color:#fff}
+.step-line{width:24px;height:1px;background:var(--border);flex-shrink:0;margin:0 6px}
+
+/* PAGE */
+.page{padding:0 16px 100px}
+.section-h{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;letter-spacing:-0.02em;color:var(--ink);margin-bottom:16px}
+
+/* CART ITEMS */
+.cart-items{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
+.c-item{display:grid;grid-template-columns:68px 1fr;gap:12px;padding:14px;background:var(--cream);border:1px solid var(--border);border-radius:var(--r);align-items:start;transition:box-shadow 0.2s}
+.c-thumb{width:68px;height:68px;background:var(--ink);border-radius:5px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;position:relative}
+.ct-lines{width:70%;opacity:0.3}
+.ct-lines div{height:1px;background:var(--cream);margin:5px 0}
+.ct-badge{position:absolute;bottom:4px;right:4px;font-size:0.5rem;font-weight:700;text-transform:uppercase;padding:2px 5px;border-radius:2px}
+.c-info{}
+.ci-ens{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--gold);font-weight:600;margin-bottom:3px}
+.ci-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.ci-comp{font-size:0.75rem;color:var(--muted);margin-bottom:8px}
+.ci-fmt{display:inline-flex;align-items:center;gap:5px;font-size:0.68rem;color:var(--muted);background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border);margin-bottom:10px}
+.ci-row{display:flex;align-items:center;justify-content:space-between}
+.qty-ctrl{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:5px;overflow:hidden}
+.q-btn{width:32px;height:32px;background:transparent;border:none;cursor:pointer;font-size:0.9rem;color:var(--ink);-webkit-tap-highlight-color:transparent}
+.q-btn:active{background:var(--parchment)}
+.q-num{width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.8rem;border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.ci-price{font-family:'DM Mono',monospace;font-size:0.95rem;font-weight:500;color:var(--ink)}
+.remove-btn{font-size:0.72rem;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;text-underline-offset:2px;margin-top:4px;-webkit-tap-highlight-color:transparent}
+.remove-btn:hover{color:var(--burgundy)}
+
+/* DIGITAL NOTICE */
+.digital-notice{background:rgba(61,90,74,0.08);border:1px solid rgba(61,90,74,0.2);border-radius:6px;padding:12px 14px;font-size:0.78rem;color:var(--sage);display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;line-height:1.5}
+
+/* PO SECTION */
+.po-section{background:var(--parchment);border:1.5px dashed var(--border);border-radius:var(--r);padding:18px;margin-bottom:20px}
+.po-section:hover{border-color:var(--gold)}
+.po-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.po-icon{font-size:1.4rem;line-height:1}
+.po-title{font-weight:700;font-size:0.875rem;color:var(--ink)}
+.po-sub{font-size:0.72rem;color:var(--muted)}
+.po-desc{font-size:0.8rem;color:var(--muted);line-height:1.55;margin-bottom:14px;font-weight:300}
+.po-drop{border:1.5px dashed var(--border);border-radius:6px;padding:18px;text-align:center;cursor:pointer;background:rgba(247,243,236,0.5);margin-bottom:12px}
+.po-drop:hover{border-color:var(--gold);background:rgba(196,154,42,0.04)}
+.po-drop-icon{font-size:1.3rem;margin-bottom:5px}
+.po-drop-text{font-size:0.78rem;color:var(--muted);line-height:1.4}
+.po-drop-text strong{color:var(--ink)}
+.or-divider{text-align:center;font-size:0.72rem;color:var(--muted);margin-bottom:12px}
+.po-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.po-inp{font-family:'DM Sans',sans-serif;font-size:0.875rem;padding:11px 12px;border:1.5px solid var(--border);border-radius:6px;background:var(--cream);color:var(--ink);outline:none;-webkit-appearance:none;width:100%}
+.po-inp:focus{border-color:var(--ink)}
+.po-inp::placeholder{color:#aaa}
+
+/* PROMO */
+.promo-row{display:flex;gap:8px;margin-bottom:24px}
+.promo-inp{flex:1;font-family:'DM Sans',sans-serif;font-size:0.9rem;padding:12px 14px;border:1.5px solid var(--border);border-radius:6px;background:var(--cream);color:var(--ink);outline:none;-webkit-appearance:none;min-width:0}
+.promo-inp:focus{border-color:var(--ink)}
+.promo-inp::placeholder{color:#aaa}
+.apply-btn{font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;padding:12px 18px;border:1.5px solid var(--border);background:transparent;border-radius:6px;cursor:pointer;color:var(--ink);white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.apply-btn:hover{border-color:var(--ink);background:var(--parchment)}
+.promo-ok{font-size:0.78rem;color:var(--sage);display:none;margin-top:-16px;margin-bottom:16px}
+
+/* FORMS */
+.form-sep{height:1px;background:var(--border);margin:24px 0}
+.form-section-title{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.form-section-title::before{content:'';display:block;width:18px;height:1px;background:var(--gold)}
+.form-row{display:flex;flex-direction:column;gap:12px;margin-bottom:12px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:0.75rem;font-weight:600;color:var(--ink)}
+.form-inp{font-family:'DM Sans',sans-serif;font-size:1rem;padding:13px 14px;border:1.5px solid var(--border);border-radius:6px;background:var(--cream);color:var(--ink);outline:none;-webkit-appearance:none;width:100%}
+.form-inp:focus{border-color:var(--ink)}
+.form-inp::placeholder{color:#aaa}
+select.form-inp{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6257' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+
+/* SHIPPING OPTIONS */
+.ship-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.ship-opt{display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.ship-opt.sel{border-color:var(--burgundy);background:rgba(123,31,46,0.03)}
+.ship-radio{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
+.ship-opt.sel .ship-radio{border-color:var(--burgundy);background:var(--burgundy)}
+.ship-dot{width:7px;height:7px;border-radius:50%;background:#fff;opacity:0}
+.ship-opt.sel .ship-dot{opacity:1}
+.ship-info{flex:1}
+.ship-name{font-size:0.875rem;font-weight:600;color:var(--ink)}
+.ship-eta{font-size:0.72rem;color:var(--muted);margin-top:1px}
+.ship-price{font-family:'DM Mono',monospace;font-size:0.875rem;font-weight:500;color:var(--ink)}
+
+/* CARD ICONS */
+.card-icons{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px}
+.card-icon{height:26px;padding:4px 10px;border:1px solid var(--border);border-radius:4px;font-size:0.68rem;font-weight:700;color:var(--muted);display:flex;align-items:center;background:var(--cream)}
+.secure-badge{display:flex;align-items:center;gap:8px;padding:10px 13px;background:rgba(61,90,74,0.08);border:1px solid rgba(61,90,74,0.2);border-radius:6px;font-size:0.72rem;color:var(--sage);font-weight:500;margin-top:14px}
+
+/* ORDER SUMMARY */
+.order-summary{background:var(--parchment);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-top:32px}
+.os-header{background:var(--ink);padding:18px 20px}
+.os-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--cream);margin-bottom:1px}
+.os-count{font-size:0.72rem;color:rgba(247,243,236,0.45)}
+.os-body{padding:18px 20px}
+.os-line{display:flex;justify-content:space-between;align-items:center;padding:7px 0;font-size:0.85rem}
+.os-label{color:var(--muted)}
+.os-val{font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--ink);font-weight:500}
+.os-sep{height:1px;background:var(--border);margin:7px 0}
+.os-total{display:flex;justify-content:space-between;align-items:center;padding:12px 0 0}
+.os-tot-label{font-size:1rem;font-weight:700;color:var(--ink)}
+.os-tot-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--ink)}
+.checkout-btn{width:100%;padding:16px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:700;cursor:pointer;margin-top:18px;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.checkout-btn:active{background:var(--burgundy-dark)}
+.trust-mini{display:flex;justify-content:space-around;padding:14px 20px;border-top:1px solid var(--border)}
+.tm-item{font-size:0.7rem;color:var(--muted);text-align:center}
+
+/* DESKTOP */
+@media(min-width:480px){.form-row.two{flex-direction:row}}
+@media(min-width:600px){.form-row.three{flex-direction:row}}
+@media(min-width:768px){
+  :root{--nav-h:68px}
+  .nav{padding:0 40px}
+  .steps{padding:calc(var(--nav-h)+24px) 48px 0}
+  .page{padding:0 48px 80px}
+  .checkout-layout{display:grid;grid-template-columns:1fr 360px;gap:40px;align-items:start}
+  .order-summary{margin-top:0;position:sticky;top:calc(var(--nav-h)+20px)}
+}
+@media(min-width:1024px){
+  .nav{padding:0 56px}
+  .steps{padding:calc(var(--nav-h)+28px) 72px 0}
+  .page{padding:0 72px 80px}
+  .checkout-layout{grid-template-columns:1fr 380px;gap:56px}
+  .po-fields{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="music-store.html"><span class="nav-mark">&#119070;</span>Forte Music</a>
+  <div class="nav-right"><a href="music-store.html">&#8592; Continue Shopping</a> &nbsp;&#128274; Secure</div>
+</nav>
+
+<div class="steps">
+  <div class="step done"><span class="step-num">&#10003;</span>Cart</div>
+  <div class="step-line"></div>
+  <div class="step active"><span class="step-num">2</span>Information</div>
+  <div class="step-line"></div>
+  <div class="step"><span class="step-num">3</span>Shipping</div>
+  <div class="step-line"></div>
+  <div class="step"><span class="step-num">4</span>Payment</div>
+</div>
+
+<div class="page">
+  <div class="checkout-layout">
+    <div>
+      <div class="section-h">Your Cart</div>
+      <div class="cart-items">
+        <div class="c-item" id="item1">
+          <div class="c-thumb" style="background:#1a1410"><div class="ct-lines"><div></div><div></div><div></div><div></div><div></div></div><div class="ct-badge" style="background:var(--burgundy);color:#fff">Print</div></div>
+          <div class="c-info">
+            <div class="ci-ens">Concert Band &middot; Grade 4</div>
+            <div class="ci-title">Appalachian Dawn</div>
+            <div class="ci-comp">arr. Marcus L. Hendricks</div>
+            <div class="ci-fmt">&#128220; Print Score &amp; Parts</div>
+            <div class="ci-row">
+              <div class="qty-ctrl"><button class="q-btn" onclick="chgQty(1,-1,49.95)">&#8722;</button><span class="q-num" id="q1">1</span><button class="q-btn" onclick="chgQty(1,1,49.95)">+</button></div>
+              <span class="ci-price" id="p1">$49.95</span>
+            </div>
+            <button class="remove-btn" onclick="removeItem('item1')">Remove</button>
+          </div>
+        </div>
+        <div class="c-item" id="item2">
+          <div class="c-thumb" style="background:#0d1a14"><div class="ct-lines"><div></div><div></div><div></div><div></div><div></div></div><div class="ct-badge" style="background:var(--sage);color:#fff">PDF</div></div>
+          <div class="c-info">
+            <div class="ci-ens">SATB Choir</div>
+            <div class="ci-title">Lux Perpetua</div>
+            <div class="ci-comp">Elena V&aacute;squez-Muro</div>
+            <div class="ci-fmt">&#9889; Digital PDF &mdash; Instant Download</div>
+            <div class="ci-row">
+              <div class="qty-ctrl"><button class="q-btn" onclick="chgQty(2,-1,4.95)">&#8722;</button><span class="q-num" id="q2">1</span><button class="q-btn" onclick="chgQty(2,1,4.95)">+</button></div>
+              <span class="ci-price" id="p2">$4.95</span>
+            </div>
+            <button class="remove-btn" onclick="removeItem('item2')">Remove</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="digital-notice"><span>&#9889;</span><div><strong style="display:block;margin-bottom:2px">Digital item in your cart</strong>Lux Perpetua (PDF) will be available for download immediately after checkout.</div></div>
+
+      <div class="po-section">
+        <div class="po-head"><span class="po-icon">&#127979;</span><div><div class="po-title">Paying by School Purchase Order?</div><div class="po-sub">PO accepted for any order size</div></div></div>
+        <p class="po-desc">Upload your official PO or enter your PO number below. We'll invoice your school's billing department and ship immediately — no credit card required.</p>
+        <div class="po-drop" onclick="this.style.borderColor='var(--burgundy)'"><div class="po-drop-icon">&#128196;</div><div class="po-drop-text"><strong>Click to upload PO document</strong><br>PDF, Word, or image files accepted</div></div>
+        <div class="or-divider">— or enter manually —</div>
+        <div class="po-fields">
+          <input class="po-inp" type="text" placeholder="PO Number">
+          <input class="po-inp" type="text" placeholder="School District">
+          <input class="po-inp" type="text" placeholder="Billing Contact">
+          <input class="po-inp" type="email" placeholder="Billing Email">
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;font-size:0.78rem;font-weight:600;color:var(--ink)">Promo / Discount Code</div>
+      <div class="promo-row">
+        <input class="promo-inp" type="text" placeholder="Enter code (e.g. DIRECTOR20)" id="promo-inp">
+        <button class="apply-btn" onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="promo-ok" id="promo-ok">&#10003; DIRECTOR20 applied &mdash; 20% off!</div>
+
+      <div class="form-sep"></div>
+      <div class="section-h" style="font-size:1.2rem">Contact &amp; Shipping</div>
+
+      <div class="form-section-title">Contact</div>
+      <div class="form-row two">
+        <div class="form-group"><label class="form-label">First Name</label><input class="form-inp" type="text" placeholder="Rachel"></div>
+        <div class="form-group"><label class="form-label">Last Name</label><input class="form-inp" type="text" placeholder="Okonkwo"></div>
+      </div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-inp" type="email" placeholder="rachel@lakewoodschools.org"></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Phone (optional)</label><input class="form-inp" type="tel" placeholder="(555) 000-0000"></div></div>
+
+      <div class="form-sep" style="margin:16px 0"></div>
+      <div class="form-section-title">Shipping Address</div>
+      <div class="form-row"><div class="form-group"><label class="form-label">School / Organization (optional)</label><input class="form-inp" type="text" placeholder="Lakewood Middle School"></div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Street Address</label><input class="form-inp" type="text" placeholder="1234 Elm Street"></div></div>
+      <div class="form-row three">
+        <div class="form-group"><label class="form-label">City</label><input class="form-inp" type="text" placeholder="Columbus"></div>
+        <div class="form-group"><label class="form-label">State</label><select class="form-inp"><option>OH</option><option>CA</option><option>TX</option><option>NY</option></select></div>
+        <div class="form-group"><label class="form-label">ZIP</label><input class="form-inp" type="text" placeholder="43215"></div>
+      </div>
+
+      <div class="form-sep" style="margin:16px 0"></div>
+      <div class="form-section-title">Shipping Method</div>
+      <div class="ship-opts">
+        <div class="ship-opt sel" onclick="selShip(this,'0.00')"><div class="ship-radio"><div class="ship-dot"></div></div><div class="ship-info"><div class="ship-name">Standard (3&ndash;5 days)</div><div class="ship-eta">Est. Apr 1&ndash;3, 2026</div></div><span class="ship-price">FREE</span></div>
+        <div class="ship-opt" onclick="selShip(this,'9.95')"><div class="ship-radio"><div class="ship-dot"></div></div><div class="ship-info"><div class="ship-name">Expedited (2 days)</div><div class="ship-eta">Est. Mar 31, 2026</div></div><span class="ship-price">$9.95</span></div>
+        <div class="ship-opt" onclick="selShip(this,'24.95')"><div class="ship-radio"><div class="ship-dot"></div></div><div class="ship-info"><div class="ship-name">Overnight</div><div class="ship-eta">Est. Mar 28, 2026</div></div><span class="ship-price">$24.95</span></div>
+      </div>
+
+      <div class="form-sep" style="margin:16px 0"></div>
+      <div class="form-section-title">Payment</div>
+      <div class="card-icons"><div class="card-icon">VISA</div><div class="card-icon">MC</div><div class="card-icon">AMEX</div><div class="card-icon">DISC</div><div class="card-icon">PayPal</div></div>
+      <div class="form-row"><div class="form-group"><label class="form-label">Card Number</label><input class="form-inp" type="text" placeholder="1234 5678 9012 3456" inputmode="numeric"></div></div>
+      <div class="form-row three">
+        <div class="form-group"><label class="form-label">Name on Card</label><input class="form-inp" type="text" placeholder="Rachel Okonkwo"></div>
+        <div class="form-group"><label class="form-label">Expiry</label><input class="form-inp" type="text" placeholder="MM/YY" inputmode="numeric"></div>
+        <div class="form-group"><label class="form-label">CVV</label><input class="form-inp" type="text" placeholder="123" inputmode="numeric"></div>
+      </div>
+      <div class="secure-badge">&#128274; Your payment info is encrypted and never stored on our servers.</div>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="order-summary">
+      <div class="os-header"><div class="os-title">Order Summary</div><div class="os-count">2 items</div></div>
+      <div class="os-body">
+        <div class="os-line"><span class="os-label">Appalachian Dawn (Print)</span><span class="os-val">$49.95</span></div>
+        <div class="os-line"><span class="os-label">Lux Perpetua (PDF)</span><span class="os-val">$4.95</span></div>
+        <div class="os-sep"></div>
+        <div class="os-line"><span class="os-label">Subtotal</span><span class="os-val" id="subtotal">$54.90</span></div>
+        <div class="os-line"><span class="os-label">Shipping</span><span class="os-val" id="ship-val">FREE</span></div>
+        <div class="os-line" id="promo-line" style="display:none"><span class="os-label" style="color:var(--sage)">Promo (20%)</span><span class="os-val" style="color:var(--sage)">-$10.98</span></div>
+        <div class="os-line"><span class="os-label">Tax (est.)</span><span class="os-val" id="tax-val">$4.94</span></div>
+        <div class="os-sep"></div>
+        <div class="os-total"><span class="os-tot-label">Total</span><span class="os-tot-val" id="total-val">$59.84</span></div>
+        <button class="checkout-btn" onclick="placeOrder()">Place Order &#8594;</button>
+        <div style="text-align:center;margin-top:10px;font-size:0.7rem;color:var(--muted)">By ordering you agree to our <a href="#" style="color:var(--burgundy)">Terms</a></div>
+      </div>
+      <div class="trust-mini">
+        <div class="tm-item">&#128274; SSL</div>
+        <div class="tm-item">&#128260; 30-day returns</div>
+        <div class="tm-item">&#9889; Instant PDF</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+var qtys={1:1,2:1},bases={1:49.95,2:4.95},shipping=0,promoApplied=false;
+function recalc(){var sub=qtys[1]*bases[1]+qtys[2]*bases[2];var tax=(sub+shipping)*0.09;var disc=promoApplied?sub*0.2:0;var total=sub+shipping+tax-disc;document.getElementById('subtotal').textContent='$'+sub.toFixed(2);document.getElementById('tax-val').textContent='$'+tax.toFixed(2);document.getElementById('total-val').textContent='$'+total.toFixed(2);document.getElementById('ship-val').textContent=shipping===0?'FREE':'$'+shipping.toFixed(2);}
+function chgQty(n,d,base){qtys[n]=Math.max(1,qtys[n]+d);document.getElementById('q'+n).textContent=qtys[n];document.getElementById('p'+n).textContent='$'+(qtys[n]*base).toFixed(2);recalc();}
+function removeItem(id){var el=document.getElementById(id);if(el){el.style.opacity='0';el.style.transform='translateX(-16px)';el.style.transition='all 0.3s';setTimeout(function(){el.remove();recalc();},300);}}
+function applyPromo(){var code=document.getElementById('promo-inp').value.trim().toUpperCase();if(code==='DIRECTOR20'){promoApplied=true;document.getElementById('promo-ok').style.display='block';document.getElementById('promo-line').style.display='flex';recalc();}}
+function selShip(el,price){document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel');shipping=parseFloat(price);recalc();}
+function placeOrder(){alert('Order placed! Your PDF is available now and print order ships within 1-2 days.');}
+recalc();
+// Row helpers
+document.querySelectorAll('.form-row.two').forEach(function(r){if(window.innerWidth>=480){r.style.flexDirection='row';}});
+document.querySelectorAll('.form-row.three').forEach(function(r){if(window.innerWidth>=600){r.style.flexDirection='row';}});
+window.addEventListener('resize',function(){document.querySelectorAll('.form-row.two').forEach(function(r){r.style.flexDirection=window.innerWidth>=480?'row':'column';});document.querySelectorAll('.form-row.three').forEach(function(r){r.style.flexDirection=window.innerWidth>=600?'row':'column';});});
+</script>
+</body>
+</html>

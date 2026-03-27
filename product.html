@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appalachian Dawn — Forte Music</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0f0d0a;--cream:#f7f3ec;--parchment:#ede6d6;--gold:#c49a2a;--burgundy:#7b1f2e;--burgundy-dark:#9a2638;--sage:#3d5a4a;--muted:#6b6257;--border:#d6cfc2;--nav-h:60px;--r:8px}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5}
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(247,243,236,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-mark{display:inline-flex;width:27px;height:27px;background:var(--burgundy);color:var(--cream);border-radius:4px;align-items:center;justify-content:center;font-size:0.9rem}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-cart{display:flex;align-items:center;gap:5px;padding:8px 14px;background:var(--burgundy);color:#fff;border:none;border-radius:5px;font-size:0.8rem;font-weight:600;cursor:pointer;text-decoration:none}
+.hamburger{width:40px;height:40px;background:transparent;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.hamburger span{display:block;width:17px;height:1.5px;background:var(--ink);border-radius:2px;transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
+.nav-links-desk{display:none}
+.drawer{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:var(--cream);z-index:190;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;border-top:1px solid var(--border)}
+.drawer.open{transform:translateX(0)}
+.drawer-inner{padding:24px 20px 48px}
+.drawer-link{display:flex;align-items:center;padding:14px 16px;font-size:1rem;font-weight:500;color:var(--ink);border-radius:6px;text-decoration:none}
+.drawer-link:active{background:var(--parchment)}
+.d-icon{margin-right:12px;width:22px;text-align:center}
+
+/* PAGE */
+.page{padding:calc(var(--nav-h) + 16px) 16px 0}
+.breadcrumb{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:0.75rem;color:var(--muted);margin-bottom:20px}
+.breadcrumb a{color:var(--muted);text-decoration:none}
+
+/* SCORE VIEWER */
+.score-viewer{background:var(--ink);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.score-toolbar{background:#1a1714;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08)}
+.tb-l{display:flex;align-items:center;gap:6px}
+.tb-btn{width:32px;height:32px;background:rgba(247,243,236,0.08);border:1px solid rgba(247,243,236,0.1);border-radius:4px;cursor:pointer;color:rgba(247,243,236,0.7);font-size:0.82rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.tb-btn:hover{background:rgba(247,243,236,0.15)}
+.tb-sep{width:1px;height:18px;background:rgba(255,255,255,0.1);margin:0 2px}
+.page-ind{font-family:'DM Mono',monospace;font-size:0.65rem;color:rgba(247,243,236,0.35);padding:0 6px}
+.score-page{padding:16px;display:flex;justify-content:center}
+.score-sheet{background:#fff;width:100%;max-width:440px;aspect-ratio:8.5/11;border-radius:2px;padding:20px 18px;position:relative;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+.sc-title{text-align:center;margin-bottom:14px;border-bottom:2px solid #111;padding-bottom:10px}
+.sc-title h2{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:800;color:#111;text-transform:uppercase;letter-spacing:0.04em}
+.sc-title p{font-size:0.5rem;color:#666;margin-top:2px}
+.staff-row{display:grid;grid-template-columns:16px 1fr;align-items:center;gap:3px;margin-bottom:10px}
+.sl{font-size:0.45rem;color:#666;text-align:right;line-height:1}
+.staff-lines{}
+.s-line{height:1px;background:#222;margin:5px 0;position:relative}
+.note{position:absolute;width:7px;height:5px;background:#222;border-radius:50%;transform:rotate(-15deg);top:-2px}
+.note::after{content:'';position:absolute;right:-1px;top:-12px;width:1px;height:14px;background:#222}
+.preview-ov{position:absolute;bottom:0;left:0;right:0;height:35%;background:linear-gradient(transparent,rgba(255,255,255,0.97));display:flex;align-items:flex-end;justify-content:center;padding-bottom:14px}
+.preview-ov span{font-size:0.65rem;color:#999}
+
+/* AUDIO PLAYER */
+.audio-player{background:var(--parchment);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:20px}
+.ap-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);font-weight:600;margin-bottom:10px}
+.ap-row{display:flex;align-items:center;gap:10px}
+.play-btn{width:40px;height:40px;background:var(--burgundy);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;flex-shrink:0;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.waveform{flex:1;height:36px;display:flex;align-items:center;gap:1.5px;cursor:pointer;min-width:0}
+.w-bar{flex:1;background:var(--border);border-radius:2px;transition:background 0.1s}
+.w-bar.played{background:var(--burgundy)}
+.time-code{font-family:'DM Mono',monospace;font-size:0.68rem;color:var(--muted);flex-shrink:0}
+.ap-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.ap-tag{font-size:0.68rem;color:var(--muted)}
+
+/* PURCHASE PANEL */
+.purchase-panel{padding:0 0 24px}
+.p-badges{display:flex;gap:7px;margin-bottom:14px}
+.pbadge{font-size:0.68rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:4px 9px;border-radius:3px}
+.product-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,6vw,2.4rem);font-weight:900;line-height:1.1;letter-spacing:-0.03em;color:var(--ink);margin-bottom:7px}
+.product-sub{font-size:0.9rem;color:var(--muted);font-weight:300;margin-bottom:3px}
+.product-arr{font-size:0.82rem;color:var(--muted);font-style:italic;margin-bottom:16px}
+.rating-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.stars{color:var(--gold);font-size:0.9rem;letter-spacing:2px}
+.r-count{font-size:0.78rem;color:var(--muted)}
+.r-link{font-size:0.78rem;color:var(--burgundy);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+
+.meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+.m-cell{background:var(--parchment);border:1px solid var(--border);border-radius:6px;padding:10px 12px;text-align:center}
+.mc-label{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:600;display:block;margin-bottom:3px}
+.mc-val{font-size:0.85rem;font-weight:600;color:var(--ink)}
+.grade-circle{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;background:var(--burgundy);color:#fff;border-radius:50%;font-size:0.78rem;font-weight:700}
+
+/* FORMAT SELECTOR */
+.fmt-label{font-size:0.75rem;font-weight:600;color:var(--ink);margin-bottom:10px;display:block}
+.fmt-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+.fmt-opt{border:1.5px solid var(--border);border-radius:var(--r);padding:13px 14px;cursor:pointer;transition:all 0.2s;position:relative;display:flex;align-items:center;justify-content:space-between;-webkit-tap-highlight-color:transparent}
+.fmt-opt.sel{border-color:var(--burgundy);background:rgba(123,31,46,0.04)}
+.fmt-opt:hover:not(.sel){border-color:var(--ink)}
+.fmt-l{}
+.fmt-name{font-size:0.875rem;font-weight:600;color:var(--ink);display:block}
+.fmt-desc{font-size:0.72rem;color:var(--muted)}
+.fmt-price{font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;color:var(--ink);flex-shrink:0;margin-left:12px}
+.fmt-check{width:18px;height:18px;background:var(--burgundy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.6rem;opacity:0;flex-shrink:0;margin-left:8px;transition:opacity 0.2s}
+.fmt-opt.sel .fmt-check{opacity:1}
+
+.price-big{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--ink);letter-spacing:-0.02em;margin-bottom:16px}
+
+/* STICKY PURCHASE BAR (mobile) */
+.sticky-buy{position:fixed;bottom:0;left:0;right:0;background:rgba(247,243,236,0.97);backdrop-filter:blur(8px);border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:10px;z-index:100}
+.qty-ctrl{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:6px;overflow:hidden;flex-shrink:0}
+.q-btn{width:40px;height:48px;background:transparent;border:none;cursor:pointer;font-size:1.1rem;color:var(--ink);transition:background 0.2s;-webkit-tap-highlight-color:transparent}
+.q-btn:active{background:var(--parchment)}
+.q-disp{width:40px;height:48px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:0.95rem;font-weight:500;border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.add-btn{flex:1;height:48px;background:var(--burgundy);color:#fff;border:none;border-radius:6px;font-size:0.95rem;font-weight:700;cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.add-btn:active{background:var(--burgundy-dark)}
+.wish-btn{width:48px;height:48px;border:1.5px solid var(--border);background:transparent;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all 0.2s;-webkit-tap-highlight-color:transparent;flex-shrink:0}
+.wish-btn.on{background:var(--burgundy);border-color:var(--burgundy);color:#fff}
+
+/* TRUST ROW */
+.trust-row{display:flex;flex-direction:column;gap:8px;padding:14px;background:var(--parchment);border:1px solid var(--border);border-radius:var(--r);margin-bottom:16px;font-size:0.8rem;color:var(--ink)}
+.trust-item{display:flex;align-items:center;gap:8px}
+.trust-item a{color:var(--burgundy)}
+
+/* TABS */
+.tabs-section{border-top:1px solid var(--border);margin-bottom:80px}
+.tab-nav{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:1px solid var(--border)}
+.tab-nav::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:14px 18px;background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.tab-btn.active{color:var(--ink);border-bottom-color:var(--burgundy)}
+.tab-panel{display:none;padding:24px 16px}
+.tab-panel.active{display:block}
+.instr-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.instr-table{width:100%;border-collapse:collapse;min-width:480px}
+.instr-table th{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;padding:8px 14px;background:var(--parchment);border:1px solid var(--border);text-align:left}
+.instr-table td{padding:9px 14px;border:1px solid var(--border);font-size:0.82rem;color:var(--ink)}
+.instr-table tr:nth-child(even) td{background:rgba(237,230,214,0.4)}
+.review-sum{display:flex;flex-direction:column;gap:20px;margin-bottom:28px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+.score-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:900;color:var(--ink);text-align:center;line-height:1}
+.score-stars{color:var(--gold);font-size:1rem;letter-spacing:3px;text-align:center;margin:4px 0}
+.score-ct{font-size:0.75rem;color:var(--muted);text-align:center}
+.rb-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.rb-label{font-size:0.75rem;color:var(--muted);min-width:32px;text-align:right;font-family:'DM Mono',monospace}
+.rb-track{flex:1;height:5px;background:var(--parchment);border-radius:3px;overflow:hidden}
+.rb-fill{height:100%;background:var(--gold);border-radius:3px}
+.rb-count{font-size:0.7rem;color:var(--muted);min-width:20px}
+.review-card{padding:20px 0;border-bottom:1px solid var(--border)}
+.rv-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;gap:10px}
+.rv-name{font-weight:600;font-size:0.875rem;color:var(--ink);margin-bottom:1px}
+.rv-role{font-size:0.72rem;color:var(--muted)}
+.rv-stars{color:var(--gold);font-size:0.8rem;letter-spacing:2px}
+.rv-date{font-size:0.7rem;color:var(--muted)}
+.rv-text{font-size:0.875rem;line-height:1.65;color:var(--ink)}
+.rv-verified{font-size:0.68rem;color:var(--sage);font-weight:600;margin-top:8px}
+
+/* RELATED */
+.related-section{background:var(--parchment);border-top:1px solid var(--border);padding:40px 16px 32px;margin-bottom:0}
+.related-scroll{display:flex;gap:12px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;margin-top:24px}
+.related-scroll::-webkit-scrollbar{display:none}
+.rel-card{flex-shrink:0;width:160px;background:var(--cream);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.rel-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(15,13,10,0.1)}
+.rel-thumb{height:90px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.rt-staff{width:78%;opacity:0.35}
+.rt-staff div{height:1px;background:var(--cream);margin:7px 0}
+.rel-body{padding:10px 12px}
+.rel-ens{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--gold);font-weight:600;margin-bottom:3px}
+.rel-title{font-family:'Playfair Display',serif;font-size:0.82rem;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:2px}
+.rel-comp{font-size:0.65rem;color:var(--muted);margin-bottom:6px}
+.rel-price{font-family:'DM Mono',monospace;font-size:0.82rem;font-weight:500;color:var(--ink)}
+
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:var(--ink);color:var(--cream);padding:12px 20px;border-radius:var(--r);font-size:0.875rem;font-weight:500;z-index:500;opacity:0;transition:all 0.3s;white-space:nowrap;box-shadow:0 8px 24px rgba(15,13,10,0.3);pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+
+/* DESKTOP */
+@media(min-width:768px){
+  :root{--nav-h:68px}
+  .nav{padding:0 40px}
+  .nav-links-desk{display:flex;align-items:center;gap:24px;list-style:none}
+  .nav-links-desk a{font-size:0.85rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s}
+  .nav-links-desk a:hover{color:var(--ink)}
+  .hamburger{display:none}
+  .drawer{display:none}
+  .page{padding:calc(var(--nav-h) + 24px) 48px 0}
+  .sticky-buy{display:none}
+  .purchase-panel{display:block!important}
+  .tab-panel{padding:32px 0}
+  .tabs-section{margin-bottom:0}
+  .related-section{padding:52px 48px 48px}
+  .review-sum{flex-direction:row;align-items:flex-start}
+  .toast{bottom:32px}
+}
+@media(min-width:1024px){
+  .nav{padding:0 56px}
+  .page{padding:calc(var(--nav-h) + 32px) 72px 0}
+  .product-layout{display:grid;grid-template-columns:1fr 400px;gap:0;align-items:start}
+  .score-col{position:sticky;top:calc(var(--nav-h) + 20px)}
+  .purchase-col{padding-left:48px}
+  .related-section{padding:56px 72px 64px}
+  .related-scroll{display:grid;grid-template-columns:repeat(4,1fr);overflow:visible}
+  .rel-card{width:auto}
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <a class="nav-logo" href="music-store.html"><span class="nav-mark">&#119070;</span>Forte Music</a>
+  <ul class="nav-links-desk">
+    <li><a href="search.html">Sheet Music</a></li>
+    <li><a href="#">Digital Downloads</a></li>
+    <li><a href="#">By Ensemble</a></li>
+    <li><a href="#">For Directors</a></li>
+  </ul>
+  <div class="nav-r">
+    <a class="nav-cart" href="cart.html" id="cart-nav">&#128722; Cart (0)</a>
+    <button class="hamburger" id="ham" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="drawer" id="drawer">
+  <div class="drawer-inner">
+    <a class="drawer-link" href="music-store.html"><span class="d-icon">&#127968;</span>Home</a>
+    <a class="drawer-link" href="search.html"><span class="d-icon">&#127925;</span>Sheet Music</a>
+    <a class="drawer-link" href="cart.html"><span class="d-icon">&#128722;</span>Cart</a>
+    <a class="drawer-link" href="director-dashboard.html"><span class="d-icon">&#9685;</span>Director Dashboard</a>
+  </div>
+</div>
+
+<div class="page">
+  <div class="breadcrumb"><a href="music-store.html">Home</a> <span style="color:var(--border)">&#8250;</span> <a href="search.html">Concert Band</a> <span style="color:var(--border)">&#8250;</span> <span style="color:var(--ink);font-weight:500">Appalachian Dawn</span></div>
+  <div class="product-layout">
+
+    <!-- SCORE COLUMN -->
+    <div class="score-col">
+      <div class="score-viewer">
+        <div class="score-toolbar">
+          <div class="tb-l">
+            <button class="tb-btn">&#8592;</button><button class="tb-btn">&#8594;</button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn">&#8722;</button><button class="tb-btn">+</button>
+            <div class="tb-sep"></div>
+            <button class="tb-btn">&#9645;</button>
+          </div>
+          <span class="page-ind">Pg 1 of 3 &middot; Preview</span>
+          <button class="tb-btn">&#8595;</button>
+        </div>
+        <div class="score-page">
+          <div class="score-sheet">
+            <div class="sc-title"><h2>Appalachian Dawn</h2><p>Concert Band &middot; arr. Marcus L. Hendricks &middot; Grade 4 &middot; &copy;2024</p></div>
+            <div class="staff-row"><span class="sl">Fl.</span><div><div class="s-line"><div class="note" style="left:8%"></div></div><div class="s-line"><div class="note" style="left:22%"></div></div><div class="s-line"><div class="note" style="left:38%"></div></div><div class="s-line"><div class="note" style="left:54%"></div></div><div class="s-line"><div class="note" style="left:70%"></div></div></div></div>
+            <div class="staff-row"><span class="sl">Ob.</span><div><div class="s-line"><div class="note" style="left:10%"></div></div><div class="s-line"><div class="note" style="left:26%"></div></div><div class="s-line"><div class="note" style="left:42%"></div></div><div class="s-line"><div class="note" style="left:58%"></div></div><div class="s-line"><div class="note" style="left:74%"></div></div></div></div>
+            <div class="staff-row"><span class="sl">Cl.</span><div><div class="s-line"><div class="note" style="left:6%"></div></div><div class="s-line"><div class="note" style="left:20%"></div></div><div class="s-line"><div class="note" style="left:36%"></div></div><div class="s-line"><div class="note" style="left:52%"></div></div><div class="s-line"><div class="note" style="left:68%"></div></div></div></div>
+            <div class="staff-row" style="margin-top:10px"><span class="sl">Tpt.</span><div><div class="s-line"><div class="note" style="left:12%"></div></div><div class="s-line"><div class="note" style="left:28%"></div></div><div class="s-line"><div class="note" style="left:44%"></div></div><div class="s-line"><div class="note" style="left:60%"></div></div><div class="s-line"><div class="note" style="left:76%"></div></div></div></div>
+            <div class="staff-row"><span class="sl">Tbn.</span><div><div class="s-line"></div><div class="s-line"><div class="note" style="left:18%"></div></div><div class="s-line"><div class="note" style="left:34%"></div></div><div class="s-line"><div class="note" style="left:50%"></div></div><div class="s-line"><div class="note" style="left:66%"></div></div></div></div>
+            <div class="preview-ov"><span>&#128274; Purchase to view full score</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="audio-player">
+        <div class="ap-label">&#127925; MIDI Preview</div>
+        <div class="ap-row">
+          <button class="play-btn" id="play-btn" onclick="togglePlay()">&#9654;</button>
+          <div class="waveform" id="waveform"></div>
+          <span class="time-code" id="time-disp">0:00 / 6:30</span>
+        </div>
+        <div class="ap-meta"><span class="ap-tag">&#127932; Grade 4</span><span class="ap-tag">&#8987; 6:30</span><span class="ap-tag">&#9833;= 92</span><span class="ap-tag">4/4 &middot; E&flat;</span></div>
+      </div>
+    </div>
+
+    <!-- PURCHASE COLUMN -->
+    <div class="purchase-col" id="purchase-col">
+      <div class="p-badges"><span class="pbadge" style="background:var(--burgundy);color:#fff">Bestseller</span><span class="pbadge" style="background:var(--sage);color:#fff">Grade 4</span></div>
+      <h1 class="product-title">Appalachian Dawn</h1>
+      <p class="product-sub">Composed by <strong>James C. Whitfield</strong></p>
+      <p class="product-arr">Arranged by Marcus L. Hendricks</p>
+      <div class="rating-row">
+        <span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span class="r-count">4.9</span>
+        <span class="r-link">47 reviews</span>
+        <span style="color:var(--border)">&middot;</span>
+        <span class="r-link">312 sold</span>
+      </div>
+      <div class="meta-grid">
+        <div class="m-cell"><span class="mc-label">Grade</span><span class="grade-circle">4</span></div>
+        <div class="m-cell"><span class="mc-label">Duration</span><span class="mc-val">6:30</span></div>
+        <div class="m-cell"><span class="mc-label">Tempo</span><span class="mc-val">&#9833;= 92</span></div>
+        <div class="m-cell"><span class="mc-label">Key</span><span class="mc-val">E&flat; Major</span></div>
+        <div class="m-cell"><span class="mc-label">Ensemble</span><span class="mc-val">Full Band</span></div>
+        <div class="m-cell"><span class="mc-label">Pages</span><span class="mc-val">48 + Score</span></div>
+      </div>
+      <span class="fmt-label">Choose Format</span>
+      <div class="fmt-opts">
+        <div class="fmt-opt sel" onclick="selectFmt(this,'49.95')">
+          <div class="fmt-l"><span class="fmt-name">Print Score &amp; Parts</span><span class="fmt-desc">Ships in 2&ndash;4 business days</span></div>
+          <span class="fmt-price">$49.95</span>
+          <div class="fmt-check">&#10003;</div>
+        </div>
+        <div class="fmt-opt" onclick="selectFmt(this,'6.95')">
+          <div class="fmt-l"><span class="fmt-name">Digital PDF</span><span class="fmt-desc">Instant download</span></div>
+          <span class="fmt-price">$6.95</span>
+          <div class="fmt-check">&#10003;</div>
+        </div>
+        <div class="fmt-opt" onclick="selectFmt(this,'54.95')">
+          <div class="fmt-l"><span class="fmt-name">Print + Digital Bundle <span style="font-size:0.68rem;color:var(--sage);font-weight:400">&mdash; Best Value</span></span><span class="fmt-desc">Print ships + instant PDF</span></div>
+          <span class="fmt-price">$54.95</span>
+          <div class="fmt-check">&#10003;</div>
+        </div>
+      </div>
+      <div class="price-big" id="price-disp">$49.95</div>
+      <!-- DESKTOP qty+add (hidden on mobile, replaced by sticky bar) -->
+      <div style="display:flex;gap:10px;margin-bottom:12px" class="desktop-add">
+        <div class="qty-ctrl"><button class="q-btn" onclick="changeQty(-1)">&#8722;</button><span class="q-disp" id="qty-d">1</span><button class="q-btn" onclick="changeQty(1)">+</button></div>
+        <button class="add-btn" onclick="addToCart()" style="flex:1;height:48px;border-radius:6px">Add to Cart</button>
+      </div>
+      <div class="trust-row">
+        <div class="trust-item">&#127979; PO accepted &mdash; <a href="director-dashboard.html">submit a PO</a></div>
+        <div class="trust-item">&#128260; 30-day return on print music</div>
+        <div class="trust-item">&#9889; PDF instant after checkout</div>
+        <div class="trust-item">&#128666; Free shipping over $75</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs-section">
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('desc',this)">Description</button>
+      <button class="tab-btn" onclick="switchTab('instr',this)">Instrumentation</button>
+      <button class="tab-btn" onclick="switchTab('reviews',this)">Reviews (47)</button>
+      <button class="tab-btn" onclick="switchTab('shipping',this)">Shipping</button>
+    </div>
+    <div class="tab-panel active" id="tab-desc">
+      <div style="max-width:660px">
+        <p style="font-size:1rem;line-height:1.78;color:var(--ink);margin-bottom:14px;font-weight:300"><em style="font-family:'Playfair Display',serif">Appalachian Dawn</em> opens with a serene, folk-inspired melody in the woodwinds, evoking the misty stillness of an Appalachian morning before the rest of the ensemble gradually awakens. Hendricks draws on traditional modal harmonies, weaving them through a contemporary concert band texture.</p>
+        <p style="font-size:0.9rem;line-height:1.75;color:var(--muted);font-weight:300">The piece builds through three distinct sections: a pastoral opening, an energetic dance-like middle, and a triumphant return of the opening theme fully scored for the entire band. The finale features a chorale-style coda that brings the music to a warm, resonant close.</p>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-instr">
+      <div class="instr-wrap">
+        <table class="instr-table">
+          <tr><th>Part</th><th>Instrument</th><th>Range</th><th>Copies</th></tr>
+          <tr><td>Flute 1 &amp; 2</td><td>Flute</td><td>C4&ndash;A6</td><td>4</td></tr>
+          <tr><td>Oboe</td><td>Oboe</td><td>B3&ndash;G6</td><td>2</td></tr>
+          <tr><td>Clarinet 1</td><td>B&flat; Clarinet</td><td>E3&ndash;C7</td><td>4</td></tr>
+          <tr><td>Clarinet 2 &amp; 3</td><td>B&flat; Clarinet</td><td>C3&ndash;G6</td><td>6</td></tr>
+          <tr><td>Bass Clarinet</td><td>B&flat; Bass Clarinet</td><td>C2&ndash;G5</td><td>2</td></tr>
+          <tr><td>Alto Sax 1 &amp; 2</td><td>E&flat; Alto Saxophone</td><td>D3&ndash;A5</td><td>4</td></tr>
+          <tr><td>Tenor Sax</td><td>B&flat; Tenor Saxophone</td><td>A2&ndash;E5</td><td>2</td></tr>
+          <tr><td>Trumpet 1</td><td>B&flat; Trumpet</td><td>E3&ndash;C6</td><td>4</td></tr>
+          <tr><td>Trumpet 2 &amp; 3</td><td>B&flat; Trumpet</td><td>C3&ndash;G5</td><td>6</td></tr>
+          <tr><td>F Horn 1 &amp; 2</td><td>F Horn</td><td>G2&ndash;F5</td><td>4</td></tr>
+          <tr><td>Trombone 1 &amp; 2</td><td>Trombone</td><td>E2&ndash;B4</td><td>4</td></tr>
+          <tr><td>Tuba</td><td>Tuba</td><td>E1&ndash;E4</td><td>2</td></tr>
+          <tr><td>Timpani</td><td>Timpani</td><td>F2&ndash;C4</td><td>1</td></tr>
+          <tr><td>Percussion 1</td><td>Snare, Crash Cymbals</td><td>&mdash;</td><td>1</td></tr>
+          <tr><td>Percussion 2</td><td>Bass Drum, Sus. Cymbal</td><td>&mdash;</td><td>1</td></tr>
+          <tr><td>Mallet Perc.</td><td>Marimba / Xylophone</td><td>C3&ndash;C6</td><td>1</td></tr>
+          <tr><td>Conductor Score</td><td>Full Score</td><td>&mdash;</td><td>1</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-reviews">
+      <div class="review-sum" style="max-width:660px">
+        <div><div class="score-num">4.9</div><div class="score-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="score-ct">47 reviews</div></div>
+        <div style="flex:1">
+          <div class="rb-row"><span class="rb-label">5&#9733;</span><div class="rb-track"><div class="rb-fill" style="width:88%"></div></div><span class="rb-count">41</span></div>
+          <div class="rb-row"><span class="rb-label">4&#9733;</span><div class="rb-track"><div class="rb-fill" style="width:10%"></div></div><span class="rb-count">5</span></div>
+          <div class="rb-row"><span class="rb-label">3&#9733;</span><div class="rb-track"><div class="rb-fill" style="width:2%"></div></div><span class="rb-count">1</span></div>
+          <div class="rb-row"><span class="rb-label">2&#9733;</span><div class="rb-track"><div class="rb-fill" style="width:0"></div></div><span class="rb-count">0</span></div>
+          <div class="rb-row"><span class="rb-label">1&#9733;</span><div class="rb-track"><div class="rb-fill" style="width:0"></div></div><span class="rb-count">0</span></div>
+        </div>
+      </div>
+      <div class="review-card" style="max-width:660px"><div class="rv-head"><div><div class="rv-name">Rachel Okonkwo</div><div class="rv-role">Band Director &middot; Lakewood Middle</div></div><div style="text-align:right"><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="rv-date">Mar 2025</div></div></div><p class="rv-text">This piece was the centerpiece of our spring concert and received a standing ovation. The folk influences resonated deeply and the difficulty level was just right for my advancing 8th graders.</p><div class="rv-verified">&#10003; Verified Purchase</div></div>
+      <div class="review-card" style="max-width:660px"><div class="rv-head"><div><div class="rv-name">David Carmichael</div><div class="rv-role">Choral Director &middot; Roosevelt High</div></div><div style="text-align:right"><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><div class="rv-date">Feb 2025</div></div></div><p class="rv-text">The MIDI preview sold it for me, and the real thing exceeded expectations. The chorale at the end is genuinely moving. My trumpet section said it was their favorite piece all year.</p><div class="rv-verified">&#10003; Verified Purchase</div></div>
+      <div class="review-card" style="max-width:660px"><div class="rv-head"><div><div class="rv-name">Mei-Lin Zhao</div><div class="rv-role">Orchestra Director &middot; Westfield Academy</div></div><div style="text-align:right"><div class="rv-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</div><div class="rv-date">Jan 2025</div></div></div><p class="rv-text">Beautiful piece, very professionally produced. Knocked one star because the mallet part requires a full marimba we had to borrow, but the music itself is wonderful.</p><div class="rv-verified">&#10003; Verified Purchase</div></div>
+    </div>
+    <div class="tab-panel" id="tab-shipping">
+      <div style="max-width:600px;display:flex;flex-direction:column;gap:14px">
+        <div style="padding:16px;background:var(--parchment);border:1px solid var(--border);border-radius:var(--r)"><strong style="font-size:0.875rem;display:block;margin-bottom:6px">&#128666; Print Music Shipping</strong><p style="font-size:0.82rem;line-height:1.65;color:var(--muted);font-weight:300">Orders ship within 1&ndash;2 business days. Standard shipping (3&ndash;5 days) is free on orders over $75. Expedited and overnight available at checkout.</p></div>
+        <div style="padding:16px;background:var(--parchment);border:1px solid var(--border);border-radius:var(--r)"><strong style="font-size:0.875rem;display:block;margin-bottom:6px">&#9889; Digital PDF</strong><p style="font-size:0.82rem;line-height:1.65;color:var(--muted);font-weight:300">Download immediately upon payment. Files stored in your account library, re-downloadable any time. Licensed for single-ensemble use — print as many copies as needed.</p></div>
+        <div style="padding:16px;background:var(--parchment);border:1px solid var(--border);border-radius:var(--r)"><strong style="font-size:0.875rem;display:block;margin-bottom:6px">&#128260; Returns</strong><p style="font-size:0.82rem;line-height:1.65;color:var(--muted);font-weight:300">Unused print music returnable within 30 days. Digital purchases are non-refundable once downloaded. Defective orders replaced at no charge within 14 days.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RELATED -->
+<div class="related-section">
+  <div style="font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:8px">Directors Also Bought</div>
+  <div style="font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;letter-spacing:-0.02em;color:var(--ink)">You might also love</div>
+  <div class="related-scroll">
+    <div class="rel-card"><div class="rel-thumb" style="background:#0d1a14"><div class="rt-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="rel-body"><div class="rel-ens">Concert Band &middot; Gr.3</div><div class="rel-title">Elegy for a Quiet Morning</div><div class="rel-comp">Samuel Haverford</div><div class="rel-price">$54.95</div></div></div>
+    <div class="rel-card"><div class="rel-thumb" style="background:#1a0d12"><div class="rt-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="rel-body"><div class="rel-ens">Concert Band &middot; Gr.4</div><div class="rel-title">Kestrel Rising</div><div class="rel-comp">Naomi Aldridge</div><div class="rel-price">$44.95</div></div></div>
+    <div class="rel-card"><div class="rel-thumb" style="background:#111420"><div class="rt-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="rel-body"><div class="rel-ens">Concert Band &middot; Gr.5</div><div class="rel-title">Rivers of Iron</div><div class="rel-comp">Thomas E. Winslow</div><div class="rel-price">$64.95</div></div></div>
+    <div class="rel-card"><div class="rel-thumb" style="background:#14181a"><div class="rt-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="rel-body"><div class="rel-ens">Concert Band &middot; Gr.3</div><div class="rel-title">Solar Winds</div><div class="rel-comp">Deborah Kim-Chen</div><div class="rel-price">$4.95</div></div></div>
+  </div>
+</div>
+
+<!-- STICKY PURCHASE BAR (mobile) -->
+<div class="sticky-buy">
+  <div class="qty-ctrl">
+    <button class="q-btn" onclick="changeQty(-1)">&#8722;</button>
+    <span class="q-disp" id="qty-m">1</span>
+    <button class="q-btn" onclick="changeQty(1)">+</button>
+  </div>
+  <button class="add-btn" onclick="addToCart()">Add to Cart &mdash; <span id="sticky-price">$49.95</span></button>
+  <button class="wish-btn" id="wish-btn" onclick="toggleWish()">&#9825;</button>
+</div>
+
+<div class="toast" id="toast">&#10003;&nbsp; Added to cart!</div>
+
+<script>
+var cartCount=0,qty=1,playing=false,playInt=null,prog=0;
+function toggleDrawer(){var d=document.getElementById('drawer'),h=document.getElementById('ham');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
+(function(){var wf=document.getElementById('waveform');var h=[20,35,60,80,55,90,70,45,85,65,40,75,50,88,60,72,42,66,80,55,38,70,85,50,65,78,44,90,58,72,35,68,80,46,60,88,52,74,40,86,62,70,48,82,56,76,38,64,88,50];h.forEach(function(v,i){var b=document.createElement('div');b.className='w-bar';b.style.height=v+'%';b.dataset.i=i;b.addEventListener('click',function(){prog=i/h.length;updateW(h);});wf.appendChild(b);});})();
+function updateW(h){var bars=document.querySelectorAll('.w-bar');var p=Math.floor(prog*bars.length);bars.forEach(function(b,i){b.classList.toggle('played',i<p)});var t=Math.floor(prog*390);document.getElementById('time-disp').textContent=Math.floor(t/60)+':'+(('0'+t%60).slice(-2))+' / 6:30';}
+function togglePlay(){playing=!playing;document.getElementById('play-btn').innerHTML=playing?'&#9646;&#9646;':'&#9654;';if(playing){playInt=setInterval(function(){prog+=1/390;if(prog>=1){prog=0;playing=false;clearInterval(playInt);document.getElementById('play-btn').innerHTML='&#9654;';}updateW([]);},1000);}else{clearInterval(playInt);}}
+function selectFmt(el,p){document.querySelectorAll('.fmt-opt').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel');document.getElementById('price-disp').textContent='$'+p;document.getElementById('sticky-price').textContent='$'+p;}
+function changeQty(d){qty=Math.max(1,qty+d);document.getElementById('qty-d').textContent=qty;document.getElementById('qty-m').textContent=qty;}
+function addToCart(){cartCount++;document.getElementById('cart-nav').textContent='&#128722; Cart ('+cartCount+')';var t=document.getElementById('toast');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+function toggleWish(){var b=document.getElementById('wish-btn');b.classList.toggle('on');b.innerHTML=b.classList.contains('on')?'&#9829;':'&#9825;';}
+function switchTab(id,btn){document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
+// Hide desktop add on mobile
+if(window.innerWidth<768){document.querySelector('.desktop-add').style.display='none';}
+window.addEventListener('resize',function(){document.querySelector('.desktop-add').style.display=window.innerWidth>=768?'flex':'none';});
+</script>
+</body>
+</html>
