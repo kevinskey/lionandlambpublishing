@@ -204,40 +204,9 @@ footer{background:var(--ink);padding:40px 16px 32px;border-top:1px solid rgba(24
 </div>
 
 <div class="products-section">
-  <div style="font-size:0.8rem;color:var(--muted);margin-bottom:16px">Showing <strong style="color:var(--ink)">41,284</strong> digital scores</div>
-  <div class="prods-grid">
-    <div class="p-card" onclick="location.href='product.html'">
-      <div class="p-thumb pt-b"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><div class="instant-badge">&#9889; PDF</div><div class="download-icon">&#8595;</div></div>
-      <div class="p-body"><div class="p-ens">SATB Choir</div><div class="p-title">Lux Perpetua</div><div class="p-composer">Elena V&aacute;squez-Muro</div><div class="p-foot"><span class="p-price">$4.95</span><button class="p-add" onclick="event.stopPropagation()">&#9889; Buy</button></div></div>
-    </div>
-    <div class="p-card" onclick="location.href='product.html'">
-      <div class="p-thumb pt-d"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><div class="instant-badge">&#9889; PDF</div><div class="download-icon">&#8595;</div></div>
-      <div class="p-body"><div class="p-ens">Jazz Ensemble</div><div class="p-title">Blue Horizon Shuffle</div><div class="p-composer">arr. T. W. Cole</div><div class="p-foot"><span class="p-price">$6.50</span><button class="p-add" onclick="event.stopPropagation()">&#9889; Buy</button></div></div>
-    </div>
-    <div class="p-card" onclick="location.href='product.html'">
-      <div class="p-thumb pt-c"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><div class="instant-badge">&#9889; PDF</div><div class="download-icon">&#8595;</div></div>
-      <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.3</div><div class="p-title">Solar Winds</div><div class="p-composer">Deborah Kim-Chen</div><div class="p-foot"><span class="p-price">$4.95</span><button class="p-add" onclick="event.stopPropagation()">&#9889; Buy</button></div></div>
-    </div>
-    <div class="p-card" onclick="location.href='product.html'">
-      <div class="p-thumb pt-a"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><div class="instant-badge">&#9889; PDF</div><div class="download-icon">&#8595;</div></div>
-      <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.4</div><div class="p-title">Velocity Suite</div><div class="p-composer">Omar Reyes-Blanco</div><div class="p-foot"><span class="p-price">$5.95</span><button class="p-add" onclick="event.stopPropagation()">&#9889; Buy</button></div></div>
-    </div>
-    <div class="p-card" onclick="location.href='product.html'">
-      <div class="p-thumb pt-e"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><div class="instant-badge">&#9889; PDF</div><div class="download-icon">&#8595;</div></div>
-      <div class="p-body"><div class="p-ens">String Orchestra &middot; Gr.2</div><div class="p-title">Autumn Portraits</div><div class="p-composer">Ji-Young Park</div><div class="p-foot"><span class="p-price">$3.95</span><button class="p-add" onclick="event.stopPropagation()">&#9889; Buy</button></div></div>
-    </div>
-    <div class="p-card" onclick="location.href='product.html'">
-      <div class="p-thumb pt-f"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><div class="instant-badge">&#9889; PDF</div><div class="download-icon">&#8595;</div></div>
-      <div class="p-body"><div class="p-ens">Piano Solo</div><div class="p-title">Reverie in Blue</div><div class="p-composer">A. Marchetti</div><div class="p-foot"><span class="p-price">$2.95</span><button class="p-add" onclick="event.stopPropagation()">&#9889; Buy</button></div></div>
-    </div>
-    <div class="p-card" onclick="location.href='product.html'">
-      <div class="p-thumb pt-b"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><div class="instant-badge">&#9889; PDF</div><div class="download-icon">&#8595;</div></div>
-      <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.2</div><div class="p-title">Northfield Fanfare</div><div class="p-composer">R. D. Summers</div><div class="p-foot"><span class="p-price">$4.50</span><button class="p-add" onclick="event.stopPropagation()">&#9889; Buy</button></div></div>
-    </div>
-    <div class="p-card" onclick="location.href='product.html'">
-      <div class="p-thumb pt-c"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><div class="instant-badge">&#9889; PDF</div><div class="download-icon">&#8595;</div></div>
-      <div class="p-body"><div class="p-ens">SATB Choir</div><div class="p-title">Evening Canticle</div><div class="p-composer">S. Oduya</div><div class="p-foot"><span class="p-price">$3.50</span><button class="p-add" onclick="event.stopPropagation()">&#9889; Buy</button></div></div>
-    </div>
+  <div style="font-size:0.8rem;color:var(--muted);margin-bottom:16px" id="result-count">Loading&hellip;</div>
+  <div class="prods-grid" id="prods-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">&#9836; Loading scores&hellip;</div>
   </div>
 </div>
 
@@ -295,10 +264,22 @@ footer{background:var(--ink);padding:40px 16px 32px;border-top:1px solid rgba(24
 <div class="toast" id="toast">&#9889;&nbsp; Added to cart!</div>
 
 <script>
+const API = 'https://lionandlambpublishing.com/api';
+let cart = JSON.parse(localStorage.getItem('forte-cart') || '[]');
+function getThumbClass(e){if(!e)return 'pt-f';if(e.includes('Band')||e.includes('Wind'))return 'pt-a';if(e.includes('Choir')||e.includes('SATB'))return 'pt-b';if(e.includes('Orchestra')||e.includes('String'))return 'pt-c';if(e.includes('Jazz'))return 'pt-d';if(e.includes('Piano'))return 'pt-e';return 'pt-f';}
+function getLowestPrice(p){const prices=[p.price_pdf,p.price_bundle,p.price_print].filter(Boolean).map(Number);return prices.length?Math.min(...prices):null;}
+function addToCart(id){const p=window._products&&window._products.find(x=>x.id===id);if(!p)return;const price=getLowestPrice(p);cart.push({id:p.id,title:p.title,price,format:p.format||'PDF'});localStorage.setItem('forte-cart',JSON.stringify(cart));const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+fetch(API+'/products').then(r=>r.json()).then(data=>{
+  const digital=data.filter(p=>p.format==='PDF'||p.format==='Print + PDF Bundle'||p.price_pdf);
+  document.getElementById('result-count').innerHTML='Showing <strong style="color:var(--ink)">'+digital.length+'</strong> digital score'+(digital.length!==1?'s':'');
+  const grid=document.getElementById('prods-grid');
+  if(digital.length===0){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:48px;color:var(--muted)"><div style="font-size:2rem;margin-bottom:12px">&#9836;</div><div style="font-weight:600;color:var(--ink);margin-bottom:6px">No digital scores yet</div><div style="font-size:0.85rem">Add products with PDF pricing in the admin dashboard.</div></div>';return;}
+  window._products=digital;
+  grid.innerHTML=digital.map(p=>{const price=getLowestPrice(p);const priceStr=price?'$'+price.toFixed(2):'Contact';const thumb=getThumbClass(p.ensemble);return '<div class="p-card" onclick="location.href=\'product.html?id='+p.id+'\'"><div class="p-thumb '+thumb+'"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><div class="instant-badge">&#9889; PDF</div><div class="download-icon">&#8595;</div></div><div class="p-body"><div class="p-ens">'+(p.ensemble||'Sheet Music')+(p.grade?' &middot; Gr.'+p.grade:'')+'</div><div class="p-title">'+p.title+'</div><div class="p-composer">'+(p.composer||'')+'</div><div class="p-foot"><span class="p-price">'+priceStr+'</span><button class="p-add" onclick="event.stopPropagation();addToCart('+p.id+')">&#9889; Buy</button></div></div></div>';}).join('');
+}).catch(()=>{document.getElementById('prods-grid').innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">Could not load scores.</div>';});
 function toggleDrawer(){var d=document.getElementById('drawer'),h=document.getElementById('ham');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
 document.querySelectorAll('.f-btn').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.f-btn').forEach(function(x){x.classList.remove('active')});b.classList.add('active');});});
 function toggleFaq(el){var item=el.closest('.faq-item');item.classList.toggle('open');}
-document.querySelectorAll('.p-add').forEach(function(b){b.addEventListener('click',function(){var t=document.getElementById('toast');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2200);});});
 </script>
 </body>
 </html>
