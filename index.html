@@ -263,7 +263,7 @@ footer{background:var(--ink);padding:48px 16px 32px}
   <div class="hero-left">
     <div class="hero-eyebrow">The Director's Music Resource</div>
     <h1 class="hero-title">Music that<br><em>moves</em> your<br>ensemble.</h1>
-    <p class="hero-sub">Trusted by 14,000+ band directors and choir conductors. Discover print scores and digital downloads curated for every level.</p>
+    <p class="hero-sub">Dr. Kevin Phillip Johnson's music is loved by choruses worldwide. Discover print scores and digital downloads curated for you!.</p>
     <div class="hero-search">
       <input type="text" placeholder="Search by title, composer&hellip;">
       <button>Search</button>
@@ -504,7 +504,8 @@ function addToCartHome(id) {
   let cart = JSON.parse(localStorage.getItem('forte-cart') || '[]');
   const price = getLowestPrice(p);
   cart.push({ id: p.id, title: p.title, price, format: p.format });
-  localStorage.setItem('forte-cart', JSON.stringify(cart));
+  localStorage.setItem('echo 'alias deploy="cd ~/Desktop/lionandlambpublishing && git add . && git commit -m updates && git push && ssh root@165.245.142.41 \"cd /var/www/html && git checkout -- . && git pull origin main\""' >> ~/.bashrc && source ~/.bashrc
+  -cart', JSON.stringify(cart));
   const t = document.createElement('div');
   t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:8px;font-size:0.875rem;font-weight:500;z-index:500;box-shadow:0 8px 24px rgba(15,13,10,0.3)';
   t.textContent = '\u2713 Added to cart!';
