@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forte Music — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0f0d0a;--cream:#f7f3ec;--parchment:#ede6d6;--gold:#c49a2a;--burgundy:#7b1f2e;--sage:#3d5a4a;--muted:#6b6257;--border:#d6cfc2;--r:8px}
+body{font-family:'DM Sans',sans-serif;background:#f0ece4;color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.login-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:40px;width:100%;max-width:380px;box-shadow:0 8px 40px rgba(15,13,10,0.1)}
+.login-logo{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.login-logo span{display:inline-flex;width:32px;height:32px;background:var(--burgundy);color:#fff;border-radius:5px;align-items:center;justify-content:center;font-size:1rem}
+.login-sub{font-size:0.85rem;color:var(--muted);margin-bottom:28px;font-weight:300}
+.login-label{font-size:0.78rem;font-weight:600;color:var(--ink);display:block;margin-bottom:6px}
+.login-input{width:100%;padding:13px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:1rem;background:var(--cream);color:var(--ink);outline:none;margin-bottom:16px;-webkit-appearance:none}
+.login-input:focus{border-color:var(--ink)}
+.login-btn{width:100%;padding:14px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer}
+.login-btn:hover{background:#9a2638}
+.login-err{font-size:0.78rem;color:#c44a2a;margin-top:10px;display:none}
+.app{display:none;min-height:100vh}
+.topbar{background:var(--ink);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.tb-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px}
+.tb-logo span{display:inline-flex;width:26px;height:26px;background:var(--burgundy);color:#fff;border-radius:4px;align-items:center;justify-content:center;font-size:0.8rem}
+.tb-right{display:flex;align-items:center;gap:12px}
+.tb-badge{font-size:0.72rem;color:rgba(247,243,236,0.5);font-family:'DM Mono',monospace}
+.tb-logout{font-size:0.8rem;color:rgba(247,243,236,0.5);background:none;border:none;cursor:pointer}
+.tb-logout:hover{color:#fff}
+.main{max-width:1200px;margin:0 auto;padding:32px 20px}
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px}
+.stat-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;margin-bottom:6px}
+.stat-val{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.section-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:800;color:var(--ink)}
+.btn-p{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer}
+.btn-p:hover{background:#9a2638}
+.btn-g{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;background:transparent;color:var(--ink);border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:500;cursor:pointer}
+.btn-g:hover{border-color:var(--ink);background:var(--parchment)}
+.form-panel{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:28px;display:none}
+.form-panel.open{display:block}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.full{grid-column:1/-1}
+.form-label{font-size:0.75rem;font-weight:600;color:var(--ink)}
+.form-label span{color:var(--muted);font-weight:400}
+.form-input{font-family:'DM Sans',sans-serif;font-size:0.9rem;padding:11px 13px;border:1.5px solid var(--border);border-radius:6px;background:var(--cream);color:var(--ink);outline:none;-webkit-appearance:none;width:100%}
+.form-input:focus{border-color:var(--ink)}
+select.form-input{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6257' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.form-section-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);font-weight:700;grid-column:1/-1;padding-top:8px;border-top:1px solid var(--border);margin-top:4px}
+.form-actions{grid-column:1/-1;display:flex;gap:10px;justify-content:flex-end;padding-top:8px;border-top:1px solid var(--border)}
+
+/* FILE PICKER */
+.file-picker{display:flex;gap:6px;align-items:stretch}
+.file-picker .form-input{flex:1;min-width:0;font-size:0.8rem;color:var(--muted)}
+.file-picker-btn{flex-shrink:0;padding:0 12px;background:var(--parchment);border:1.5px solid var(--border);border-radius:6px;font-size:0.8rem;font-weight:600;cursor:pointer;color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:4px}
+.file-picker-btn:hover{border-color:var(--ink);background:var(--parchment)}
+.file-preview{margin-top:5px;font-size:0.72rem;color:var(--muted);display:none}
+.file-preview.show{display:block}
+.file-preview a{color:var(--burgundy);text-decoration:none}
+
+/* FILE BROWSER MODAL */
+.fb-overlay{position:fixed;inset:0;background:rgba(15,13,10,0.55);backdrop-filter:blur(4px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.fb-overlay.open{opacity:1;pointer-events:all}
+.fb-modal{background:var(--cream);border-radius:12px;width:100%;max-width:640px;max-height:80vh;display:flex;flex-direction:column;overflow:hidden}
+.fb-header{padding:20px 24px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.fb-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ink)}
+.fb-close{width:32px;height:32px;background:var(--parchment);border:none;border-radius:50%;cursor:pointer;font-size:1.1rem;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.fb-search{padding:12px 24px;border-bottom:1px solid var(--border);flex-shrink:0}
+.fb-search input{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.875rem;background:var(--cream);color:var(--ink);outline:none;-webkit-appearance:none}
+.fb-search input:focus{border-color:var(--ink)}
+.fb-list{overflow-y:auto;flex:1;padding:8px 0}
+.fb-item{display:flex;align-items:center;gap:12px;padding:10px 24px;cursor:pointer;transition:background 0.15s}
+.fb-item:hover{background:var(--parchment)}
+.fb-item.selected{background:rgba(123,31,46,0.06)}
+.fb-icon{font-size:1.2rem;flex-shrink:0;width:24px;text-align:center}
+.fb-name{font-size:0.85rem;color:var(--ink);font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fb-size{font-size:0.72rem;color:var(--muted);font-family:'DM Mono',monospace;flex-shrink:0}
+.fb-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
+.fb-empty{padding:40px;text-align:center;color:var(--muted);font-size:0.875rem}
+.fb-loading{padding:40px;text-align:center;color:var(--muted);font-size:0.875rem}
+
+/* PRODUCTS TABLE */
+.products-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;padding:10px 16px;background:var(--parchment);border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+td{padding:12px 16px;border-bottom:1px solid var(--border);font-size:0.85rem;color:var(--ink);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(237,230,214,0.4)}
+.td-title{font-weight:600}
+.td-composer{font-size:0.75rem;color:var(--muted)}
+.td-price{font-family:'DM Mono',monospace;font-size:0.82rem}
+.td-badge{display:inline-flex;padding:3px 8px;border-radius:3px;font-size:0.62rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
+.badge-band{background:rgba(123,31,46,0.1);color:var(--burgundy)}
+.badge-choir{background:rgba(61,90,74,0.1);color:var(--sage)}
+.badge-orch{background:rgba(196,154,42,0.1);color:#8a6a10}
+.badge-jazz{background:rgba(15,13,10,0.08);color:var(--muted)}
+.td-actions{display:flex;gap:6px;white-space:nowrap}
+.action-btn{padding:5px 10px;border-radius:4px;font-size:0.72rem;font-weight:600;cursor:pointer;border:none;transition:all 0.2s}
+.edit-btn{background:var(--parchment);border:1px solid var(--border);color:var(--ink)}
+.edit-btn:hover{border-color:var(--ink)}
+.del-btn{background:rgba(196,64,42,0.08);border:1px solid rgba(196,64,42,0.2);color:#c44a2a}
+.del-btn:hover{background:rgba(196,64,42,0.15)}
+.empty-state{padding:48px;text-align:center;color:var(--muted)}
+.empty-icon{font-size:2.5rem;margin-bottom:12px}
+.empty-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:6px}
+.search-bar{display:flex;gap:10px;margin-bottom:16px}
+.search-inp{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.875rem;background:var(--cream);color:var(--ink);outline:none;-webkit-appearance:none}
+.search-inp:focus{border-color:var(--ink)}
+.toast{position:fixed;bottom:24px;right:24px;background:var(--ink);color:#fff;padding:12px 18px;border-radius:var(--r);font-size:0.85rem;font-weight:500;z-index:600;opacity:0;transform:translateY(20px);transition:all 0.3s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{background:var(--sage)}
+.toast.error{background:#c44a2a}
+@media(min-width:768px){.main{padding:32px 40px}}
+@media(max-width:600px){.stats-row{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-logo"><span>&#119070;</span>Forte Music</div>
+    <p class="login-sub">Admin Dashboard</p>
+    <label class="login-label">Admin Key</label>
+    <input class="login-input" type="password" id="login-key" placeholder="Enter your admin key" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()">Sign In &#8594;</button>
+    <div class="login-err" id="login-err">Incorrect admin key.</div>
+  </div>
+</div>
+
+<div class="app" id="app">
+  <div class="topbar">
+    <div class="tb-logo"><span>&#119070;</span>Forte Admin</div>
+    <div class="tb-right">
+      <a href="index.html" style="font-size:0.8rem;color:rgba(247,243,236,0.5);text-decoration:none;margin-right:4px" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(247,243,236,0.5)'">&#8592; View Site</a>
+      <span class="tb-badge" id="product-count-badge">0 products</span>
+      <button class="tb-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+  <div class="main">
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-label">Total Products</div><div class="stat-val" id="stat-total">0</div></div>
+      <div class="stat-card"><div class="stat-label">Print Titles</div><div class="stat-val" id="stat-print">0</div></div>
+      <div class="stat-card"><div class="stat-label">Digital PDFs</div><div class="stat-val" id="stat-pdf">0</div></div>
+    </div>
+
+    <div class="section-head">
+      <div class="section-title">Product Catalog</div>
+      <button class="btn-p" onclick="toggleForm()">&#43; Add Product</button>
+    </div>
+
+    <div class="form-panel" id="form-panel">
+      <div class="form-grid">
+        <div class="form-section-label">Basic Info</div>
+        <div class="form-group"><label class="form-label">Title *</label><input class="form-input" id="f-title" type="text" placeholder="Song title"></div>
+        <div class="form-group"><label class="form-label">Composer / Arranger</label><input class="form-input" id="f-composer" type="text" placeholder="Name"></div>
+        <div class="form-group"><label class="form-label">Ensemble *</label>
+          <select class="form-input" id="f-ensemble">
+            <option value="">Select ensemble...</option>
+            <option>Concert Band</option><option>Wind Ensemble</option><option>Marching Band</option>
+            <option>SATB Choir</option><option>SSA Choir</option><option>Show Choir</option>
+            <option>String Orchestra</option><option>Full Orchestra</option>
+            <option>Jazz Ensemble</option><option>Jazz Combo</option>
+            <option>Piano Solo</option><option>Brass Ensemble</option><option>Woodwind Quintet</option>
+            <option>Percussion Ensemble</option><option>Handbell Choir</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Grade Level</label>
+          <select class="form-input" id="f-grade">
+            <option value="">Select grade...</option>
+            <option>½</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Format</label>
+          <select class="form-input" id="f-format">
+            <option value="">Select format...</option>
+            <option>Print</option><option>PDF</option><option>Print + PDF Bundle</option>
+          </select>
+        </div>
+        <div class="form-group" style="justify-content:center">
+          <label class="form-label">Homepage Hero</label>
+          <label style="display:flex;align-items:center;gap:10px;padding:11px 13px;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;background:var(--cream)">
+            <input type="checkbox" id="f-featured" style="width:18px;height:18px;accent-color:var(--burgundy);cursor:pointer">
+            <span style="font-size:0.875rem;color:var(--ink)">Feature this product in hero</span>
+          </label>
+        </div>
+
+        <div class="form-section-label">Pricing</div>
+        <div class="form-group"><label class="form-label">Print Price ($)</label><input class="form-input" id="f-price-print" type="number" step="0.01" placeholder="49.95"></div>
+        <div class="form-group"><label class="form-label">PDF Price ($)</label><input class="form-input" id="f-price-pdf" type="number" step="0.01" placeholder="6.95"></div>
+        <div class="form-group"><label class="form-label">Bundle Price ($)</label><input class="form-input" id="f-price-bundle" type="number" step="0.01" placeholder="54.95"></div>
+
+        <div class="form-section-label">Stripe Price IDs</div>
+        <div class="form-group"><label class="form-label">Print Stripe Price ID</label><input class="form-input" id="f-stripe-print" type="text" placeholder="price_1ABC..."></div>
+        <div class="form-group"><label class="form-label">PDF Stripe Price ID</label><input class="form-input" id="f-stripe-pdf" type="text" placeholder="price_1DEF..."></div>
+        <div class="form-group"><label class="form-label">Bundle Stripe Price ID</label><input class="form-input" id="f-stripe-bundle" type="text" placeholder="price_1GHI..."></div>
+
+        <div class="form-section-label">Files from Spaces</div>
+
+        <div class="form-group full">
+          <label class="form-label">Video Preview URL <span>(YouTube, Vimeo, or direct video link)</span></label>
+          <input class="form-input" id="f-video" type="text" placeholder="https://youtube.com/watch?v=... or https://vimeo.com/...">
+        </div>
+
+        <div class="form-group full">
+          <label class="form-label">Score Preview PDF <span>(shown to customers before purchase)</span></label>
+          <div class="file-picker">
+            <input class="form-input" id="f-pdf" type="text" placeholder="Select a PDF from your Spaces bucket..." readonly>
+            <button class="file-picker-btn" onclick="openFileBrowser('pdf')">&#128193; Browse</button>
+          </div>
+          <div class="file-preview" id="f-pdf-preview"></div>
+        </div>
+
+        <div class="form-group full">
+          <label class="form-label">Full Score PDF <span>(delivered after purchase)</span></label>
+          <div class="file-picker">
+            <input class="form-input" id="f-audio" type="text" placeholder="Select the full score PDF...">
+            <button class="file-picker-btn" onclick="openFileBrowser('audio')">&#128193; Browse</button>
+          </div>
+          <div class="file-preview" id="f-audio-preview"></div>
+        </div>
+
+        <div class="form-group full">
+          <label class="form-label">Product Image URL <span>(optional — paste image URL or browse)</span></label>
+          <div class="file-picker">
+            <input class="form-input" id="f-image" type="text" placeholder="https://... or select from Spaces">
+            <button class="file-picker-btn" onclick="openFileBrowser('image')">&#128193; Browse</button>
+          </div>
+          <div class="file-preview" id="f-image-preview"></div>
+        </div>
+
+        <div class="form-actions">
+          <button class="btn-g" onclick="cancelForm()">Cancel</button>
+          <button class="btn-p" id="form-submit-btn" onclick="submitProduct()">Save Product</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-bar">
+      <input class="search-inp" type="text" id="search-inp" placeholder="Search by title or composer..." oninput="filterProducts()">
+      <select class="form-input" id="filter-ensemble" style="width:180px;flex-shrink:0" onchange="filterProducts()">
+        <option value="">All Ensembles</option>
+        <option>Concert Band</option><option>SATB Choir</option><option>String Orchestra</option><option>Jazz Ensemble</option><option>Piano Solo</option>
+      </select>
+    </div>
+
+    <div class="products-card">
+      <div class="table-wrap">
+        <table id="products-table">
+          <thead><tr><th>Title</th><th>Ensemble</th><th>Grade</th><th>Print</th><th>PDF</th><th>Format</th><th>Actions</th></tr></thead>
+          <tbody id="products-tbody"></tbody>
+        </table>
+      </div>
+      <div class="empty-state" id="empty-state" style="display:none">
+        <div class="empty-icon">&#127925;</div>
+        <div class="empty-title">No products yet</div>
+        <div class="empty-sub">Click "Add Product" to add your first score.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FILE BROWSER MODAL -->
+<div class="fb-overlay" id="fb-overlay" onclick="if(event.target===this)closeFileBrowser()">
+  <div class="fb-modal">
+    <div class="fb-header">
+      <div class="fb-title" id="fb-title">Choose a file</div>
+      <button class="fb-close" onclick="closeFileBrowser()">&#215;</button>
+    </div>
+    <div class="fb-search">
+      <input type="text" placeholder="Search files..." id="fb-search-inp" oninput="filterFiles()">
+    </div>
+    <div class="fb-list" id="fb-list">
+      <div class="fb-loading">Loading files...</div>
+    </div>
+    <div class="fb-footer">
+      <button class="btn-g" onclick="closeFileBrowser()">Cancel</button>
+      <button class="btn-p" id="fb-select-btn" onclick="confirmFileSelection()" disabled>Select File</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'https://lionandlambpublishing.com/api';
+let adminKey = '';
+let products = [];
+let editingId = null;
+let allFiles = [];
+let filteredFiles = [];
+let selectedFileUrl = '';
+let currentFileTarget = '';
+
+function doLogin() {
+  const key = document.getElementById('login-key').value.trim();
+  if (!key) return;
+  adminKey = key;
+  fetch(API + '/admin/files', { headers: { 'x-admin-key': key } })
+    .then(r => {
+      if (r.ok) {
+        r.json().then(data => { allFiles = data; filteredFiles = data; });
+        document.getElementById('login-screen').style.display='none';
+        document.getElementById('app').style.display='block';
+        loadProducts();
+      } else {
+        document.getElementById('login-err').style.display='block';
+        adminKey='';
+      }
+    })
+    .catch(() => { document.getElementById('login-err').style.display='block'; adminKey=''; });
+}
+
+function logout() { adminKey=''; document.getElementById('login-screen').style.display='flex'; document.getElementById('app').style.display='none'; document.getElementById('login-key').value=''; }
+
+function loadProducts() {
+  fetch(API + '/products').then(r => r.json()).then(data => { products = data; renderProducts(data); updateStats(data); });
+}
+
+function loadFiles() {
+  fetch(API + '/admin/files', { headers: { 'x-admin-key': adminKey } })
+    .then(r => r.json())
+    .then(data => { allFiles = data; filteredFiles = data; })
+    .catch(() => {});
+}
+
+function updateStats(data) {
+  document.getElementById('stat-total').textContent = data.length;
+  document.getElementById('stat-print').textContent = data.filter(p => p.format === 'Print' || p.format === 'Print + PDF Bundle').length;
+  document.getElementById('stat-pdf').textContent = data.filter(p => p.format === 'PDF' || p.format === 'Print + PDF Bundle').length;
+  document.getElementById('product-count-badge').textContent = data.length + ' products';
+}
+
+function getBadgeClass(ensemble) {
+  if (!ensemble) return '';
+  if (ensemble.includes('Band') || ensemble.includes('Wind')) return 'badge-band';
+  if (ensemble.includes('Choir') || ensemble.includes('SATB') || ensemble.includes('SSA')) return 'badge-choir';
+  if (ensemble.includes('Orchestra') || ensemble.includes('String')) return 'badge-orch';
+  if (ensemble.includes('Jazz')) return 'badge-jazz';
+  return '';
+}
+
+function renderProducts(data) {
+  const tbody = document.getElementById('products-tbody');
+  const empty = document.getElementById('empty-state');
+  if (data.length === 0) { tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = data.map(p => `
+    <tr>
+      <td><div class="td-title">${p.title}</div><div class="td-composer">${p.composer||''}</div></td>
+      <td><span class="td-badge ${getBadgeClass(p.ensemble)}">${p.ensemble||'—'}</span></td>
+      <td>${p.grade||'—'}</td>
+      <td class="td-price">${p.price_print ? '$'+parseFloat(p.price_print).toFixed(2) : '—'}</td>
+      <td class="td-price">${p.price_pdf ? '$'+parseFloat(p.price_pdf).toFixed(2) : '—'}</td>
+      <td>${p.format||'—'}</td>
+      <td><div class="td-actions"><button class="action-btn edit-btn" onclick="editProduct(${p.id})">Edit</button><button class="action-btn del-btn" onclick="deleteProduct(${p.id},'${p.title.replace(/'/g,"\\'")}')">Delete</button></div></td>
+    </tr>`).join('');
+}
+
+function filterProducts() {
+  const s = document.getElementById('search-inp').value.toLowerCase();
+  const e = document.getElementById('filter-ensemble').value;
+  renderProducts(products.filter(p => (!s || p.title.toLowerCase().includes(s) || (p.composer&&p.composer.toLowerCase().includes(s))) && (!e || p.ensemble===e)));
+}
+
+function toggleForm() {
+  editingId=null; clearForm();
+  document.getElementById('form-submit-btn').textContent='Save Product';
+  const panel = document.getElementById('form-panel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) panel.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function cancelForm() { document.getElementById('form-panel').classList.remove('open'); editingId=null; clearForm(); }
+
+function clearForm() {
+  ['f-title','f-composer','f-ensemble','f-grade','f-format','f-price-print','f-price-pdf','f-price-bundle','f-stripe-print','f-stripe-pdf','f-stripe-bundle','f-pdf','f-audio','f-image','f-video'].forEach(id => { document.getElementById(id).value=''; }); document.getElementById('f-featured').checked=false;
+  ['f-pdf-preview','f-audio-preview','f-image-preview'].forEach(id => { const el=document.getElementById(id); el.style.display='none'; el.innerHTML=''; });
+}
+
+function editProduct(id) {
+  const p = products.find(x => x.id===id);
+  if (!p) return;
+  editingId=id;
+  document.getElementById('f-title').value=p.title||'';
+  document.getElementById('f-composer').value=p.composer||'';
+  document.getElementById('f-ensemble').value=p.ensemble||'';
+  document.getElementById('f-grade').value=p.grade||'';
+  document.getElementById('f-format').value=p.format||'';
+  document.getElementById('f-price-print').value=p.price_print||'';
+  document.getElementById('f-price-pdf').value=p.price_pdf||'';
+  document.getElementById('f-price-bundle').value=p.price_bundle||'';
+  document.getElementById('f-stripe-print').value=p.stripe_price_print||'';
+  document.getElementById('f-stripe-pdf').value=p.stripe_price_pdf||'';
+  document.getElementById('f-stripe-bundle').value=p.stripe_price_bundle||'';
+  document.getElementById('f-pdf').value=p.pdf_preview_url||'';
+  document.getElementById('f-audio').value=p.audio_url||'';
+  document.getElementById('f-image').value=p.image_url||'';
+  document.getElementById('f-video').value=p.video_url||''; document.getElementById('f-featured').checked=p.featured||false;
+  if (p.pdf_preview_url) showFilePreview('f-pdf-preview', p.pdf_preview_url);
+  if (p.audio_url) showFilePreview('f-audio-preview', p.audio_url);
+  if (p.image_url) showFilePreview('f-image-preview', p.image_url);
+  document.getElementById('form-submit-btn').textContent='Update Product';
+  document.getElementById('form-panel').classList.add('open');
+  document.getElementById('form-panel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function showFilePreview(previewId, url) {
+  const el = document.getElementById(previewId);
+  const name = url.split('/').pop();
+  el.innerHTML = '&#10003; <a href="' + url + '" target="_blank">' + decodeURIComponent(name) + '</a>';
+  el.style.display = 'block';
+  el.className = 'file-preview show';
+}
+
+function submitProduct() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { showToast('Title is required','error'); return; }
+  const body = {
+    title, composer:document.getElementById('f-composer').value, ensemble:document.getElementById('f-ensemble').value,
+    grade:document.getElementById('f-grade').value, format:document.getElementById('f-format').value,
+    price_print:document.getElementById('f-price-print').value||null, price_pdf:document.getElementById('f-price-pdf').value||null,
+    price_bundle:document.getElementById('f-price-bundle').value||null, stripe_price_print:document.getElementById('f-stripe-print').value,
+    stripe_price_pdf:document.getElementById('f-stripe-pdf').value, stripe_price_bundle:document.getElementById('f-stripe-bundle').value,
+    pdf_preview_url:document.getElementById('f-pdf').value, audio_url:document.getElementById('f-audio').value,
+    image_url:document.getElementById('f-image').value, video_url:document.getElementById('f-video').value, featured:document.getElementById('f-featured').checked,
+  };
+  const url = editingId ? API+'/admin/products/'+editingId : API+'/admin/products';
+  const method = editingId ? 'PUT' : 'POST';
+  fetch(url, {method, headers:{'Content-Type':'application/json','x-admin-key':adminKey}, body:JSON.stringify(body)})
+    .then(r => r.json()).then(data => { if (data.error) { showToast(data.error,'error'); return; } showToast(editingId?'Product updated!':'Product added!','success'); cancelForm(); loadProducts(); })
+    .catch(() => showToast('Error saving product','error'));
+}
+
+function deleteProduct(id, title) {
+  if (!confirm('Delete "'+title+'"? This cannot be undone.')) return;
+  fetch(API+'/admin/products/'+id, {method:'DELETE',headers:{'x-admin-key':adminKey}})
+    .then(r => r.json()).then(() => { showToast('Product deleted','success'); loadProducts(); })
+    .catch(() => showToast('Error deleting product','error'));
+}
+
+// FILE BROWSER
+function openFileBrowser(target) {
+  currentFileTarget = target;
+  selectedFileUrl = '';
+  const titles = { pdf:'Select Score Preview PDF', audio:'Select Full Score PDF', image:'Select Product Image' };
+  document.getElementById('fb-title').textContent = titles[target] || 'Choose a file';
+  document.getElementById('fb-search-inp').value = '';
+  document.getElementById('fb-select-btn').disabled = true;
+  document.getElementById('fb-overlay').classList.add('open');
+  if (allFiles.length > 0) {
+    renderFileList(allFiles);
+  } else {
+    document.getElementById('fb-list').innerHTML = '<div class="fb-loading">Loading files...</div>';
+    fetch(API + '/admin/files', { headers: { 'x-admin-key': adminKey } })
+      .then(r => r.json())
+      .then(data => { allFiles = data; filteredFiles = data; renderFileList(data); })
+      .catch(() => { document.getElementById('fb-list').innerHTML = '<div class="fb-empty">Could not load files. Check your admin key.</div>'; });
+  }
+}
+
+function closeFileBrowser() { document.getElementById('fb-overlay').classList.remove('open'); }
+
+function filterFiles() {
+  const s = document.getElementById('fb-search-inp').value.toLowerCase();
+  const filtered = s ? allFiles.filter(f => f.key.toLowerCase().includes(s)) : allFiles;
+  renderFileList(filtered);
+}
+
+function renderFileList(files) {
+  const list = document.getElementById('fb-list');
+  if (files.length === 0) { list.innerHTML='<div class="fb-empty">No files found</div>'; return; }
+  list.innerHTML = files.map(f => {
+    const name = f.key.split('/').pop();
+    const ext = name.split('.').pop().toLowerCase();
+    const icon = ext==='pdf' ? '&#128196;' : (ext==='mp3'||ext==='wav'||ext==='m4a') ? '&#127925;' : (ext==='jpg'||ext==='jpeg'||ext==='png'||ext==='webp') ? '&#128247;' : '&#128196;';
+    const size = f.size > 1048576 ? (f.size/1048576).toFixed(1)+'MB' : (f.size/1024).toFixed(0)+'KB';
+    return '<div class="fb-item" data-url="'+f.url+'" onclick="selectFile(this,\''+f.url+'\')">' +
+      '<span class="fb-icon">'+icon+'</span>' +
+      '<span class="fb-name" title="'+name+'">'+decodeURIComponent(name)+'</span>' +
+      '<span class="fb-size">'+size+'</span></div>';
+  }).join('');
+}
+
+function selectFile(el, url) {
+  document.querySelectorAll('.fb-item').forEach(i => i.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedFileUrl = url;
+  document.getElementById('fb-select-btn').disabled = false;
+}
+
+function confirmFileSelection() {
+  if (!selectedFileUrl) return;
+  const fieldMap = { pdf:'f-pdf', audio:'f-audio', image:'f-image' };
+  const previewMap = { pdf:'f-pdf-preview', audio:'f-audio-preview', image:'f-image-preview' };
+  const fieldId = fieldMap[currentFileTarget];
+  const previewId = previewMap[currentFileTarget];
+  if (fieldId) {
+    document.getElementById(fieldId).value = selectedFileUrl;
+    showFilePreview(previewId, selectedFileUrl);
+  }
+  closeFileBrowser();
+  showToast('File selected','success');
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show '+(type||'');
+  setTimeout(() => t.className='toast', 2800);
+}
+</script>
+</body>
+</html>
