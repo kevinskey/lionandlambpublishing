@@ -5,583 +5,429 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Director Dashboard — Forte Music</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--ink:#0f0d0a;--cream:#f7f3ec;--parchment:#ede6d6;--gold:#c49a2a;--gold-light:#e8c96a;--burgundy:#7b1f2e;--sage:#3d5a4a;--muted:#6b6257;--border:#d6cfc2}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;display:grid;grid-template-columns:240px 1fr;grid-template-rows:68px 1fr;min-height:100vh}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.6}
+:root{--ink:#0f0d0a;--cream:#f7f3ec;--parchment:#ede6d6;--gold:#c49a2a;--burgundy:#7b1f2e;--burgundy-dark:#9a2638;--sage:#3d5a4a;--muted:#6b6257;--border:#d6cfc2;--nav-h:60px;--r:8px}
+body{font-family:'DM Sans',sans-serif;background:#f0ece4;color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(247,243,236,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-mark{display:inline-flex;width:27px;height:27px;background:var(--burgundy);color:var(--cream);border-radius:4px;align-items:center;justify-content:center;font-size:0.9rem}
+.nav-links-desk{display:none}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-cart{display:flex;align-items:center;gap:5px;padding:8px 14px;background:var(--burgundy);color:#fff;border:none;border-radius:5px;font-size:0.8rem;font-weight:600;text-decoration:none}
 
-/* TOP NAV */
-.top-nav{grid-column:1/-1;position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:68px;background:rgba(247,243,236,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;letter-spacing:-0.02em;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
-.nav-logo span{display:inline-flex;width:28px;height:28px;background:var(--burgundy);color:var(--cream);border-radius:4px;align-items:center;justify-content:center;font-size:0.9rem}
-.top-nav-right{display:flex;align-items:center;gap:16px}
-.notif-btn{width:36px;height:36px;border:1.5px solid var(--border);border-radius:8px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.9rem;position:relative;transition:all 0.2s}
-.notif-btn:hover{border-color:var(--ink);background:var(--parchment)}
-.notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--burgundy);border-radius:50%;font-size:0.58rem;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--cream)}
-.user-chip{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border:1.5px solid var(--border);border-radius:100px;cursor:pointer;transition:all 0.2s;background:var(--cream)}
-.user-chip:hover{border-color:var(--ink)}
-.user-avatar{width:30px;height:30px;background:var(--burgundy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.78rem;font-weight:700}
-.user-name{font-size:0.82rem;font-weight:600;color:var(--ink)}
-.btn-primary{font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;padding:8px 16px;background:var(--burgundy);color:var(--cream);border:none;border-radius:6px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
-.btn-primary:hover{background:#9a2638;transform:translateY(-1px)}
+/* LOGIN SCREEN */
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;padding-top:calc(var(--nav-h)+24px)}
+.login-card{background:var(--cream);border:1px solid var(--border);border-radius:12px;padding:40px;width:100%;max-width:400px;text-align:center;box-shadow:0 8px 40px rgba(15,13,10,0.1)}
+.login-icon{font-size:2.5rem;margin-bottom:16px}
+.login-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--ink);margin-bottom:8px}
+.login-sub{font-size:0.875rem;color:var(--muted);margin-bottom:28px;font-weight:300;line-height:1.6}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px 20px;background:#fff;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:600;color:var(--ink);cursor:pointer;transition:all 0.2s;box-shadow:0 2px 8px rgba(15,13,10,0.06)}
+.google-btn:hover{border-color:var(--ink);box-shadow:0 4px 16px rgba(15,13,10,0.1)}
+.google-logo{width:20px;height:20px}
+.login-note{font-size:0.72rem;color:var(--muted);margin-top:16px;line-height:1.5}
 
-/* SIDEBAR */
-.sidebar{margin-top:68px;background:var(--ink);padding:28px 0;position:fixed;left:0;top:0;bottom:0;width:240px;display:flex;flex-direction:column;z-index:50}
-.sidebar-section{padding:0 0 24px;margin-bottom:24px;border-bottom:1px solid rgba(247,243,236,0.07)}
-.sidebar-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.sidebar-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.12em;color:rgba(196,154,42,0.7);font-weight:700;padding:0 20px;margin-bottom:8px}
-.sidebar-link{display:flex;align-items:center;gap:12px;padding:10px 20px;font-size:0.85rem;font-weight:500;color:rgba(247,243,236,0.55);cursor:pointer;transition:all 0.2s;text-decoration:none;border-left:2px solid transparent}
-.sidebar-link:hover{color:var(--cream);background:rgba(247,243,236,0.06)}
-.sidebar-link.active{color:var(--cream);background:rgba(247,243,236,0.08);border-left-color:var(--gold)}
-.sidebar-link-icon{font-size:0.9rem;width:20px;text-align:center;flex-shrink:0}
-.sidebar-badge{margin-left:auto;background:var(--burgundy);color:#fff;font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:100px}
-.sidebar-bottom{margin-top:auto;padding:0 20px 0}
-.sidebar-user{padding:14px 0;border-top:1px solid rgba(247,243,236,0.08);display:flex;align-items:center;gap:10px}
-.sidebar-avatar{width:36px;height:36px;border-radius:50%;background:rgba(196,154,42,0.2);border:1.5px solid rgba(196,154,42,0.4);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:0.82rem;font-weight:700;flex-shrink:0}
-.sidebar-user-name{font-size:0.82rem;font-weight:600;color:var(--cream);line-height:1.2}
-.sidebar-user-school{font-size:0.7rem;color:rgba(247,243,236,0.4)}
-
-/* MAIN */
-main{margin-left:240px;margin-top:68px;padding:36px 40px;min-height:calc(100vh - 68px)}
-
-/* PAGE HEADER */
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:32px}
-.page-eyebrow{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
-.page-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;letter-spacing:-0.02em;color:var(--ink)}
-.page-sub{font-size:0.875rem;color:var(--muted);margin-top:4px;font-weight:300}
-.header-actions{display:flex;gap:10px;align-items:center}
-
-/* STATS ROW */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
-.stat-card{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:20px 22px;transition:box-shadow 0.2s}
-.stat-card:hover{box-shadow:0 4px 20px rgba(15,13,10,0.08)}
-.stat-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;margin-bottom:8px}
-.stat-value{font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em;line-height:1;margin-bottom:4px}
-.stat-delta{font-size:0.75rem;display:flex;align-items:center;gap:4px}
-.stat-delta.up{color:var(--sage)}
-.stat-delta.neutral{color:var(--muted)}
-
-/* GRID LAYOUT */
-.dashboard-grid{display:grid;grid-template-columns:1fr 340px;gap:24px}
-
-/* ORDERS TABLE */
-.card{background:var(--cream);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:24px}
-.card-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink)}
-.card-action{font-size:0.78rem;color:var(--burgundy);cursor:pointer;text-decoration:none;font-weight:600}
-.card-action:hover{text-decoration:underline}
-
-.orders-table{width:100%;border-collapse:collapse}
-.orders-table th{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;padding:10px 20px;background:var(--parchment);border-bottom:1px solid var(--border);text-align:left}
-.orders-table td{padding:12px 20px;border-bottom:1px solid var(--border);font-size:0.85rem;color:var(--ink)}
-.orders-table tr:last-child td{border-bottom:none}
-.orders-table tr:hover td{background:rgba(237,230,214,0.4)}
-.order-title{font-weight:600;color:var(--ink);margin-bottom:1px}
-.order-meta{font-size:0.72rem;color:var(--muted)}
-.status-pill{font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap}
-.status-shipped{background:rgba(61,90,74,0.12);color:var(--sage)}
-.status-processing{background:rgba(196,154,42,0.15);color:#8a6a10}
-.status-delivered{background:rgba(61,90,74,0.08);color:var(--sage);border:1px solid rgba(61,90,74,0.2)}
-.status-pending{background:rgba(196,154,42,0.1);color:#8a6a10;border:1px solid rgba(196,154,42,0.2)}
-.order-price{font-family:'DM Mono',monospace;font-size:0.875rem;font-weight:500}
-
-/* DIGITAL LIBRARY */
-.library-list{padding:0}
-.library-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background 0.2s;cursor:pointer}
-.library-item:last-child{border-bottom:none}
-.library-item:hover{background:var(--parchment)}
-.lib-icon{width:40px;height:40px;background:var(--ink);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;position:relative;overflow:hidden}
-.lib-staff{width:80%;position:absolute}
-.lib-staff div{height:1px;background:rgba(247,243,236,0.3);margin:4px 0}
-.lib-info{flex:1}
-.lib-title{font-weight:600;font-size:0.875rem;color:var(--ink);margin-bottom:1px}
-.lib-meta{font-size:0.72rem;color:var(--muted)}
-.lib-download{width:32px;height:32px;background:var(--parchment);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0;font-size:0.85rem}
-.lib-download:hover{background:var(--burgundy);border-color:var(--burgundy);color:#fff}
-
-/* WISH LIST */
-.wish-item{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);transition:background 0.2s}
-.wish-item:last-child{border-bottom:none}
-.wish-item:hover{background:var(--parchment)}
-.wish-thumb{width:36px;height:36px;background:var(--ink);border-radius:5px;flex-shrink:0}
-.wish-info{flex:1}
-.wish-title{font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:1px}
-.wish-price{font-size:0.72rem;color:var(--muted);font-family:'DM Mono',monospace}
-.wish-add{font-size:0.72rem;font-weight:600;color:var(--burgundy);background:none;border:none;cursor:pointer;padding:0;white-space:nowrap}
-.wish-add:hover{text-decoration:underline}
-
-/* PO MANAGER */
-.po-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border)}
-.po-item:last-child{border-bottom:none}
-.po-num{font-family:'DM Mono',monospace;font-size:0.8rem;font-weight:500;color:var(--ink);min-width:100px}
-.po-school{flex:1;font-size:0.8rem;color:var(--muted)}
-.po-amount{font-family:'DM Mono',monospace;font-size:0.85rem;font-weight:500;color:var(--ink);min-width:64px;text-align:right}
-
-/* RIGHT COLUMN */
-.right-col{}
-
-/* ACCOUNT INFO CARD */
-.account-card{background:var(--ink);border-radius:8px;overflow:hidden;margin-bottom:20px}
-.account-card-top{padding:24px;background:linear-gradient(135deg,#1a1410 0%,var(--ink) 100%);position:relative;overflow:hidden}
-.account-card-top::before{content:'&#119070;';position:absolute;font-size:120px;right:-10px;top:-20px;opacity:0.05;color:var(--gold);line-height:1}
-.account-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cream);margin-bottom:2px}
-.account-school{font-size:0.8rem;color:rgba(247,243,236,0.5)}
-.account-plan{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:4px 10px;background:rgba(196,154,42,0.15);border:1px solid rgba(196,154,42,0.3);border-radius:100px;font-size:0.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.08em}
-.account-stats{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid rgba(247,243,236,0.08)}
-.acct-stat{padding:14px 16px;text-align:center;border-right:1px solid rgba(247,243,236,0.08)}
-.acct-stat:last-child{border-right:none}
-.acct-stat-val{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:500;color:var(--cream);display:block;margin-bottom:2px}
-.acct-stat-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(247,243,236,0.35)}
-
-/* UPCOMING */
-.event-item{display:flex;gap:14px;align-items:flex-start;padding:14px 20px;border-bottom:1px solid var(--border)}
-.event-item:last-child{border-bottom:none}
-.event-date{width:40px;height:40px;background:var(--parchment);border:1px solid var(--border);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
-.event-month{font-size:0.55rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--burgundy);font-weight:700;line-height:1}
-.event-day{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:800;color:var(--ink);line-height:1}
-.event-info{}
-.event-title{font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:2px}
-.event-desc{font-size:0.72rem;color:var(--muted);line-height:1.4}
+/* DASHBOARD */
+.dashboard{display:none;padding:calc(var(--nav-h)+24px) 16px 56px}
+.dash-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+.dash-welcome{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--ink);letter-spacing:-0.02em}
+.dash-sub{font-size:0.85rem;color:var(--muted);margin-top:2px}
+.user-pill{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--cream);border:1px solid var(--border);border-radius:100px}
+.user-avatar{width:28px;height:28px;border-radius:50%;object-fit:cover}
+.user-name{font-size:0.8rem;font-weight:600;color:var(--ink)}
+.sign-out-btn{font-size:0.75rem;color:var(--muted);background:none;border:none;cursor:pointer;padding:0;margin-left:4px}
+.sign-out-btn:hover{color:var(--burgundy)}
 
 /* TABS */
-.tab-nav{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:0}
-.dash-tab{padding:12px 20px;background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.2s}
-.dash-tab.active{color:var(--ink);border-bottom-color:var(--burgundy)}
-.tab-content{display:none}
-.tab-content.active{display:block}
+.tabs{display:flex;gap:2px;background:var(--parchment);border:1px solid var(--border);border-radius:var(--r);padding:4px;margin-bottom:24px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex-shrink:0;padding:9px 16px;border-radius:6px;font-size:0.82rem;font-weight:600;color:var(--muted);cursor:pointer;border:none;background:transparent;transition:all 0.2s;white-space:nowrap}
+.tab.active{background:var(--cream);color:var(--ink);box-shadow:0 1px 4px rgba(15,13,10,0.08)}
 
-/* RECOMMENDATION CARD */
-.rec-card{display:flex;gap:14px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border);transition:background 0.2s;cursor:pointer}
-.rec-card:last-child{border-bottom:none}
-.rec-card:hover{background:var(--parchment)}
-.rec-thumb{width:48px;height:48px;background:var(--ink);border-radius:6px;flex-shrink:0;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.rec-staff{width:80%;opacity:0.3}
-.rec-staff div{height:1px;background:var(--cream);margin:5px 0}
-.rec-info{flex:1}
-.rec-ensemble{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);font-weight:600;margin-bottom:2px}
-.rec-title{font-size:0.85rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--ink);margin-bottom:1px;line-height:1.2}
-.rec-composer{font-size:0.7rem;color:var(--muted)}
-.rec-price{font-family:'DM Mono',monospace;font-size:0.85rem;font-weight:500;color:var(--ink);flex-shrink:0}
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+.stat-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px}
+.stat-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;margin-bottom:4px}
+.stat-val{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:800;color:var(--ink)}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.stats-row{animation:fadeUp 0.5s ease 0.1s both}
-.dashboard-grid{animation:fadeUp 0.5s ease 0.2s both}
+/* PANELS */
+.panel{display:none}
+.panel.active{display:block}
+.panel-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:16px}
+.panel-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:800;color:var(--ink);margin-bottom:16px}
+
+/* ORDER / LIBRARY ITEMS */
+.item-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border)}
+.item-row:last-child{border-bottom:none}
+.item-thumb{width:44px;height:44px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.7rem;opacity:0.7}
+.pt-a{background:#1a1410}.pt-b{background:#0d1a14}.pt-c{background:#1a0d12}.pt-d{background:#111420}.pt-e{background:#14181a}.pt-f{background:#1a1518}
+.item-info{flex:1;min-width:0}
+.item-title{font-weight:600;font-size:0.875rem;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-meta{font-size:0.72rem;color:var(--muted);margin-top:2px}
+.item-price{font-family:'DM Mono',monospace;font-size:0.82rem;color:var(--ink);flex-shrink:0}
+.item-action{flex-shrink:0}
+.dl-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:var(--sage);color:#fff;border:none;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer;text-decoration:none}
+.dl-btn:hover{opacity:0.85}
+.item-badge{display:inline-flex;padding:3px 8px;border-radius:3px;font-size:0.62rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase}
+.badge-pdf{background:rgba(61,90,74,0.1);color:var(--sage)}
+.badge-print{background:rgba(123,31,46,0.1);color:var(--burgundy)}
+.badge-pending{background:rgba(196,154,42,0.1);color:#8a6a10}
+.badge-paid{background:rgba(61,90,74,0.1);color:var(--sage)}
+
+/* WISH LIST */
+.wish-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border)}
+.wish-item:last-child{border-bottom:none}
+.wish-remove{background:none;border:none;cursor:pointer;color:var(--muted);font-size:1rem;padding:4px;flex-shrink:0}
+.wish-remove:hover{color:#c44a2a}
+.add-to-cart-btn{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;background:var(--burgundy);color:#fff;border:none;border-radius:5px;font-size:0.75rem;font-weight:600;cursor:pointer}
+.add-to-cart-btn:hover{background:var(--burgundy-dark)}
+
+/* PO FORM */
+.po-form{padding:20px}
+.po-grid{display:grid;grid-template-columns:1fr;gap:14px}
+.po-label{font-size:0.78rem;font-weight:600;color:var(--ink);display:block;margin-bottom:5px}
+.po-input{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.9rem;background:var(--cream);color:var(--ink);outline:none;-webkit-appearance:none}
+.po-input:focus{border-color:var(--ink)}
+.po-submit{width:100%;padding:14px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:700;cursor:pointer;margin-top:8px}
+.po-submit:hover{background:var(--burgundy-dark)}
+.po-note{font-size:0.75rem;color:var(--muted);margin-top:10px;line-height:1.5}
+
+/* EMPTY STATE */
+.empty{padding:48px 20px;text-align:center;color:var(--muted)}
+.empty-icon{font-size:2rem;margin-bottom:10px}
+.empty-title{font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:6px}
+.empty-sub{font-size:0.82rem}
+.browse-btn{display:inline-flex;margin-top:16px;padding:10px 20px;background:var(--burgundy);color:#fff;border-radius:var(--r);font-size:0.85rem;font-weight:600;text-decoration:none}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:12px 20px;border-radius:var(--r);font-size:0.875rem;font-weight:500;z-index:500;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(min-width:768px){:root{--nav-h:68px}.nav{padding:0 40px}.nav-links-desk{display:flex;align-items:center;gap:24px;list-style:none}.nav-links-desk a{font-size:0.85rem;font-weight:500;color:var(--muted);text-decoration:none}.nav-links-desk a:hover{color:var(--ink)}.dashboard{padding:calc(var(--nav-h)+32px) 48px 64px}.stats-row{grid-template-columns:repeat(4,1fr)}.po-grid{grid-template-columns:1fr 1fr}}
+@media(min-width:1024px){.nav{padding:0 56px}.dashboard{max-width:900px;margin:0 auto;padding:calc(var(--nav-h)+32px) 48px 64px}}
 </style>
 </head>
 <body>
-
-<!-- TOP NAV -->
-<header class="top-nav">
-  <a class="nav-logo" href="index.html"><span>&#119070;</span> Lion and Lamb Publishing</a>
-  <div class="top-nav-right">
-    <button class="notif-btn">&#128276;<span class="notif-badge">3</span></button>
-    <a class="btn-primary" href="search.html">+ New Order</a>
-    <div class="user-chip">
-      <div class="user-avatar">RO</div>
-      <span class="user-name">Rachel O.</span>
-    </div>
+<nav class="nav">
+  <a class="nav-logo" href="index.html"><span class="nav-mark">&#119070;</span>Forte Music</a>
+  <ul class="nav-links-desk">
+    <li><a href="search.html">Sheet Music</a></li>
+    <li><a href="digital-downloads.html">Digital Downloads</a></li>
+    <li><a href="by-ensemble.html">By Ensemble</a></li>
+    <li><a href="for-directors.html">For Directors</a></li>
+  </ul>
+  <div class="nav-r">
+    <a class="nav-cart" href="cart.html" id="cart-nav">&#128722; Cart (0)</a>
   </div>
-</header>
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div style="padding:28px 20px 0">
-    <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.12em;color:rgba(196,154,42,0.5);font-weight:700;margin-bottom:4px">Director Portal</div>
-    <div style="font-size:0.78rem;color:rgba(247,243,236,0.3);font-weight:300">Lakewood Middle School</div>
-  </div>
-  <div style="margin-top:20px">
-    <div class="sidebar-section">
-      <div class="sidebar-label">Main</div>
-      <a class="sidebar-link active" href="#" onclick="showSection('overview')"><span class="sidebar-link-icon">&#9685;</span> Overview</a>
-      <a class="sidebar-link" href="search.html"><span class="sidebar-link-icon">&#127925;</span> Browse Music</a>
-      <a class="sidebar-link" href="cart.html"><span class="sidebar-link-icon">&#128722;</span> Cart<span class="sidebar-badge">2</span></a>
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">My Library</div>
-      <a class="sidebar-link" href="#" onclick="showSection('orders')"><span class="sidebar-link-icon">&#128230;</span> Orders</a>
-      <a class="sidebar-link" href="#" onclick="showSection('library')"><span class="sidebar-link-icon">&#128196;</span> Digital Library<span class="sidebar-badge">14</span></a>
-      <a class="sidebar-link" href="#" onclick="showSection('wishlist')"><span class="sidebar-link-icon">&#9825;</span> Wish List<span class="sidebar-badge">6</span></a>
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">School</div>
-      <a class="sidebar-link" href="#" onclick="showSection('po')"><span class="sidebar-link-icon">&#127979;</span> Purchase Orders<span class="sidebar-badge">2</span></a>
-      <a class="sidebar-link" href="#"><span class="sidebar-link-icon">&#128101;</span> Account Settings</a>
-      <a class="sidebar-link" href="#"><span class="sidebar-link-icon">&#10067;</span> Help &amp; Support</a>
-    </div>
-  </div>
-  <div class="sidebar-bottom">
-    <div class="sidebar-user">
-      <div class="sidebar-avatar">RO</div>
-      <div>
-        <div class="sidebar-user-name">Rachel Okonkwo</div>
-        <div class="sidebar-user-school">Band Director</div>
-      </div>
-    </div>
-  </div>
-</aside>
-
-<!-- MAIN CONTENT -->
-<main>
-
-  <!-- OVERVIEW SECTION -->
-  <div id="section-overview">
-    <div class="page-header">
-      <div>
-        <div class="page-eyebrow">Welcome back</div>
-        <h1 class="page-title">Director Dashboard</h1>
-        <p class="page-sub">Lakewood Middle School &middot; Spring 2026 Program</p>
-      </div>
-      <div class="header-actions">
-        <button style="font-family:'DM Sans',sans-serif;font-size:0.82rem;padding:8px 16px;border:1.5px solid var(--border);background:transparent;border-radius:6px;cursor:pointer;color:var(--ink);transition:all 0.2s" onmouseover="this.style.background='var(--parchment)'" onmouseout="this.style.background='transparent'">&#128196; Download Statement</button>
-        <a class="btn-primary" href="search.html">&#43; Shop Music</a>
-      </div>
-    </div>
-
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-label">Total Orders</div>
-        <div class="stat-value">24</div>
-        <div class="stat-delta up">&#8593; 6 this semester</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Digital Downloads</div>
-        <div class="stat-value">14</div>
-        <div class="stat-delta up">&#9889; Available now</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Total Spent</div>
-        <div class="stat-value">$1,284</div>
-        <div class="stat-delta neutral">This school year</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Open POs</div>
-        <div class="stat-value">2</div>
-        <div class="stat-delta neutral">Pending approval</div>
-      </div>
-    </div>
-
-    <div class="dashboard-grid">
-      <div>
-        <!-- RECENT ORDERS -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Recent Orders</span>
-            <a class="card-action" href="#">View all &#8594;</a>
-          </div>
-          <table class="orders-table">
-            <tr><th>Item</th><th>Date</th><th>Format</th><th>Status</th><th>Total</th></tr>
-            <tr>
-              <td><div class="order-title">Appalachian Dawn</div><div class="order-meta">arr. Marcus L. Hendricks &middot; Grade 4</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Mar 22, 2026</td>
-              <td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td>
-              <td><span class="status-pill status-shipped">Shipped</span></td>
-              <td class="order-price">$49.95</td>
-            </tr>
-            <tr>
-              <td><div class="order-title">Lux Perpetua</div><div class="order-meta">Elena V&aacute;squez-Muro &middot; SATB</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Mar 22, 2026</td>
-              <td><span style="font-size:0.72rem;background:rgba(61,90,74,0.1);padding:3px 8px;border-radius:3px;border:1px solid rgba(61,90,74,0.2);color:var(--sage)">PDF</span></td>
-              <td><span class="status-pill status-delivered">Delivered</span></td>
-              <td class="order-price">$4.95</td>
-            </tr>
-            <tr>
-              <td><div class="order-title">Elegy for a Quiet Morning</div><div class="order-meta">Samuel Haverford &middot; Grade 3</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Feb 14, 2026</td>
-              <td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td>
-              <td><span class="status-pill status-delivered">Delivered</span></td>
-              <td class="order-price">$54.95</td>
-            </tr>
-            <tr>
-              <td><div class="order-title">Blue Horizon Shuffle</div><div class="order-meta">arr. Terrence W. Cole &middot; Jazz</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Feb 2, 2026</td>
-              <td><span style="font-size:0.72rem;background:rgba(61,90,74,0.1);padding:3px 8px;border-radius:3px;border:1px solid rgba(61,90,74,0.2);color:var(--sage)">PDF</span></td>
-              <td><span class="status-pill status-delivered">Delivered</span></td>
-              <td class="order-price">$6.50</td>
-            </tr>
-            <tr>
-              <td><div class="order-title">Thunder Canyon March</div><div class="order-meta">Richard D. Summers &middot; Grade 2</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Jan 18, 2026</td>
-              <td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td>
-              <td><span class="status-pill status-delivered">Delivered</span></td>
-              <td class="order-price">$34.95</td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- PURCHASE ORDERS -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Purchase Orders</span>
-            <a class="card-action" href="cart.html">Submit new PO &#8594;</a>
-          </div>
-          <div class="tab-nav">
-            <button class="dash-tab active" onclick="switchDashTab('po-open',this)">Open (2)</button>
-            <button class="dash-tab" onclick="switchDashTab('po-closed',this)">Closed (8)</button>
-          </div>
-          <div class="tab-content active" id="tab-po-open">
-            <div class="po-item">
-              <div class="po-num">PO-2026-0034</div>
-              <div class="po-school">Lakewood SD Accounts Payable &middot; Submitted Mar 20</div>
-              <span class="status-pill status-pending" style="margin-right:12px">Pending</span>
-              <div class="po-amount">$312.80</div>
-            </div>
-            <div class="po-item">
-              <div class="po-num">PO-2026-0021</div>
-              <div class="po-school">Lakewood SD Accounts Payable &middot; Submitted Feb 28</div>
-              <span class="status-pill status-processing" style="margin-right:12px">Processing</span>
-              <div class="po-amount">$184.45</div>
-            </div>
-          </div>
-          <div class="tab-content" id="tab-po-closed">
-            <div style="padding:24px;text-align:center;color:var(--muted);font-size:0.85rem">8 completed purchase orders &middot; <a href="#" style="color:var(--burgundy)">Download history</a></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT COLUMN -->
-      <div class="right-col">
-
-        <!-- ACCOUNT CARD -->
-        <div class="account-card">
-          <div class="account-card-top">
-            <div class="account-name">Rachel Okonkwo</div>
-            <div class="account-school">Band Director &middot; Lakewood Middle School</div>
-            <div class="account-plan">&#9733; Director Pro Account</div>
-          </div>
-          <div class="account-stats">
-            <div class="acct-stat"><span class="acct-stat-val">24</span><span class="acct-stat-label">Orders</span></div>
-            <div class="acct-stat"><span class="acct-stat-val">14</span><span class="acct-stat-label">PDFs</span></div>
-            <div class="acct-stat"><span class="acct-stat-val">6</span><span class="acct-stat-label">Saved</span></div>
-          </div>
-        </div>
-
-        <!-- UPCOMING CONCERTS -->
-        <div class="card">
-          <div class="card-header"><span class="card-title">Upcoming Concerts</span><a class="card-action" href="#">Manage &#8594;</a></div>
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">Apr</span><span class="event-day">12</span></div>
-            <div class="event-info"><div class="event-title">Spring Concert</div><div class="event-desc">Lakewood Middle Auditorium &middot; 7:00 PM<br>Program: 4 pieces confirmed</div></div>
-          </div>
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">May</span><span class="event-day">3</span></div>
-            <div class="event-info"><div class="event-title">District Festival</div><div class="event-desc">Roosevelt High School &middot; TBD<br>Grade adjudication event</div></div>
-          </div>
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">Jun</span><span class="event-day">8</span></div>
-            <div class="event-info"><div class="event-title">End-of-Year Showcase</div><div class="event-desc">Lakewood Middle Auditorium &middot; 6:30 PM<br>All ensembles participating</div></div>
-          </div>
-        </div>
-
-        <!-- RECOMMENDATIONS -->
-        <div class="card">
-          <div class="card-header"><span class="card-title">Recommended for You</span></div>
-          <div class="rec-card" onclick="location.href='product.html'">
-            <div class="rec-thumb"><div class="rec-staff"><div></div><div></div><div></div><div></div><div></div></div></div>
-            <div class="rec-info"><div class="rec-ensemble">Concert Band &middot; Grade 4</div><div class="rec-title">Kestrel Rising</div><div class="rec-composer">Naomi Aldridge</div></div>
-            <span class="rec-price">$44.95</span>
-          </div>
-          <div class="rec-card" onclick="location.href='product.html'">
-            <div class="rec-thumb" style="background:#0d1a14"><div class="rec-staff"><div></div><div></div><div></div><div></div><div></div></div></div>
-            <div class="rec-info"><div class="rec-ensemble">Concert Band &middot; Grade 3</div><div class="rec-title">Maplewood Celebration</div><div class="rec-composer">arr. Carrie Fontaine</div></div>
-            <span class="rec-price">$38.50</span>
-          </div>
-          <div class="rec-card" onclick="location.href='product.html'">
-            <div class="rec-thumb" style="background:#1a0d12"><div class="rec-staff"><div></div><div></div><div></div><div></div><div></div></div></div>
-            <div class="rec-info"><div class="rec-ensemble">Concert Band &middot; Grade 4</div><div class="rec-title">Velocity Suite</div><div class="rec-composer">Omar Reyes-Blanco</div></div>
-            <span class="rec-price">$5.95</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LIBRARY SECTION -->
-  <div id="section-library" style="display:none">
-    <div class="page-header">
-      <div><div class="page-eyebrow">Digital Library</div><h1 class="page-title">My PDF Downloads</h1><p class="page-sub">14 files &middot; All licensed for single-ensemble use</p></div>
-      <a class="btn-primary" href="search.html">&#43; Add More</a>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">All Downloads</span><a class="card-action" href="#">&#8595; Download All</a></div>
-      <div class="library-list">
-        <div class="library-item"><div class="lib-icon"><div class="lib-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="lib-info"><div class="lib-title">Lux Perpetua</div><div class="lib-meta">Elena V&aacute;squez-Muro &middot; SATB &middot; Purchased Mar 22</div></div><button class="lib-download" title="Download">&#8595;</button></div>
-        <div class="library-item"><div class="lib-icon" style="background:#0d1a14"><div class="lib-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="lib-info"><div class="lib-title">Solar Winds</div><div class="lib-meta">Deborah Kim-Chen &middot; Concert Band &middot; Purchased Feb 20</div></div><button class="lib-download" title="Download">&#8595;</button></div>
-        <div class="library-item"><div class="lib-icon" style="background:#1a0d12"><div class="lib-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="lib-info"><div class="lib-title">Blue Horizon Shuffle</div><div class="lib-meta">arr. Terrence W. Cole &middot; Jazz &middot; Purchased Feb 2</div></div><button class="lib-download" title="Download">&#8595;</button></div>
-        <div class="library-item"><div class="lib-icon" style="background:#111420"><div class="lib-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="lib-info"><div class="lib-title">Velocity Suite</div><div class="lib-meta">Omar Reyes-Blanco &middot; Concert Band &middot; Purchased Jan 9</div></div><button class="lib-download" title="Download">&#8595;</button></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WISH LIST SECTION -->
-  <div id="section-wishlist" style="display:none">
-    <div class="page-header">
-      <div><div class="page-eyebrow">Saved Items</div><h1 class="page-title">Wish List</h1><p class="page-sub">6 items saved for later</p></div>
-      <a class="btn-primary" href="cart.html">&#128722; Add All to Cart</a>
-    </div>
-    <div class="card">
-      <div class="wish-item"><div class="wish-thumb" style="background:#1a1410;border-radius:5px"></div><div class="wish-info"><div class="wish-title">Kestrel Rising &mdash; Naomi Aldridge</div><div class="wish-price">$44.95 &middot; Concert Band Grade 3</div></div><button class="wish-add">+ Add to Cart</button></div>
-      <div class="wish-item"><div class="wish-thumb" style="background:#0d1a14;border-radius:5px"></div><div class="wish-info"><div class="wish-title">Rivers of Iron &mdash; Thomas E. Winslow</div><div class="wish-price">$64.95 &middot; Concert Band Grade 5</div></div><button class="wish-add">+ Add to Cart</button></div>
-      <div class="wish-item"><div class="wish-thumb" style="background:#1a0d12;border-radius:5px"></div><div class="wish-info"><div class="wish-title">Pastoral Suite No. 2 &mdash; Li Wei-Zhang</div><div class="wish-price">$57.95 &middot; Concert Band Grade 4</div></div><button class="wish-add">+ Add to Cart</button></div>
-      <div class="wish-item"><div class="wish-thumb" style="background:#111420;border-radius:5px"></div><div class="wish-info"><div class="wish-title">Maplewood Celebration &mdash; arr. Carrie Fontaine</div><div class="wish-price">$38.50 &middot; Concert Band Grade 2</div></div><button class="wish-add">+ Add to Cart</button></div>
-    </div>
-  </div>
-
-  <!-- ORDERS SECTION -->
-  <div id="section-orders" style="display:none">
-    <div class="page-header">
-      <div><div class="page-eyebrow">Order History</div><h1 class="page-title">All Orders</h1><p class="page-sub">24 orders since account creation</p></div>
-    </div>
-    <div class="card">
-      <table class="orders-table">
-        <tr><th>Order #</th><th>Item</th><th>Date</th><th>Format</th><th>Status</th><th>Total</th></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.78rem">#FM-8821</td><td><div class="order-title">Appalachian Dawn</div><div class="order-meta">Grade 4 &middot; arr. Hendricks</div></td><td style="font-size:0.8rem;color:var(--muted)">Mar 22</td><td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td><td><span class="status-pill status-shipped">Shipped</span></td><td class="order-price">$49.95</td></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.78rem">#FM-8820</td><td><div class="order-title">Lux Perpetua</div><div class="order-meta">SATB &middot; V&aacute;squez-Muro</div></td><td style="font-size:0.8rem;color:var(--muted)">Mar 22</td><td><span style="font-size:0.72rem;background:rgba(61,90,74,0.1);padding:3px 8px;border-radius:3px;border:1px solid rgba(61,90,74,0.2);color:var(--sage)">PDF</span></td><td><span class="status-pill status-delivered">Delivered</span></td><td class="order-price">$4.95</td></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.78rem">#FM-8756</td><td><div class="order-title">Elegy for a Quiet Morning</div><div class="order-meta">Grade 3 &middot; Haverford</div></td><td style="font-size:0.8rem;color:var(--muted)">Feb 14</td><td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td><td><span class="status-pill status-delivered">Delivered</span></td><td class="order-price">$54.95</td></tr>
-      </table>
-    </div>
-  </div>
-
-  <!-- PO SECTION -->
-  <div id="section-po" style="display:none">
-    <div class="page-header">
-      <div><div class="page-eyebrow">School Billing</div><h1 class="page-title">Purchase Orders</h1><p class="page-sub">Submit and track POs for your school district</p></div>
-      <a class="btn-primary" href="cart.html">&#43; Submit New PO</a>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">All Purchase Orders</span></div>
-      <table class="orders-table">
-        <tr><th>PO Number</th><th>District / Billing</th><th>Submitted</th><th>Status</th><th>Amount</th></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.82rem">PO-2026-0034</td><td><div class="order-title">Lakewood USD</div><div class="order-meta">Accounts Payable &middot; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b1d7d8dfd0dfd2d4f1ddd0dad4c6deded5c4c2d59fd4d5c4">[email&#160;protected]</a></div></td><td style="font-size:0.8rem;color:var(--muted)">Mar 20, 2026</td><td><span class="status-pill status-pending">Pending</span></td><td class="order-price">$312.80</td></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.82rem">PO-2026-0021</td><td><div class="order-title">Lakewood USD</div><div class="order-meta">Accounts Payable &middot; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7a1c13141b14191f3a161b111f0d15151e0f091e541f1e0f">[email&#160;protected]</a></div></td><td style="font-size:0.8rem;color:var(--muted)">Feb 28, 2026</td><td><span class="status-pill status-processing">Processing</span></td><td class="order-price">$184.45</td></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.82rem">PO-2025-0198</td><td><div class="order-title">Lakewood USD</div><div class="order-meta">Accounts Payable &middot; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="395f505758575a5c795558525c4e56565d4c4a5d175c5d4c">[email&#160;protected]</a></div></td><td style="font-size:0.8rem;color:var(--muted)">Nov 12, 2025</td><td><span class="status-pill status-delivered">Paid</span></td><td class="order-price">$228.00</td></tr>
-      </table>
-    </div>
-  </div>
-
-</main>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-function showSection(id){
-  ['overview','library','wishlist','orders','po'].forEach(function(s){
-    document.getElementById('section-'+s).style.display=s===id?'block':'none';
-  });
-  document.querySelectorAll('.sidebar-link').forEach(function(l){l="dash-section" id="section-wishlist">
-      <div class="page-head"><div><div class="page-eyebrow">Saved Items</div><h1 class="page-h">Wish List</h1><p class="page-sub">6 items saved</p></div><a class="btn-p" href="cart.html">&#128722; Add All</a></div>
-      <div class="card">
-        <div class="wish-item"><div class="wish-thumb" style="background:#1a1410;border-radius:4px"></div><div class="wish-info"><div class="wi-title">Kestrel Rising &mdash; Naomi Aldridge</div><div class="wi-price">$44.95 &middot; Band Gr.3</div></div><button class="wish-add">+ Cart</button></div>
-        <div class="wish-item"><div class="wish-thumb" style="background:#0d1a14;border-radius:4px"></div><div class="wish-info"><div class="wi-title">Rivers of Iron &mdash; T. E. Winslow</div><div class="wi-price">$64.95 &middot; Band Gr.5</div></div><button class="wish-add">+ Cart</button></div>
-        <div class="wish-item"><div class="wish-thumb" style="background:#1a0d12;border-radius:4px"></div><div class="wish-info"><div class="wi-title">Pastoral Suite No. 2 &mdash; Li Wei-Zhang</div><div class="wi-price">$57.95 &middot; Band Gr.4</div></div><button class="wish-add">+ Cart</button></div>
-        <div class="wish-item"><div class="wish-thumb" style="background:#111420;border-radius:4px"></div><div class="wish-info"><div class="wi-title">Maplewood Celebration &mdash; arr. Fontaine</div><div class="wi-price">$38.50 &middot; Band Gr.2</div></div><button class="wish-add">+ Cart</button></div>
-      </div>
-    </div>
-
-    <!-- ORDERS SECTION -->
-    <div class="dash-section" id="section-orders">
-      <div class="page-head"><div><div class="page-eyebrow">Order History</div><h1 class="page-h">All Orders</h1><p class="page-sub">24 orders total</p></div></div>
-      <div class="card">
-        <div class="orders-scroll">
-          <table class="orders-table">
-            <tr><th>Order #</th><th>Item</th><th>Date</th><th>Status</th><th>Total</th></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">#FM-8821</td><td><div class="o-title">Appalachian Dawn</div><div class="o-meta">Gr.4 Print</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Mar 22</td><td><span class="pill pill-shipped">Shipped</span></td><td class="o-price">$49.95</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">#FM-8820</td><td><div class="o-title">Lux Perpetua</div><div class="o-meta">SATB PDF</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Mar 22</td><td><span class="pill pill-delivered">Delivered</span></td><td class="o-price">$4.95</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">#FM-8756</td><td><div class="o-title">Elegy for a Quiet Morning</div><div class="o-meta">Gr.3 Print</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Feb 14</td><td><span class="pill pill-delivered">Delivered</span></td><td class="o-price">$54.95</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">#FM-8712</td><td><div class="o-title">Blue Horizon Shuffle</div><div class="o-meta">Jazz PDF</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Feb 2</td><td><span class="pill pill-delivered">Delivered</span></td><td class="o-price">$6.50</td></tr>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- PO SECTION -->
-    <div class="dash-section" id="section-po">
-      <div class="page-head"><div><div class="page-eyebrow">School Billing</div><h1 class="page-h">Purchase Orders</h1><p class="page-sub">Submit &amp; track POs</p></div><a class="btn-p" href="cart.html">+ New PO</a></div>
-      <div class="card">
-        <div class="orders-scroll">
-          <table class="orders-table">
-            <tr><th>PO Number</th><th>District</th><th>Submitted</th><th>Status</th><th>Amount</th></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">PO-2026-0034</td><td><div class="o-title">Lakewood USD</div><div class="o-meta">finance@lakewoodusd.edu</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Mar 20</td><td><span class="pill pill-pending">Pending</span></td><td class="o-price">$312.80</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">PO-2026-0021</td><td><div class="o-title">Lakewood USD</div><div class="o-meta">finance@lakewoodusd.edu</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Feb 28</td><td><span class="pill pill-processing">Processing</span></td><td class="o-price">$184.45</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">PO-2025-0198</td><td><div class="o-title">Lakewood USD</div><div class="o-meta">finance@lakewoodusd.edu</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Nov 12</td><td><span class="pill pill-delivered">Paid</span></td><td class="o-price">$228.00</td></tr>
-          </table>
-        </div>
-      </div>
-    </div>
-
-  </main>
-</div>
-
-<!-- BOTTOM TAB BAR (mobile) -->
-<nav class="bottom-bar" id="bottom-bar">
-  <button class="bb-tab active" id="tab-overview" onclick="showSection('overview',event,this)">
-    <span class="bb-icon">&#9685;</span>Overview
-  </button>
-  <button class="bb-tab" id="tab-orders" onclick="showSection('orders',event,this)">
-    <span class="bb-icon">&#128230;</span>Orders
-  </button>
-  <button class="bb-tab" id="tab-library" onclick="showSection('library',event,this)">
-    <span class="bb-icon">&#128196;</span>Library
-    <span class="bb-badge">14</span>
-  </button>
-  <button class="bb-tab" id="tab-wishlist" onclick="showSection('wishlist',event,this)">
-    <span class="bb-icon">&#9825;</span>Saved
-  </button>
-  <button class="bb-tab" id="tab-po" onclick="showSection('po',event,this)">
-    <span class="bb-icon">&#127979;</span>POs
-    <span class="bb-badge">2</span>
-  </button>
 </nav>
 
+<!-- LOGIN -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-icon">&#127979;</div>
+    <div class="login-title">Director Dashboard</div>
+    <p class="login-sub">Sign in with your Google account to access your order history, digital library, wish list, and purchase order tracker.</p>
+    <button class="google-btn" onclick="signInWithGoogle()">
+      <svg class="google-logo" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      Continue with Google
+    </button>
+    <p class="login-note">Your account is created automatically on first sign-in. We only store your name and email.</p>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+  <div class="dash-header">
+    <div>
+      <div class="dash-welcome" id="dash-welcome">Welcome back</div>
+      <div class="dash-sub" id="dash-sub">Director Dashboard</div>
+    </div>
+    <div class="user-pill">
+      <img class="user-avatar" id="user-avatar" src="" alt="">
+      <span class="user-name" id="user-name"></span>
+      <button class="sign-out-btn" onclick="signOut()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card"><div class="stat-label">Orders</div><div class="stat-val" id="stat-orders">0</div></div>
+    <div class="stat-card"><div class="stat-label">Downloads</div><div class="stat-val" id="stat-downloads">0</div></div>
+    <div class="stat-card"><div class="stat-label">Wish List</div><div class="stat-val" id="stat-wishlist">0</div></div>
+    <div class="stat-card"><div class="stat-label">Open POs</div><div class="stat-val" id="stat-pos">0</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('orders',this)">&#128203; Order History</button>
+    <button class="tab" onclick="switchTab('library',this)">&#128196; Digital Library</button>
+    <button class="tab" onclick="switchTab('wishlist',this)">&#9825; Wish List</button>
+    <button class="tab" onclick="switchTab('po',this)">&#127979; Purchase Orders</button>
+  </div>
+
+  <!-- ORDERS PANEL -->
+  <div class="panel active" id="panel-orders">
+    <div class="panel-title">Order History</div>
+    <div class="panel-card" id="orders-list">
+      <div class="empty"><div class="empty-icon">&#128203;</div><div class="empty-title">No orders yet</div><div class="empty-sub">Your completed orders will appear here.</div><a class="browse-btn" href="search.html">Browse Sheet Music</a></div>
+    </div>
+  </div>
+
+  <!-- LIBRARY PANEL -->
+  <div class="panel" id="panel-library">
+    <div class="panel-title">Digital Library</div>
+    <div class="panel-card" id="library-list">
+      <div class="empty"><div class="empty-icon">&#128196;</div><div class="empty-title">No digital purchases yet</div><div class="empty-sub">PDF scores you purchase will be available for download here, forever.</div><a class="browse-btn" href="digital-downloads.html">Browse Digital Scores</a></div>
+    </div>
+  </div>
+
+  <!-- WISH LIST PANEL -->
+  <div class="panel" id="panel-wishlist">
+    <div class="panel-title">Wish List</div>
+    <div class="panel-card" id="wishlist-list">
+      <div class="empty"><div class="empty-icon">&#9825;</div><div class="empty-title">Your wish list is empty</div><div class="empty-sub">Save scores you're considering for future programming.</div><a class="browse-btn" href="search.html">Browse Music</a></div>
+    </div>
+  </div>
+
+  <!-- PO PANEL -->
+  <div class="panel" id="panel-po">
+    <div class="panel-title">Purchase Orders</div>
+    <div class="panel-card" id="po-list" style="margin-bottom:20px">
+      <div class="empty"><div class="empty-icon">&#127979;</div><div class="empty-title">No purchase orders yet</div><div class="empty-sub">Submit a PO below to pay by school purchase order.</div></div>
+    </div>
+    <div class="panel-title">Submit a Purchase Order</div>
+    <div class="panel-card">
+      <div class="po-form">
+        <div class="po-grid">
+          <div><label class="po-label">School / District Name *</label><input class="po-input" id="po-school" type="text" placeholder="Lincoln Unified School District"></div>
+          <div><label class="po-label">PO Number *</label><input class="po-input" id="po-number" type="text" placeholder="PO-2026-0042"></div>
+          <div><label class="po-label">Billing Contact Email *</label><input class="po-input" id="po-email" type="email" placeholder="finance@district.edu"></div>
+          <div><label class="po-label">Order Amount ($) *</label><input class="po-input" id="po-amount" type="number" step="0.01" placeholder="149.95"></div>
+          <div style="grid-column:1/-1"><label class="po-label">Items Ordered</label><textarea class="po-input" id="po-items" rows="3" placeholder="List the titles and quantities you are ordering..."></textarea></div>
+          <div style="grid-column:1/-1"><label class="po-label">Additional Notes</label><input class="po-input" id="po-notes" type="text" placeholder="Expedited shipping requested, etc."></div>
+        </div>
+        <button class="po-submit" onclick="submitPO()">Submit Purchase Order &#8594;</button>
+        <p class="po-note">&#128274; Your PO will be reviewed within 1 business day. Digital scores are delivered immediately. Print orders ship within 24 hours of PO receipt.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <script>
-// Show/hide desktop sidebar on resize
-function applyLayout(){
-  var isDesk=window.innerWidth>=1024;
-  var bws=document.querySelector('.body-with-sidebar');
-  var sb=document.querySelector('.sidebar');
-  var bb=document.getElementById('bottom-bar');
-  var shopBtn=document.getElementById('shop-btn');
-  if(isDesk){
-    bws.style.display='grid';
-    sb.style.display='flex';
-    bb.style.display='none';
-    shopBtn.style.display='none';
-  } else {
-    bws.style.display='block';
-    sb.style.display='none';
-    bb.style.display='flex';
-    shopBtn.style.display='inline-flex';
-  }
-}
-applyLayout();
-window.addEventListener('resize',applyLayout);
+const CLIENT_ID = '765503198029-tvajij0aa9k6h6b4rikh0bmdj10frglo.apps.googleusercontent.com';
+let currentUser = null;
+let wishlist = JSON.parse(localStorage.getItem('forte-wishlist') || '[]');
+let orders = JSON.parse(localStorage.getItem('forte-orders') || '[]');
+let pos = JSON.parse(localStorage.getItem('forte-pos') || '[]');
+let cart = JSON.parse(localStorage.getItem('forte-cart') || '[]');
 
-function showSection(id, e, tabEl){
-  if(e) e.preventDefault();
-  // Hide all sections
-  document.querySelectorAll('.dash-section').forEach(function(s){s.classList.remove('active')});
-  document.getElementById('section-'+id).classList.add('active');
-  // Mobile tabs
-  document.querySelectorAll('.bb-tab').forEach(function(t){t.classList.remove('active')});
-  var mTab=document.getElementById('tab-'+id);
-  if(mTab) mTab.classList.add('active');
-  if(tabEl) tabEl.classList.add('active');
-  // Desktop sidebar links
-  document.querySelectorAll('.sb-link').forEach(function(l){
-    l.style.color='rgba(247,243,236,0.55)';
-    l.style.borderLeftColor='transparent';
-    l.style.background='transparent';
+function updateCartNav() {
+  document.getElementById('cart-nav').textContent = '\u{1F6D2} Cart (' + cart.length + ')';
+}
+updateCartNav();
+
+function signInWithGoogle() {
+  google.accounts.id.initialize({
+    client_id: CLIENT_ID,
+    callback: handleCredentialResponse,
+    auto_select: false,
+    cancel_on_tap_outside: true,
   });
-  // Scroll to top of main
-  window.scrollTo({top:0,behavior:'smooth'});
+  google.accounts.id.prompt((notification) => {
+    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+      google.accounts.id.renderButton(
+        document.createElement('div'),
+        { theme: 'outline', size: 'large' }
+      );
+      google.accounts.id.prompt();
+    }
+  });
 }
 
-function switchDTab(id,btn){
-  document.querySelectorAll('.dtab-content').forEach(function(t){t.classList.remove('active')});
-  document.querySelectorAll('.d-tab').forEach(function(b){b.classList.remove('active')});
-  document.getElementById('tab-'+id).classList.add('active');
-  btn.classList.add('active');
+function parseJwt(token) {
+  const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+  return JSON.parse(atob(base64));
 }
+
+function handleCredentialResponse(response) {
+  const payload = parseJwt(response.credential);
+  currentUser = { name: payload.name, email: payload.email, picture: payload.picture };
+  localStorage.setItem('forte-user', JSON.stringify(currentUser));
+  showDashboard();
+}
+
+function showDashboard() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  const firstName = currentUser.name.split(' ')[0];
+  document.getElementById('dash-welcome').textContent = 'Welcome back, ' + firstName;
+  document.getElementById('dash-sub').textContent = currentUser.email;
+  document.getElementById('user-name').textContent = currentUser.name;
+  document.getElementById('user-avatar').src = currentUser.picture;
+  renderAll();
+}
+
+function signOut() {
+  google.accounts.id.disableAutoSelect();
+  localStorage.removeItem('forte-user');
+  currentUser = null;
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('dashboard').style.display = 'none';
+}
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-' + tab).classList.add('active');
+}
+
+function getThumbClass(title) {
+  const h = title ? title.charCodeAt(0) % 6 : 0;
+  return ['pt-a','pt-b','pt-c','pt-d','pt-e','pt-f'][h];
+}
+
+function renderAll() {
+  renderOrders();
+  renderLibrary();
+  renderWishlist();
+  renderPOs();
+  updateStats();
+}
+
+function renderOrders() {
+  const el = document.getElementById('orders-list');
+  if (orders.length === 0) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">&#128203;</div><div class="empty-title">No orders yet</div><div class="empty-sub">Your completed orders will appear here.</div><a class="browse-btn" href="search.html">Browse Sheet Music</a></div>';
+    return;
+  }
+  el.innerHTML = orders.map(o => `
+    <div class="item-row">
+      <div class="item-thumb ${getThumbClass(o.title)}"></div>
+      <div class="item-info">
+        <div class="item-title">${o.title}</div>
+        <div class="item-meta">${o.date} &middot; <span class="item-badge ${o.format==='PDF'?'badge-pdf':'badge-print'}">${o.format||'Print'}</span></div>
+      </div>
+      <div class="item-price">${o.price ? '$'+parseFloat(o.price).toFixed(2) : ''}</div>
+    </div>`).join('');
+}
+
+function renderLibrary() {
+  const el = document.getElementById('library-list');
+  const digital = orders.filter(o => o.format === 'PDF' || o.format === 'Print + PDF Bundle');
+  if (digital.length === 0) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">&#128196;</div><div class="empty-title">No digital purchases yet</div><div class="empty-sub">PDF scores you purchase will appear here for re-download.</div><a class="browse-btn" href="digital-downloads.html">Browse Digital Scores</a></div>';
+    return;
+  }
+  el.innerHTML = digital.map(o => `
+    <div class="item-row">
+      <div class="item-thumb ${getThumbClass(o.title)}"></div>
+      <div class="item-info">
+        <div class="item-title">${o.title}</div>
+        <div class="item-meta">Purchased ${o.date}</div>
+      </div>
+      <div class="item-action">
+        ${o.pdf_url ? '<a class="dl-btn" href="'+o.pdf_url+'" target="_blank">&#8595; Download</a>' : '<span style="font-size:0.75rem;color:var(--muted)">Processing</span>'}
+      </div>
+    </div>`).join('');
+}
+
+function renderWishlist() {
+  const el = document.getElementById('wishlist-list');
+  if (wishlist.length === 0) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">&#9825;</div><div class="empty-title">Your wish list is empty</div><div class="empty-sub">Save scores you\'re considering for future programming.</div><a class="browse-btn" href="search.html">Browse Music</a></div>';
+    return;
+  }
+  el.innerHTML = wishlist.map((item, i) => `
+    <div class="wish-item">
+      <div class="item-thumb ${getThumbClass(item.title)}"></div>
+      <div class="item-info">
+        <div class="item-title">${item.title}</div>
+        <div class="item-meta">${item.ensemble || ''} ${item.grade ? '&middot; Grade '+item.grade : ''}</div>
+      </div>
+      <div class="item-price">${item.price ? '$'+parseFloat(item.price).toFixed(2) : ''}</div>
+      <button class="add-to-cart-btn" onclick="addToCartFromWish(${i})">+ Cart</button>
+      <button class="wish-remove" onclick="removeWish(${i})" title="Remove">&#215;</button>
+    </div>`).join('');
+}
+
+function renderPOs() {
+  const el = document.getElementById('po-list');
+  if (pos.length === 0) {
+    el.innerHTML = '<div class="empty"><div class="empty-icon">&#127979;</div><div class="empty-title">No purchase orders yet</div><div class="empty-sub">Submit a PO below to pay by school purchase order.</div></div>';
+    return;
+  }
+  el.innerHTML = pos.map(po => `
+    <div class="item-row">
+      <div class="item-info">
+        <div class="item-title">${po.school} &mdash; PO #${po.number}</div>
+        <div class="item-meta">Submitted ${po.date} &middot; $${parseFloat(po.amount).toFixed(2)}</div>
+      </div>
+      <span class="item-badge ${po.status==='paid'?'badge-paid':'badge-pending'}">${po.status||'Pending'}</span>
+    </div>`).join('');
+}
+
+function updateStats() {
+  document.getElementById('stat-orders').textContent = orders.length;
+  document.getElementById('stat-downloads').textContent = orders.filter(o => o.format === 'PDF' || o.format === 'Print + PDF Bundle').length;
+  document.getElementById('stat-wishlist').textContent = wishlist.length;
+  document.getElementById('stat-pos').textContent = pos.filter(p => p.status !== 'paid').length;
+}
+
+function addToCartFromWish(idx) {
+  const item = wishlist[idx];
+  cart.push({ id: item.id, title: item.title, price: item.price, format: item.format });
+  localStorage.setItem('forte-cart', JSON.stringify(cart));
+  updateCartNav();
+  showToast('Added to cart!');
+}
+
+function removeWish(idx) {
+  wishlist.splice(idx, 1);
+  localStorage.setItem('forte-wishlist', JSON.stringify(wishlist));
+  renderWishlist();
+  updateStats();
+}
+
+function submitPO() {
+  const school = document.getElementById('po-school').value.trim();
+  const number = document.getElementById('po-number').value.trim();
+  const email = document.getElementById('po-email').value.trim();
+  const amount = document.getElementById('po-amount').value.trim();
+  if (!school || !number || !email || !amount) { showToast('Please fill in all required fields'); return; }
+  const po = { school, number, email, amount, items: document.getElementById('po-items').value, notes: document.getElementById('po-notes').value, date: new Date().toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}), status: 'Pending' };
+  pos.unshift(po);
+  localStorage.setItem('forte-pos', JSON.stringify(pos));
+  ['po-school','po-number','po-email','po-amount','po-items','po-notes'].forEach(id => document.getElementById(id).value = '');
+  renderPOs();
+  updateStats();
+  showToast('Purchase order submitted!', 'success');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Check if already signed in
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('forte-user');
+  if (saved) {
+    currentUser = JSON.parse(saved);
+    showDashboard();
+  }
+  // Load any orders from completed cart sessions
+  const completedOrders = JSON.parse(localStorage.getItem('forte-completed-orders') || '[]');
+  if (completedOrders.length > 0) {
+    orders = [...completedOrders, ...orders];
+    localStorage.setItem('forte-orders', JSON.stringify(orders));
+    localStorage.removeItem('forte-completed-orders');
+  }
+});
 </script>
 </body>
 </html>
