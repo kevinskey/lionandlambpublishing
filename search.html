@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Concert Band — Forte Music</title>
+<title>Browse Sheet Music — Forte Music</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -12,7 +12,7 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5}
-.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(247,243,236,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(247,243,236,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
 .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none}
 .nav-mark{display:inline-flex;width:27px;height:27px;background:var(--burgundy);color:var(--cream);border-radius:4px;align-items:center;justify-content:center;font-size:0.9rem}
 .nav-r{display:flex;align-items:center;gap:8px}
@@ -26,376 +26,306 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .drawer{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:var(--cream);z-index:190;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;border-top:1px solid var(--border)}
 .drawer.open{transform:translateX(0)}
 .drawer-inner{padding:24px 20px 48px}
-.drawer-links{display:flex;flex-direction:column;gap:2px;margin-bottom:24px}
 .drawer-link{display:flex;align-items:center;padding:14px 16px;font-size:1rem;font-weight:500;color:var(--ink);border-radius:6px;text-decoration:none}
 .drawer-link:active{background:var(--parchment)}
 .d-icon{margin-right:12px;width:22px;text-align:center}
-.drawer-sep{height:1px;background:var(--border);margin:12px 0}
-
-/* PAGE HEADER */
-.page-top{padding:calc(var(--nav-h) + 20px) 16px 0}
-.breadcrumb{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:0.75rem;color:var(--muted);margin-bottom:20px}
+.page-top{padding:calc(var(--nav-h)+20px) 16px 0}
+.breadcrumb{display:flex;align-items:center;flex-wrap:wrap;gap:6px;font-size:0.75rem;color:var(--muted);margin-bottom:16px}
 .breadcrumb a{color:var(--muted);text-decoration:none}
-.breadcrumb a:hover{color:var(--ink)}
 .bc-sep{color:var(--border)}
-.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.page-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px}
 .page-h1{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;letter-spacing:-0.02em;color:var(--ink);margin-bottom:4px}
 .result-count{font-size:0.8rem;color:var(--muted)}
 .result-count strong{color:var(--ink)}
-.sort-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.sort-sel{font-family:'DM Sans',sans-serif;font-size:0.85rem;padding:9px 34px 9px 12px;border:1.5px solid var(--border);border-radius:6px;background:var(--cream);color:var(--ink);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6257' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-.view-tog{display:flex;border:1.5px solid var(--border);border-radius:6px;overflow:hidden}
-.v-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;font-size:0.9rem;color:var(--muted);transition:all 0.2s}
+.sort-row{display:flex;align-items:center;gap:8px}
+.sort-sel{font-family:'DM Sans',sans-serif;font-size:0.85rem;padding:9px 32px 9px 12px;border:1.5px solid var(--border);border-radius:6px;background:var(--cream);color:var(--ink);cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6257' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.v-tog{display:flex;border:1.5px solid var(--border);border-radius:6px;overflow:hidden}
+.v-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;cursor:pointer;font-size:0.9rem;color:var(--muted)}
 .v-btn.active{background:var(--ink);color:var(--cream)}
-
-/* FILTER BAR (mobile — horizontal scroll) */
-.filter-bar{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 0 12px;margin-bottom:8px}
+.search-bar{display:flex;gap:8px;margin-bottom:12px}
+.search-inp{flex:1;padding:12px 14px;border:1.5px solid var(--border);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.9rem;background:var(--cream);color:var(--ink);outline:none;min-width:0;-webkit-appearance:none}
+.search-inp:focus{border-color:var(--ink)}
+.filter-bar{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:12px}
 .filter-bar::-webkit-scrollbar{display:none}
-.fb-btn{flex-shrink:0;display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid var(--border);border-radius:100px;background:transparent;font-size:0.8rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.fb-btn{flex-shrink:0;padding:8px 14px;border:1.5px solid var(--border);border-radius:100px;background:transparent;font-size:0.8rem;font-weight:500;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all 0.2s}
 .fb-btn.active,.fb-btn:hover{background:var(--ink);border-color:var(--ink);color:var(--cream)}
-.fb-filters-btn{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1.5px solid var(--border);border-radius:100px;background:transparent;font-size:0.8rem;font-weight:600;color:var(--ink);cursor:pointer;flex-shrink:0}
-
-/* ACTIVE TAGS */
-.active-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
-.a-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;background:var(--parchment);border:1px solid var(--border);border-radius:100px;font-size:0.72rem;font-weight:500;color:var(--ink)}
-.a-tag button{background:none;border:none;cursor:pointer;color:var(--muted);font-size:0.85rem;line-height:1;padding:0;transition:color 0.2s}
-.a-tag button:hover{color:var(--burgundy)}
-.clear-all{font-size:0.75rem;font-weight:600;color:var(--burgundy);background:none;border:none;cursor:pointer;padding:0;white-space:nowrap;margin-left:4px;align-self:center}
-
-/* PRODUCTS GRID */
-.prods{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.prods{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 48px}
 .prods.list-view{grid-template-columns:1fr}
-.p-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.p-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all 0.2s}
 .p-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(15,13,10,0.1)}
 .p-thumb{height:130px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .pt-a{background:#1a1410}.pt-b{background:#0d1a14}.pt-c{background:#1a0d12}.pt-d{background:#111420}.pt-e{background:#14181a}.pt-f{background:#1a1518}
 .p-staff{width:75%;opacity:0.35}
 .p-staff div{height:1px;background:var(--cream);margin:8px 0}
 .p-badge{position:absolute;top:8px;left:8px;font-size:0.6rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px}
-.p-wish{position:absolute;top:8px;right:8px;width:30px;height:30px;background:rgba(247,243,236,0.9);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.85rem;transition:all 0.2s;opacity:0}
-.p-card:hover .p-wish{opacity:1}
-.p-wish.on{opacity:1;background:var(--burgundy);color:#fff}
 .p-body{padding:12px 13px}
 .p-ens{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--gold);font-weight:600;margin-bottom:4px}
 .p-title{font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--ink);line-height:1.25;margin-bottom:2px}
 .p-composer{font-size:0.72rem;color:var(--muted);margin-bottom:10px}
 .p-foot{display:flex;align-items:center;justify-content:space-between;padding-top:10px;border-top:1px solid var(--border)}
 .p-price{font-family:'DM Mono',monospace;font-size:0.9rem;font-weight:500;color:var(--ink)}
-.p-add{padding:7px 12px;background:var(--burgundy);color:#fff;border:none;border-radius:4px;font-size:0.78rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.p-add{padding:7px 12px;background:var(--burgundy);color:#fff;border:none;border-radius:4px;font-size:0.78rem;font-weight:600;cursor:pointer}
 .p-add:hover{background:var(--burgundy-dark)}
-
-/* LIST VIEW */
 .prods.list-view .p-card{display:flex;flex-direction:row;height:100px}
-.prods.list-view .p-thumb{width:120px;height:100%;flex-shrink:0;border-radius:0}
+.prods.list-view .p-thumb{width:120px;height:100%;flex-shrink:0}
 .prods.list-view .p-body{flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:space-between}
 .prods.list-view .p-composer{margin-bottom:0}
-.prods.list-view .p-foot{padding-top:8px}
-.prods.list-view .p-wish{opacity:1}
-
-/* FILTER SHEET (mobile) */
-.filter-sheet-overlay{position:fixed;inset:0;background:rgba(15,13,10,0.5);z-index:300;opacity:0;pointer-events:none;transition:opacity 0.3s}
-.filter-sheet-overlay.open{opacity:1;pointer-events:all}
-.filter-sheet{position:fixed;bottom:0;left:0;right:0;background:var(--cream);border-radius:16px 16px 0 0;z-index:310;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);max-height:85vh;overflow-y:auto}
-.filter-sheet.open{transform:translateY(0)}
-.fs-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 20px}
-.fs-header{display:flex;align-items:center;justify-content:space-between;padding:0 20px 16px;border-bottom:1px solid var(--border)}
-.fs-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--ink)}
-.fs-close{width:32px;height:32px;background:var(--parchment);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--muted)}
-.fs-body{padding:20px}
-.fs-section{margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)}
-.fs-section:last-child{border-bottom:none}
-.fs-label{font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
-.filter-opt{display:flex;align-items:center;gap:10px;padding:9px 0;cursor:pointer}
-.filter-opt input[type=checkbox]{appearance:none;-webkit-appearance:none;width:18px;height:18px;border:1.5px solid var(--border);border-radius:3px;cursor:pointer;flex-shrink:0;position:relative;transition:all 0.2s}
-.filter-opt input[type=checkbox]:checked{background:var(--burgundy);border-color:var(--burgundy)}
-.filter-opt input[type=checkbox]:checked::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:700}
-.filter-opt label{font-size:0.9rem;color:var(--ink);cursor:pointer;display:flex;justify-content:space-between;flex:1}
-.f-count{font-size:0.75rem;color:var(--muted)}
-.grade-pills{display:flex;flex-wrap:wrap;gap:8px}
-.g-pill{padding:7px 14px;border:1.5px solid var(--border);border-radius:100px;font-size:0.82rem;font-weight:600;cursor:pointer;background:transparent;color:var(--muted);transition:all 0.2s;-webkit-tap-highlight-color:transparent}
-.g-pill.active,.g-pill:hover{background:var(--ink);border-color:var(--ink);color:var(--cream)}
-.price-range{display:flex;flex-direction:column;gap:12px}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:var(--border);border-radius:2px;outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--burgundy);cursor:pointer}
-.price-inputs{display:flex;gap:10px;align-items:center}
-.p-inp{width:90px;padding:10px 12px;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--ink);background:var(--cream);outline:none;-webkit-appearance:none}
-.p-inp:focus{border-color:var(--ink)}
-.fs-actions{padding:16px 20px;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:10px;position:sticky;bottom:0;background:var(--cream)}
-
-/* PAGINATION */
-.pagination{display:flex;align-items:center;justify-content:center;gap:6px;padding:32px 0 24px}
-.pg-btn{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);border-radius:6px;background:transparent;cursor:pointer;font-family:'DM Mono',monospace;font-size:0.85rem;color:var(--muted);transition:all 0.2s;-webkit-tap-highlight-color:transparent}
-.pg-btn:hover{border-color:var(--ink);color:var(--ink)}
-.pg-btn.active{background:var(--ink);border-color:var(--ink);color:var(--cream)}
-
-/* QUICK PREVIEW MODAL */
-.modal-ov{position:fixed;inset:0;background:rgba(15,13,10,0.55);backdrop-filter:blur(4px);z-index:400;display:flex;align-items:flex-end;justify-content:center;padding:0;opacity:0;pointer-events:none;transition:opacity 0.3s}
+.loading{text-align:center;padding:60px 20px;color:var(--muted);font-size:0.9rem}
+.empty{text-align:center;padding:60px 20px}
+.empty-icon{font-size:2.5rem;margin-bottom:12px}
+.empty-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--ink);margin-bottom:6px}
+.empty-sub{font-size:0.85rem;color:var(--muted)}
+.modal-ov{position:fixed;inset:0;background:rgba(15,13,10,0.55);backdrop-filter:blur(4px);z-index:400;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s}
 .modal-ov.open{opacity:1;pointer-events:all}
 .modal{background:var(--cream);border-radius:16px 16px 0 0;width:100%;max-width:560px;transform:translateY(100%);transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);overflow:hidden}
 .modal-ov.open .modal{transform:translateY(0)}
 .m-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:12px auto 0}
-.m-score{height:160px;background:var(--ink);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;margin-top:12px}
-.ms-staff{width:78%;opacity:0.4}
+.m-score{height:140px;background:var(--ink);display:flex;align-items:center;justify-content:center;margin-top:12px;overflow:hidden}
+.ms-staff{width:78%;opacity:0.35}
 .ms-staff div{height:1px;background:var(--cream);margin:9px 0}
 .m-close{position:absolute;top:12px;right:12px;width:30px;height:30px;background:rgba(247,243,236,0.15);border:none;border-radius:50%;cursor:pointer;color:var(--cream);font-size:1.1rem;display:flex;align-items:center;justify-content:center}
 .m-body{padding:20px}
-.m-cat{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);font-weight:600;margin-bottom:5px}
-.m-title{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;letter-spacing:-0.02em;color:var(--ink);margin-bottom:3px}
-.m-composer{font-size:0.85rem;color:var(--muted);margin-bottom:16px}
-.m-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
-.mm-item{background:var(--parchment);border:1px solid var(--border);border-radius:6px;padding:10px 12px;text-align:center}
-.mm-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:600;display:block;margin-bottom:2px}
-.mm-val{font-size:0.88rem;font-weight:600;color:var(--ink)}
+.m-cat{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);font-weight:600;margin-bottom:4px}
+.m-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:800;color:var(--ink);margin-bottom:3px}
+.m-comp{font-size:0.85rem;color:var(--muted);margin-bottom:14px}
+.m-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.mm-item{background:var(--parchment);border:1px solid var(--border);border-radius:6px;padding:9px 10px;text-align:center}
+.mm-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-weight:600;display:block;margin-bottom:2px}
+.mm-val{font-size:0.85rem;font-weight:600;color:var(--ink)}
 .m-actions{display:grid;grid-template-columns:1fr 2fr;gap:10px}
-.btn-g{display:flex;align-items:center;justify-content:center;padding:13px;border:1.5px solid var(--border);background:transparent;border-radius:var(--r);font-size:0.88rem;font-weight:500;cursor:pointer;color:var(--ink);transition:all 0.2s;text-decoration:none;-webkit-tap-highlight-color:transparent}
-.btn-p{display:flex;align-items:center;justify-content:center;padding:13px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);font-size:0.88rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.btn-g{display:flex;align-items:center;justify-content:center;padding:13px;border:1.5px solid var(--border);background:transparent;border-radius:var(--r);font-size:0.88rem;font-weight:500;cursor:pointer;color:var(--ink);text-decoration:none}
+.btn-p{display:flex;align-items:center;justify-content:center;padding:13px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);font-size:0.88rem;font-weight:600;cursor:pointer}
 .btn-p:hover{background:var(--burgundy-dark)}
-
-/* DESKTOP UPGRADES */
-@media(min-width:768px){
-  :root{--nav-h:68px}
-  .nav{padding:0 40px}
-  .nav-links-desk{display:flex;align-items:center;gap:24px;list-style:none}
-  .nav-links-desk a{font-size:0.85rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s}
-  .nav-links-desk a:hover,.nav-links-desk a.active{color:var(--ink)}
-  .hamburger{display:none}
-  .drawer{display:none}
-  .page-top{padding:calc(var(--nav-h) + 24px) 48px 0}
-  .prods{grid-template-columns:repeat(3,1fr);gap:18px}
-  .prods.list-view{grid-template-columns:1fr}
-  .modal-ov{align-items:center}
-  .modal{border-radius:var(--r);max-width:500px}
-  .m-handle{display:none}
-  .m-score{margin-top:0}
-}
-@media(min-width:1024px){
-  .nav{padding:0 56px}
-  .page-top{padding:calc(var(--nav-h) + 28px) 72px 0}
-  .layout{display:grid;grid-template-columns:260px 1fr;align-items:start}
-  .sidebar-desk{display:block;position:sticky;top:calc(var(--nav-h) + 20px);border-right:1px solid var(--border);padding:28px 24px;max-height:calc(100vh - var(--nav-h) - 40px);overflow-y:auto}
-  .sidebar-desk::-webkit-scrollbar{width:4px}
-  .sidebar-desk::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-  .results-area{padding:0 0 0 40px}
-  .filter-bar{display:none}
-  .fb-filters-btn{display:none}
-  .prods{grid-template-columns:repeat(3,1fr)}
-}
+@media(min-width:768px){:root{--nav-h:68px}.nav{padding:0 40px}.nav-links-desk{display:flex;align-items:center;gap:24px;list-style:none}.nav-links-desk a{font-size:0.85rem;font-weight:500;color:var(--muted);text-decoration:none}.nav-links-desk a:hover{color:var(--ink)}.hamburger{display:none}.drawer{display:none}.page-top{padding:calc(var(--nav-h)+24px) 48px 0}.prods{grid-template-columns:repeat(3,1fr);gap:18px;padding:0 48px 56px}.modal-ov{align-items:center}.modal{border-radius:var(--r)}.m-handle{display:none}.m-score{margin-top:0}}
+@media(min-width:1024px){.nav{padding:0 56px}.page-top{padding:calc(var(--nav-h)+28px) 72px 0}.prods{padding:0 72px 64px}}
 </style>
 </head>
 <body>
 <nav class="nav">
-  <a class="nav-logo" href="music-store.html"><span class="nav-mark">&#119070;</span>Forte Music</a>
+  <a class="nav-logo" href="index.html"><span class="nav-mark">&#119070;</span>Forte Music</a>
   <ul class="nav-links-desk">
-    <li><a href="#" class="active">Sheet Music</a></li>
-    <li><a href="#">Digital Downloads</a></li>
-    <li><a href="#">By Ensemble</a></li>
-    <li><a href="#">For Directors</a></li>
+    <li><a href="search.html" class="active">Sheet Music</a></li>
+    <li><a href="digital-downloads.html">Digital Downloads</a></li>
+    <li><a href="by-ensemble.html">By Ensemble</a></li>
+    <li><a href="for-directors.html">For Directors</a></li>
   </ul>
   <div class="nav-r">
-    <a class="nav-cart" href="cart.html">&#128722; Cart (2)</a>
+    <a class="nav-cart" href="cart.html" id="cart-nav">&#128722; Cart (0)</a>
     <button class="hamburger" id="ham" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="drawer" id="drawer">
   <div class="drawer-inner">
-    <div class="drawer-links">
-      <a class="drawer-link" href="music-store.html"><span class="d-icon">&#127968;</span>Home</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#127925;</span>Sheet Music</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#9889;</span>Digital Downloads</a>
-      <a class="drawer-link" href="cart.html"><span class="d-icon">&#128722;</span>Cart (2)</a>
-      <a class="drawer-link" href="director-dashboard.html"><span class="d-icon">&#9685;</span>Director Dashboard</a>
-    </div>
+    <a class="drawer-link" href="index.html"><span class="d-icon">&#127968;</span>Home</a>
+    <a class="drawer-link" href="search.html"><span class="d-icon">&#127925;</span>Sheet Music</a>
+    <a class="drawer-link" href="digital-downloads.html"><span class="d-icon">&#9889;</span>Digital Downloads</a>
+    <a class="drawer-link" href="by-ensemble.html"><span class="d-icon">&#127932;</span>By Ensemble</a>
+    <a class="drawer-link" href="for-directors.html"><span class="d-icon">&#127979;</span>For Directors</a>
+    <a class="drawer-link" href="cart.html"><span class="d-icon">&#128722;</span>Cart</a>
   </div>
 </div>
 
 <div class="page-top">
-  <div class="breadcrumb"><a href="music-store.html">Home</a><span class="bc-sep">&#8250;</span><a href="#">Sheet Music</a><span class="bc-sep">&#8250;</span><span style="color:var(--ink);font-weight:500">Concert Band</span></div>
+  <div class="breadcrumb"><a href="index.html">Home</a><span class="bc-sep">&#8250;</span><span style="color:var(--ink);font-weight:500">Sheet Music</span></div>
   <div class="page-head">
-    <div><h1 class="page-h1">Concert Band</h1><p class="result-count">Showing <strong>1&ndash;9</strong> of <strong>18,412</strong></p></div>
+    <div><h1 class="page-h1">Browse Sheet Music</h1><p class="result-count" id="result-count">Loading...</p></div>
     <div class="sort-row">
-      <select class="sort-sel"><option>Best Match</option><option>Newest</option><option>Price: Low&ndash;High</option><option>Price: High&ndash;Low</option><option>Most Popular</option></select>
-      <div class="view-tog"><button class="v-btn active" id="grid-btn" onclick="setView('grid')">&#8862;</button><button class="v-btn" id="list-btn" onclick="setView('list')">&#8801;</button></div>
+      <select class="sort-sel" id="sort-sel" onchange="sortProducts()">
+        <option value="newest">Newest First</option>
+        <option value="price-asc">Price: Low&ndash;High</option>
+        <option value="price-desc">Price: High&ndash;Low</option>
+        <option value="title">Title A&ndash;Z</option>
+      </select>
+      <div class="v-tog"><button class="v-btn active" id="grid-btn" onclick="setView('grid')">&#8862;</button><button class="v-btn" id="list-btn" onclick="setView('list')">&#8801;</button></div>
     </div>
   </div>
-
-  <!-- MOBILE FILTER BAR -->
+  <div class="search-bar">
+    <input class="search-inp" type="text" id="search-inp" placeholder="Search by title or composer&hellip;" oninput="doSearch()">
+  </div>
   <div class="filter-bar">
-    <button class="fb-filters-btn" onclick="openFilters()">&#9776; Filters</button>
-    <button class="fb-btn active">All</button>
-    <button class="fb-btn">Grade 3</button>
-    <button class="fb-btn">Digital PDF</button>
-    <button class="fb-btn">Concert Band</button>
-    <button class="fb-btn">Grade 4</button>
-    <button class="fb-btn">Print</button>
-  </div>
-  <div class="active-tags" id="active-tags">
-    <span class="a-tag">Concert Band <button onclick="removeTag(this)">&#215;</button></span>
-    <span class="a-tag">Grade 3 <button onclick="removeTag(this)">&#215;</button></span>
-    <span class="a-tag">Digital PDF <button onclick="removeTag(this)">&#215;</button></span>
-    <button class="clear-all" onclick="clearTags()">Clear all</button>
+    <button class="fb-btn active" onclick="filterEnsemble('',this)">All</button>
+    <button class="fb-btn" onclick="filterEnsemble('Concert Band',this)">Concert Band</button>
+    <button class="fb-btn" onclick="filterEnsemble('SATB Choir',this)">Choral</button>
+    <button class="fb-btn" onclick="filterEnsemble('String Orchestra',this)">Orchestra</button>
+    <button class="fb-btn" onclick="filterEnsemble('Jazz Ensemble',this)">Jazz</button>
+    <button class="fb-btn" onclick="filterEnsemble('PDF',this)">Digital PDFs</button>
   </div>
 </div>
 
-<!-- LAYOUT SHELL -->
-<div class="layout">
-  <!-- DESKTOP SIDEBAR -->
-  <aside class="sidebar-desk" style="display:none">
-    <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)">
-      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Format</div>
-      <div class="filter-opt"><input type="checkbox" id="d-print" checked><label for="d-print">Print Score &amp; Parts <span class="f-count">12,840</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="d-pdf" checked><label for="d-pdf">Digital PDF <span class="f-count">8,910</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="d-both"><label for="d-both">Print + PDF Bundle <span class="f-count">4,210</span></label></div>
-    </div>
-    <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)">
-      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px">Grade Level</div>
-      <div class="grade-pills">
-        <button class="g-pill">&#189;</button><button class="g-pill">1</button><button class="g-pill">2</button><button class="g-pill active">3</button><button class="g-pill">4</button><button class="g-pill">5</button><button class="g-pill">6</button>
-      </div>
-    </div>
-    <div style="margin-bottom:24px;padding-bottom:24px;border-bottom:1px solid var(--border)">
-      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Price Range</div>
-      <div class="price-range">
-        <input type="range" min="0" max="200" value="120" oninput="document.getElementById('pmax').value='$'+this.value">
-        <div class="price-inputs"><input class="p-inp" id="pmin" value="$0"><span style="color:var(--muted)">—</span><input class="p-inp" id="pmax" value="$120"></div>
-      </div>
-    </div>
-    <div>
-      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px">Genre</div>
-      <div class="filter-opt"><input type="checkbox" id="d-orig" checked><label for="d-orig">Original Work <span class="f-count">5,100</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="d-pop" checked><label for="d-pop">Pop / Contemporary <span class="f-count">4,500</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="d-march"><label for="d-march">March <span class="f-count">3,200</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="d-film"><label for="d-film">Film / TV <span class="f-count">2,780</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="d-folk"><label for="d-folk">Folk / World <span class="f-count">1,840</span></label></div>
-    </div>
-  </aside>
-
-  <!-- RESULTS -->
-  <div class="results-area" style="padding:0 16px 48px">
-    <div class="prods" id="prods-grid">
-      <div class="p-card" onclick="openModal('Appalachian Dawn','arr. Marcus L. Hendricks','Concert Band · Grade 4','$49.95','4','6:30','Full Band')">
-        <div class="p-thumb pt-a"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div><span class="p-badge" style="background:var(--burgundy);color:#fff">Bestseller</span><button class="p-wish" onclick="event.stopPropagation();wishToggle(this)">&#9825;</button></div>
-        <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.4</div><div class="p-title">Appalachian Dawn</div><div class="p-composer">arr. Marcus L. Hendricks</div><div class="p-foot"><span class="p-price">$49.95</span><button class="p-add" onclick="event.stopPropagation()">+ Cart</button></div></div>
-      </div>
-      <div class="p-card" onclick="openModal('Elegy for a Quiet Morning','Samuel Haverford','Concert Band · Grade 3','$54.95','3','5:15','Full Band')">
-        <div class="p-thumb pt-b"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div><span class="p-badge" style="background:var(--gold);color:var(--ink)">New</span><button class="p-wish" onclick="event.stopPropagation();wishToggle(this)">&#9825;</button></div>
-        <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.3</div><div class="p-title">Elegy for a Quiet Morning</div><div class="p-composer">Samuel Haverford</div><div class="p-foot"><span class="p-price">$54.95</span><button class="p-add" onclick="event.stopPropagation()">+ Cart</button></div></div>
-      </div>
-      <div class="p-card" onclick="openModal('Solar Winds','Deborah Kim-Chen','Concert Band · Grade 3','$4.95','3','4:00','Full Band')">
-        <div class="p-thumb pt-c"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div><span class="p-badge" style="background:var(--sage);color:#fff">PDF</span><button class="p-wish" onclick="event.stopPropagation();wishToggle(this)">&#9825;</button></div>
-        <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.3</div><div class="p-title">Solar Winds</div><div class="p-composer">Deborah Kim-Chen</div><div class="p-foot"><span class="p-price">$4.95</span><button class="p-add" onclick="event.stopPropagation()">+ Cart</button></div></div>
-      </div>
-      <div class="p-card" onclick="openModal('Rivers of Iron','Thomas E. Winslow','Concert Band · Grade 5','$64.95','5','7:45','Wind Ensemble')">
-        <div class="p-thumb pt-d"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div><button class="p-wish" onclick="event.stopPropagation();wishToggle(this)">&#9825;</button></div>
-        <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.5</div><div class="p-title">Rivers of Iron</div><div class="p-composer">Thomas E. Winslow</div><div class="p-foot"><span class="p-price">$64.95</span><button class="p-add" onclick="event.stopPropagation()">+ Cart</button></div></div>
-      </div>
-      <div class="p-card" onclick="openModal('Maplewood Celebration','arr. Carrie Fontaine','Concert Band · Grade 2','$38.50','2','3:30','Full Band')">
-        <div class="p-thumb pt-e"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div><span class="p-badge" style="background:#c44a2a;color:#fff">Sale</span><button class="p-wish" onclick="event.stopPropagation();wishToggle(this)">&#9825;</button></div>
-        <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.2</div><div class="p-title">Maplewood Celebration</div><div class="p-composer">arr. Carrie Fontaine</div><div class="p-foot"><span class="p-price">$38.50</span><button class="p-add" onclick="event.stopPropagation()">+ Cart</button></div></div>
-      </div>
-      <div class="p-card" onclick="openModal('Kestrel Rising','Naomi Aldridge','Concert Band · Grade 3','$44.95','3','4:45','Full Band')">
-        <div class="p-thumb pt-f"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div><span class="p-badge" style="background:var(--burgundy);color:#fff">Bestseller</span><button class="p-wish" onclick="event.stopPropagation();wishToggle(this)">&#9825;</button></div>
-        <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.3</div><div class="p-title">Kestrel Rising</div><div class="p-composer">Naomi Aldridge</div><div class="p-foot"><span class="p-price">$44.95</span><button class="p-add" onclick="event.stopPropagation()">+ Cart</button></div></div>
-      </div>
-      <div class="p-card" onclick="openModal('Thunder Canyon March','Richard D. Summers','Concert Band · Grade 2','$34.95','2','2:45','Full Band')">
-        <div class="p-thumb pt-a"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div><span class="p-badge" style="background:var(--gold);color:var(--ink)">New</span><button class="p-wish" onclick="event.stopPropagation();wishToggle(this)">&#9825;</button></div>
-        <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.2</div><div class="p-title">Thunder Canyon March</div><div class="p-composer">Richard D. Summers</div><div class="p-foot"><span class="p-price">$34.95</span><button class="p-add" onclick="event.stopPropagation()">+ Cart</button></div></div>
-      </div>
-      <div class="p-card" onclick="openModal('Velocity Suite','Omar Reyes-Blanco','Concert Band · Grade 4','$5.95','4','5:00','Full Band')">
-        <div class="p-thumb pt-b"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div><span class="p-badge" style="background:var(--sage);color:#fff">PDF</span><button class="p-wish" onclick="event.stopPropagation();wishToggle(this)">&#9825;</button></div>
-        <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.4</div><div class="p-title">Velocity Suite</div><div class="p-composer">Omar Reyes-Blanco</div><div class="p-foot"><span class="p-price">$5.95</span><button class="p-add" onclick="event.stopPropagation()">+ Cart</button></div></div>
-      </div>
-      <div class="p-card" onclick="openModal('Pastoral Suite No. 2','Li Wei-Zhang','Concert Band · Grade 4','$57.95','4','8:10','Wind Ensemble')">
-        <div class="p-thumb pt-c"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div><button class="p-wish" onclick="event.stopPropagation();wishToggle(this)">&#9825;</button></div>
-        <div class="p-body"><div class="p-ens">Concert Band &middot; Gr.4</div><div class="p-title">Pastoral Suite No. 2</div><div class="p-composer">Li Wei-Zhang</div><div class="p-foot"><span class="p-price">$57.95</span><button class="p-add" onclick="event.stopPropagation()">+ Cart</button></div></div>
-      </div>
-    </div>
-    <div class="pagination">
-      <button class="pg-btn" disabled>&#8592;</button>
-      <button class="pg-btn active">1</button>
-      <button class="pg-btn">2</button>
-      <button class="pg-btn">3</button>
-      <span style="color:var(--muted);font-size:0.85rem;padding:0 2px">&#8230;</span>
-      <button class="pg-btn">1024</button>
-      <button class="pg-btn">&#8594;</button>
-    </div>
-  </div>
+<div class="prods" id="prods-grid">
+  <div class="loading" style="grid-column:1/-1">&#9836; Loading scores&hellip;</div>
 </div>
 
-<!-- FILTER SHEET (mobile) -->
-<div class="filter-sheet-overlay" id="fs-ov" onclick="closeFilters()"></div>
-<div class="filter-sheet" id="fs">
-  <div class="fs-handle"></div>
-  <div class="fs-header"><span class="fs-title">Filters</span><button class="fs-close" onclick="closeFilters()">&#215;</button></div>
-  <div class="fs-body">
-    <div class="fs-section">
-      <div class="fs-label">Format</div>
-      <div class="filter-opt"><input type="checkbox" id="m-print" checked><label for="m-print">Print Score &amp; Parts <span class="f-count">12,840</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="m-pdf" checked><label for="m-pdf">Digital PDF <span class="f-count">8,910</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="m-both"><label for="m-both">Print + PDF Bundle <span class="f-count">4,210</span></label></div>
-    </div>
-    <div class="fs-section">
-      <div class="fs-label">Grade Level</div>
-      <div class="grade-pills">
-        <button class="g-pill">&#189;</button><button class="g-pill">1</button><button class="g-pill">2</button><button class="g-pill active">3</button><button class="g-pill">4</button><button class="g-pill">5</button><button class="g-pill">6</button>
-      </div>
-    </div>
-    <div class="fs-section">
-      <div class="fs-label">Price Range</div>
-      <div class="price-range">
-        <input type="range" min="0" max="200" value="120">
-        <div class="price-inputs"><input class="p-inp" value="$0"><span style="color:var(--muted)">—</span><input class="p-inp" value="$120"></div>
-      </div>
-    </div>
-    <div class="fs-section">
-      <div class="fs-label">Genre</div>
-      <div class="filter-opt"><input type="checkbox" id="m-orig" checked><label for="m-orig">Original Work <span class="f-count">5,100</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="m-pop" checked><label for="m-pop">Pop / Contemporary <span class="f-count">4,500</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="m-march"><label for="m-march">March <span class="f-count">3,200</span></label></div>
-      <div class="filter-opt"><input type="checkbox" id="m-film"><label for="m-film">Film / TV <span class="f-count">2,780</span></label></div>
-    </div>
-  </div>
-  <div class="fs-actions">
-    <button class="btn-g" onclick="closeFilters()">Reset</button>
-    <button class="btn-p" onclick="closeFilters()">Show Results</button>
-  </div>
-</div>
-
-<!-- QUICK PREVIEW MODAL -->
+<!-- MODAL -->
 <div class="modal-ov" id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="modal">
+  <div class="modal" style="position:relative">
     <div class="m-handle"></div>
     <div class="m-score"><div class="ms-staff"><div></div><div></div><div></div><div></div><div></div></div><button class="m-close" onclick="closeModal()">&#215;</button></div>
     <div class="m-body">
       <div class="m-cat" id="m-cat"></div>
       <div class="m-title" id="m-title"></div>
-      <div class="m-composer" id="m-comp"></div>
+      <div class="m-comp" id="m-comp"></div>
       <div class="m-meta">
         <div class="mm-item"><span class="mm-label">Grade</span><span class="mm-val" id="m-grade"></span></div>
-        <div class="mm-item"><span class="mm-label">Duration</span><span class="mm-val" id="m-dur"></span></div>
-        <div class="mm-item"><span class="mm-label">Ensemble</span><span class="mm-val" id="m-ens"></span></div>
+        <div class="mm-item"><span class="mm-label">Format</span><span class="mm-val" id="m-format"></span></div>
+        <div class="mm-item"><span class="mm-label">Price</span><span class="mm-val" id="m-price"></span></div>
       </div>
       <div class="m-actions">
-        <a class="btn-g" href="product.html">Details</a>
-        <button class="btn-p" onclick="closeModal()">Add to Cart &mdash; <span id="m-price"></span></button>
+        <a class="btn-g" id="m-detail-link" href="product.html">Details</a>
+        <button class="btn-p" id="m-add-btn" onclick="addToCartFromModal()">Add to Cart</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-function toggleDrawer(){var d=document.getElementById('drawer'),h=document.getElementById('ham');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
-function setView(v){document.getElementById('prods-grid').classList.toggle('list-view',v==='list');document.getElementById('grid-btn').classList.toggle('active',v==='grid');document.getElementById('list-btn').classList.toggle('active',v==='list');}
-function wishToggle(b){b.classList.toggle('on');b.textContent=b.classList.contains('on')?'♥':'♡';}
-function openFilters(){document.getElementById('fs').classList.add('open');document.getElementById('fs-ov').classList.add('open');document.body.style.overflow='hidden';}
-function closeFilters(){document.getElementById('fs').classList.remove('open');document.getElementById('fs-ov').classList.remove('open');document.body.style.overflow='';}
-function openModal(t,c,cat,price,grade,dur,ens){document.getElementById('m-title').textContent=t;document.getElementById('m-comp').textContent=c;document.getElementById('m-cat').textContent=cat;document.getElementById('m-price').textContent=price;document.getElementById('m-grade').textContent=grade;document.getElementById('m-dur').textContent=dur;document.getElementById('m-ens').textContent=ens;document.getElementById('modal').classList.add('open');}
-function closeModal(){document.getElementById('modal').classList.remove('open');}
-function removeTag(b){b.closest('.a-tag').remove();}
-function clearTags(){document.getElementById('active-tags').querySelectorAll('.a-tag').forEach(function(t){t.remove()});}
-document.querySelectorAll('.g-pill').forEach(function(p){p.addEventListener('click',function(){document.querySelectorAll('.g-pill').forEach(function(x){x.classList.remove('active')});p.classList.add('active');});});
-// Show sidebar on desktop
-if(window.innerWidth>=1024){document.querySelector('.sidebar-desk').style.display='block';}
-window.addEventListener('resize',function(){if(window.innerWidth>=1024){document.querySelector('.sidebar-desk').style.display='block';}else{document.querySelector('.sidebar-desk').style.display='none';}});
+const API = 'https://lionandlambpublishing.com/api';
+let allProducts = [];
+let filteredProducts = [];
+let currentEnsemble = '';
+let currentSearch = '';
+let cart = JSON.parse(localStorage.getItem('forte-cart') || '[]');
+let modalProduct = null;
+
+function updateCartNav() {
+  document.getElementById('cart-nav').textContent = '&#128722; Cart (' + cart.length + ')';
+}
+updateCartNav();
+
+function getThumbClass(ensemble) {
+  if (!ensemble) return 'pt-f';
+  if (ensemble.includes('Band') || ensemble.includes('Wind') || ensemble.includes('March')) return 'pt-a';
+  if (ensemble.includes('Choir') || ensemble.includes('SATB') || ensemble.includes('Vocal')) return 'pt-b';
+  if (ensemble.includes('Orchestra') || ensemble.includes('String')) return 'pt-c';
+  if (ensemble.includes('Jazz')) return 'pt-d';
+  if (ensemble.includes('Piano')) return 'pt-e';
+  return 'pt-f';
+}
+
+function getLowestPrice(p) {
+  const prices = [p.price_print, p.price_pdf, p.price_bundle].filter(Boolean).map(Number);
+  if (prices.length === 0) return null;
+  return Math.min(...prices);
+}
+
+function renderProducts(products) {
+  const grid = document.getElementById('prods-grid');
+  document.getElementById('result-count').innerHTML = 'Showing <strong>' + products.length + '</strong> result' + (products.length !== 1 ? 's' : '');
+  if (products.length === 0) {
+    grid.innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">&#127925;</div><div class="empty-title">No scores found</div><div class="empty-sub">Try adjusting your search or filters.</div></div>';
+    return;
+  }
+  grid.innerHTML = products.map(p => {
+    const price = getLowestPrice(p);
+    const priceStr = price ? ('$' + price.toFixed(2)) : 'Contact';
+    const thumbClass = getThumbClass(p.ensemble);
+    const badgeHtml = p.format === 'PDF' ? '<span class="p-badge" style="background:var(--sage);color:#fff">PDF</span>' : '';
+    return '<div class="p-card" onclick="openModal(' + p.id + ')">' +
+      '<div class="p-thumb ' + thumbClass + '"><div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div>' + badgeHtml + '</div>' +
+      '<div class="p-body"><div class="p-ens">' + (p.ensemble || 'Sheet Music') + (p.grade ? ' &middot; Gr.' + p.grade : '') + '</div>' +
+      '<div class="p-title">' + p.title + '</div>' +
+      '<div class="p-composer">' + (p.composer || '') + '</div>' +
+      '<div class="p-foot"><span class="p-price">' + priceStr + '</span>' +
+      '<button class="p-add" onclick="event.stopPropagation();addToCart(' + p.id + ')">+ Cart</button></div></div></div>';
+  }).join('');
+}
+
+function applyFilters() {
+  let result = allProducts.filter(p => {
+    const matchEns = !currentEnsemble || p.ensemble === currentEnsemble || (currentEnsemble === 'PDF' && p.format === 'PDF');
+    const matchSearch = !currentSearch || p.title.toLowerCase().includes(currentSearch) || (p.composer && p.composer.toLowerCase().includes(currentSearch));
+    return matchEns && matchSearch;
+  });
+  const sort = document.getElementById('sort-sel').value;
+  if (sort === 'price-asc') result.sort((a,b) => (getLowestPrice(a)||999)-(getLowestPrice(b)||999));
+  else if (sort === 'price-desc') result.sort((a,b) => (getLowestPrice(b)||0)-(getLowestPrice(a)||0));
+  else if (sort === 'title') result.sort((a,b) => a.title.localeCompare(b.title));
+  filteredProducts = result;
+  renderProducts(result);
+}
+
+function filterEnsemble(ens, btn) {
+  currentEnsemble = ens;
+  document.querySelectorAll('.fb-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  applyFilters();
+}
+
+function doSearch() {
+  currentSearch = document.getElementById('search-inp').value.toLowerCase();
+  applyFilters();
+}
+
+function sortProducts() { applyFilters(); }
+
+function setView(v) {
+  document.getElementById('prods-grid').classList.toggle('list-view', v === 'list');
+  document.getElementById('grid-btn').classList.toggle('active', v === 'grid');
+  document.getElementById('list-btn').classList.toggle('active', v === 'list');
+}
+
+function openModal(id) {
+  const p = allProducts.find(x => x.id === id);
+  if (!p) return;
+  modalProduct = p;
+  document.getElementById('m-cat').textContent = (p.ensemble || 'Sheet Music') + (p.grade ? ' · Grade ' + p.grade : '');
+  document.getElementById('m-title').textContent = p.title;
+  document.getElementById('m-comp').textContent = p.composer || '';
+  document.getElementById('m-grade').textContent = p.grade || '—';
+  document.getElementById('m-format').textContent = p.format || '—';
+  const price = getLowestPrice(p);
+  document.getElementById('m-price').textContent = price ? '$' + price.toFixed(2) : '—';
+  document.getElementById('m-detail-link').href = 'product.html?id=' + p.id;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function addToCartFromModal() {
+  if (modalProduct) addToCart(modalProduct.id);
+  closeModal();
+}
+
+function addToCart(id) {
+  const p = allProducts.find(x => x.id === id);
+  if (!p) return;
+  cart.push({ id: p.id, title: p.title, price: getLowestPrice(p), format: p.format });
+  localStorage.setItem('forte-cart', JSON.stringify(cart));
+  updateCartNav();
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:8px;font-size:0.875rem;font-weight:500;z-index:500;box-shadow:0 8px 24px rgba(15,13,10,0.3)';
+  t.textContent = '&#10003; Added to cart!';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+function toggleDrawer() {
+  var d = document.getElementById('drawer'), h = document.getElementById('ham');
+  d.classList.toggle('open'); h.classList.toggle('open');
+  document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+}
+
+// Load products from API
+fetch(API + '/products')
+  .then(r => r.json())
+  .then(data => {
+    allProducts = data;
+    applyFilters();
+  })
+  .catch(() => {
+    document.getElementById('prods-grid').innerHTML = '<div class="empty" style="grid-column:1/-1"><div class="empty-icon">&#9888;</div><div class="empty-title">Could not load products</div><div class="empty-sub">Please try again later.</div></div>';
+  });
+
+// Check URL params for ensemble filter
+const urlParams = new URLSearchParams(window.location.search);
+const ensParam = urlParams.get('ensemble');
+if (ensParam) {
+  currentEnsemble = ensParam;
+  document.querySelectorAll('.fb-btn').forEach(b => {
+    if (b.textContent.trim() === ensParam) b.classList.add('active');
+    else b.classList.remove('active');
+  });
+}
 </script>
 </body>
 </html>
