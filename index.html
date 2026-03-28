@@ -277,7 +277,7 @@ footer{background:var(--ink);padding:48px 16px 32px}
     </div>
   </div>
   <div class="hero-right">
-    <div class="hero-card">
+    <div class="hero-card" id="hero-card">
       <div class="hero-card-score">
         <div class="hc-staff">
           <div><div class="hc-note" style="left:14%"></div></div>
@@ -290,19 +290,19 @@ footer{background:var(--ink);padding:48px 16px 32px}
         <div class="featured-label">&#9733; Featured Score</div>
       </div>
       <div class="hero-card-body">
-        <div class="hc-cat">Concert Band &middot; Grade 4</div>
-        <div class="hc-title">Appalachian Dawn</div>
-        <div class="hc-composer">arr. Marcus L. Hendricks</div>
+        <div class="hc-cat" id="hc-cat">Sheet Music</div>
+        <div class="hc-title" id="hc-title">Browse our catalog</div>
+        <div class="hc-composer" id="hc-composer">Lion &amp; Lamb Publishing</div>
         <div class="hc-footer">
-          <span class="hc-price">$49.95</span>
-          <button class="hc-btn">Add to Cart</button>
+          <span class="hc-price" id="hc-price"></span>
+          <a class="hc-btn" href="search.html" id="hc-btn">Browse Music</a>
         </div>
       </div>
     </div>
     <div class="hero-stats">
-      <div><span class="hs-num">85K+</span><span class="hs-label">Titles</span></div>
-      <div><span class="hs-num">14K+</span><span class="hs-label">Directors</span></div>
       <div><span class="hs-num">24hr</span><span class="hs-label">PDF Delivery</span></div>
+      <div><span class="hs-num">PO</span><span class="hs-label">Accepted</span></div>
+      <div><span class="hs-num">&#8734;</span><span class="hs-label">Re-downloads</span></div>
     </div>
   </div>
 </section>
@@ -358,23 +358,8 @@ footer{background:var(--ink);padding:48px 16px 32px}
     <button class="f-btn">Jazz</button>
     <button class="f-btn">Digital</button>
   </div>
-  <div class="prods-grid">
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-a"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--burgundy);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">Bestseller</span></div>
-      <div class="prod-body"><div class="prod-ens">Concert Band &middot; Gr.3</div><div class="prod-title">Elegy for a Quiet Morning</div><div class="prod-composer">Samuel Haverford</div><div class="prod-foot"><span class="prod-price">$54.95</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-b"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span></div>
-      <div class="prod-body"><div class="prod-ens">SATB Choir</div><div class="prod-title">Lux Perpetua</div><div class="prod-composer">Elena V&aacute;squez-Muro</div><div class="prod-foot"><span class="prod-price">$4.95</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-c"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--gold);color:var(--ink);font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">New</span></div>
-      <div class="prod-body"><div class="prod-ens">String Orch. &middot; Gr.2</div><div class="prod-title">Autumn Portraits</div><div class="prod-composer">Ji-Young Park</div><div class="prod-foot"><span class="prod-price">$39.95</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-d"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span></div>
-      <div class="prod-body"><div class="prod-ens">Jazz Ensemble</div><div class="prod-title">Blue Horizon Shuffle</div><div class="prod-composer">arr. T. W. Cole</div><div class="prod-foot"><span class="prod-price">$6.50</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
+  <div class="prods-grid" id="featured-grid">
+    <div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--muted);font-size:0.875rem">Loading scores&hellip;</div>
   </div>
 </div>
 
@@ -470,17 +455,108 @@ footer{background:var(--ink);padding:48px 16px 32px}
 </footer>
 
 <script>
+const API = 'https://lionandlambpublishing.com/api';
+let featuredProducts = [];
+let activeFilter = 'All';
+
+function getThumbClass(ensemble) {
+  if (!ensemble) return 'pt-f';
+  if (ensemble.includes('Band') || ensemble.includes('Wind')) return 'pt-a';
+  if (ensemble.includes('Choir') || ensemble.includes('SATB')) return 'pt-b';
+  if (ensemble.includes('Orchestra') || ensemble.includes('String')) return 'pt-c';
+  if (ensemble.includes('Jazz')) return 'pt-d';
+  if (ensemble.includes('Piano')) return 'pt-e';
+  return 'pt-f';
+}
+
+function getLowestPrice(p) {
+  const prices = [p.price_print, p.price_pdf, p.price_bundle].filter(Boolean).map(Number);
+  if (prices.length === 0) return null;
+  return Math.min(...prices);
+}
+
+function renderFeatured(products) {
+  const grid = document.getElementById('featured-grid');
+  if (!grid) return;
+  const display = products.slice(0, 4);
+  if (display.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--muted);font-size:0.875rem">No products yet — <a href=\"admin.html\" style=\"color:var(--burgundy)\">add some in the admin dashboard</a>.</div>';
+    return;
+  }
+  grid.innerHTML = display.map(p => {
+    const price = getLowestPrice(p);
+    const priceStr = price ? ('$' + price.toFixed(2)) : 'Contact';
+    const thumbClass = getThumbClass(p.ensemble);
+    const badgeHtml = p.format === 'PDF' ? '<span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span>' : '<span style="position:absolute;top:8px;left:8px;background:var(--gold);color:var(--ink);font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">New</span>';
+    return '<div class="prod-card" onclick="location.href=\'product.html?id=' + p.id + '\'">' +
+      '<div class="prod-thumb ' + thumbClass + '"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div>' + badgeHtml + '</div>' +
+      '<div class="prod-body"><div class="prod-ens">' + (p.ensemble || 'Sheet Music') + (p.grade ? ' &middot; Gr.' + p.grade : '') + '</div>' +
+      '<div class="prod-title">' + p.title + '</div>' +
+      '<div class="prod-composer">' + (p.composer || '') + '</div>' +
+      '<div class="prod-foot"><span class="prod-price">' + priceStr + '</span>' +
+      '<button class="prod-add" onclick="event.stopPropagation();addToCartHome(' + p.id + ')">+</button></div></div></div>';
+  }).join('');
+}
+
+function addToCartHome(id) {
+  const p = featuredProducts.find(x => x.id === id);
+  if (!p) return;
+  let cart = JSON.parse(localStorage.getItem('forte-cart') || '[]');
+  const price = getLowestPrice(p);
+  cart.push({ id: p.id, title: p.title, price, format: p.format });
+  localStorage.setItem('forte-cart', JSON.stringify(cart));
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:8px;font-size:0.875rem;font-weight:500;z-index:500;box-shadow:0 8px 24px rgba(15,13,10,0.3)';
+  t.textContent = '\u2713 Added to cart!';
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+
+function filterFeatured(filter, btn) {
+  activeFilter = filter;
+  document.querySelectorAll('.f-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (filter === 'All') { renderFeatured(featuredProducts); return; }
+  const map = { 'Concert Band': 'Band', 'Choral': 'Choir', 'Orchestra': 'Orchestra', 'Jazz': 'Jazz', 'Digital': 'PDF' };
+  const keyword = map[filter] || filter;
+  const filtered = featuredProducts.filter(p => {
+    if (filter === 'Digital') return p.format === 'PDF';
+    return p.ensemble && p.ensemble.includes(keyword);
+  });
+  renderFeatured(filtered);
+}
+
 function toggleDrawer(){
   var d=document.getElementById('drawer'),h=document.getElementById('ham');
   d.classList.toggle('open');h.classList.toggle('open');
   document.body.style.overflow=d.classList.contains('open')?'hidden':'';
 }
+
 document.querySelectorAll('.f-btn').forEach(function(b){
   b.addEventListener('click',function(){
-    document.querySelectorAll('.f-btn').forEach(function(x){x.classList.remove('active')});
-    b.classList.add('active');
+    filterFeatured(b.textContent.trim(), b);
   });
 });
+
+fetch(API + '/products')
+  .then(r => r.json())
+  .then(data => {
+    featuredProducts = data;
+    renderFeatured(data);
+    // Update hero card with first product
+    if (data.length > 0) {
+      const p = data[0];
+      const price = getLowestPrice(p);
+      document.getElementById('hc-cat').textContent = (p.ensemble || 'Sheet Music') + (p.grade ? ' · Grade ' + p.grade : '');
+      document.getElementById('hc-title').textContent = p.title;
+      document.getElementById('hc-composer').textContent = p.composer || '';
+      document.getElementById('hc-price').textContent = price ? '$' + price.toFixed(2) : '';
+      const btn = document.getElementById('hc-btn');
+      btn.href = 'product.html?id=' + p.id;
+      btn.textContent = 'View Score';
+    }
+  })
+  .catch(() => {});
 </script>
 </body>
 </html>
