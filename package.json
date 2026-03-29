@@ -1,0 +1,16 @@
+{
+  "name": "lion-and-lamb-publishing",
+  "version": "1.0.0",
+  "description": "Sheet Music & Digital Scores Publishing Platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["music", "sheet-music", "publishing"],
+  "author": "Kevin Johnson",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
