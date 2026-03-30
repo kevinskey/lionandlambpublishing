@@ -154,156 +154,177 @@ select.form-inp{appearance:none;-webkit-appearance:none;background-image:url("da
 </head>
 <body>
 <nav class="nav">
-  <a class="nav-logo" href="music-store.html"><span class="nav-mark">&#119070;</span>Lion and Lamb Publishing</a>
-  <div class="nav-right"><a href="music-store.html">&#8592; Continue Shopping</a> &nbsp;&#128274; Secure</div>
+  <a class="nav-logo" href="index.html"><span class="nav-mark">&#119070;</span>Lion and Lamb Publishing</a>
+  <div class="nav-right"><a href="search.html">&#8592; Continue Shopping</a> &nbsp;&#128274; Secure</div>
 </nav>
 
 <div class="steps">
-  <div class="step done"><span class="step-num">&#10003;</span>Cart</div>
+  <div class="step active"><span class="step-num">1</span>Cart</div>
   <div class="step-line"></div>
-  <div class="step active"><span class="step-num">2</span>Information</div>
+  <div class="step"><span class="step-num">2</span>Checkout</div>
   <div class="step-line"></div>
-  <div class="step"><span class="step-num">3</span>Shipping</div>
-  <div class="step-line"></div>
-  <div class="step"><span class="step-num">4</span>Payment</div>
+  <div class="step"><span class="step-num">3</span>Confirmation</div>
 </div>
 
-<div class="page">
-  <div class="checkout-layout">
-    <div>
-      <div class="section-h">Your Cart</div>
-      <div class="cart-items">
-        <div class="c-item" id="item1">
-          <div class="c-thumb" style="background:#1a1410"><div class="ct-lines"><div></div><div></div><div></div><div></div><div></div></div><div class="ct-badge" style="background:var(--burgundy);color:#fff">Print</div></div>
-          <div class="c-info">
-            <div class="ci-ens">Concert Band &middot; Grade 4</div>
-            <div class="ci-title">Appalachian Dawn</div>
-            <div class="ci-comp">arr. Marcus L. Hendricks</div>
-            <div class="ci-fmt">&#128220; Print Score &amp; Parts</div>
-            <div class="ci-row">
-              <div class="qty-ctrl"><button class="q-btn" onclick="chgQty(1,-1,49.95)">&#8722;</button><span class="q-num" id="q1">1</span><button class="q-btn" onclick="chgQty(1,1,49.95)">+</button></div>
-              <span class="ci-price" id="p1">$49.95</span>
-            </div>
-            <button class="remove-btn" onclick="removeItem('item1')">Remove</button>
-          </div>
-        </div>
-        <div class="c-item" id="item2">
-          <div class="c-thumb" style="background:#0d1a14"><div class="ct-lines"><div></div><div></div><div></div><div></div><div></div></div><div class="ct-badge" style="background:var(--sage);color:#fff">PDF</div></div>
-          <div class="c-info">
-            <div class="ci-ens">SATB Choir</div>
-            <div class="ci-title">Lux Perpetua</div>
-            <div class="ci-comp">Elena V&aacute;squez-Muro</div>
-            <div class="ci-fmt">&#9889; Digital PDF &mdash; Instant Download</div>
-            <div class="ci-row">
-              <div class="qty-ctrl"><button class="q-btn" onclick="chgQty(2,-1,4.95)">&#8722;</button><span class="q-num" id="q2">1</span><button class="q-btn" onclick="chgQty(2,1,4.95)">+</button></div>
-              <span class="ci-price" id="p2">$4.95</span>
-            </div>
-            <button class="remove-btn" onclick="removeItem('item2')">Remove</button>
-          </div>
+<!-- Empty state -->
+<div id="cart-empty" style="display:none;text-align:center;padding:60px 20px">
+  <div style="font-size:3rem;margin-bottom:16px">&#128722;</div>
+  <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;margin-bottom:8px">Your cart is empty</div>
+  <p style="color:var(--muted);margin-bottom:24px">Browse our catalog to find sheet music for your ensemble.</p>
+  <a href="search.html" style="display:inline-block;background:var(--burgundy);color:#fff;padding:14px 32px;border-radius:var(--r);font-weight:700;text-decoration:none">Browse Sheet Music &#8594;</a>
+</div>
+
+<div id="cart-content" style="display:none">
+  <div class="page">
+    <div class="checkout-layout">
+      <div>
+        <div class="section-h">Your Cart</div>
+        <div class="cart-items" id="cart-items"></div>
+
+        <div class="digital-notice" id="digital-notice" style="display:none"><span>&#9889;</span><div><strong style="display:block;margin-bottom:2px">Digital item in your cart</strong>PDF download links will be emailed immediately after checkout.</div></div>
+
+        <div class="po-section">
+          <div class="po-head"><span class="po-icon">&#127979;</span><div><div class="po-title">Paying by School Purchase Order?</div><div class="po-sub">Net 30 &middot; No credit card required</div></div></div>
+          <p class="po-desc">Approved school accounts can submit a purchase order and receive an invoice with Net 30 payment terms — no credit card needed.</p>
+          <a href="director-dashboard.html" style="display:inline-block;background:var(--ink);color:var(--cream);padding:11px 22px;border-radius:var(--r);font-size:0.875rem;font-weight:700;text-decoration:none">Submit a Purchase Order &#8594;</a>
         </div>
       </div>
 
-      <div class="digital-notice"><span>&#9889;</span><div><strong style="display:block;margin-bottom:2px">Digital item in your cart</strong>Lux Perpetua (PDF) will be available for download immediately after checkout.</div></div>
-
-      <div class="po-section">
-        <div class="po-head"><span class="po-icon">&#127979;</span><div><div class="po-title">Paying by School Purchase Order?</div><div class="po-sub">PO accepted for any order size</div></div></div>
-        <p class="po-desc">Upload your official PO or enter your PO number below. We'll invoice your school's billing department and ship immediately — no credit card required.</p>
-        <div class="po-drop" onclick="this.style.borderColor='var(--burgundy)'"><div class="po-drop-icon">&#128196;</div><div class="po-drop-text"><strong>Click to upload PO document</strong><br>PDF, Word, or image files accepted</div></div>
-        <div class="or-divider">— or enter manually —</div>
-        <div class="po-fields">
-          <input class="po-inp" type="text" placeholder="PO Number">
-          <input class="po-inp" type="text" placeholder="School District">
-          <input class="po-inp" type="text" placeholder="Billing Contact">
-          <input class="po-inp" type="email" placeholder="Billing Email">
+      <!-- ORDER SUMMARY -->
+      <div class="order-summary">
+        <div class="os-header"><div class="os-title">Order Summary</div><div class="os-count" id="os-count">0 items</div></div>
+        <div class="os-body">
+          <div id="os-lines"></div>
+          <div class="os-sep"></div>
+          <div class="os-line"><span class="os-label">Subtotal</span><span class="os-val" id="os-subtotal">$0.00</span></div>
+          <div class="os-line"><span class="os-label">Shipping &amp; tax</span><span class="os-val" style="font-size:0.78rem;color:var(--muted)">Calculated at checkout</span></div>
+          <div class="os-sep"></div>
+          <div class="os-total"><span class="os-tot-label">Est. Total</span><span class="os-tot-val" id="os-total">$0.00</span></div>
+          <button class="checkout-btn" id="checkout-btn" onclick="checkout()">Proceed to Checkout &#8594;</button>
+          <div id="checkout-err" style="text-align:center;font-size:0.75rem;color:#c44a2a;margin-top:8px;display:none"></div>
+          <div style="text-align:center;margin-top:10px;font-size:0.7rem;color:var(--muted)">Secure checkout powered by Stripe</div>
         </div>
-      </div>
-
-      <div style="margin-bottom:8px;font-size:0.78rem;font-weight:600;color:var(--ink)">Promo / Discount Code</div>
-      <div class="promo-row">
-        <input class="promo-inp" type="text" placeholder="Enter code (e.g. DIRECTOR20)" id="promo-inp">
-        <button class="apply-btn" onclick="applyPromo()">Apply</button>
-      </div>
-      <div class="promo-ok" id="promo-ok">&#10003; DIRECTOR20 applied &mdash; 20% off!</div>
-
-      <div class="form-sep"></div>
-      <div class="section-h" style="font-size:1.2rem">Contact &amp; Shipping</div>
-
-      <div class="form-section-title">Contact</div>
-      <div class="form-row two">
-        <div class="form-group"><label class="form-label">First Name</label><input class="form-inp" type="text" placeholder="Rachel"></div>
-        <div class="form-group"><label class="form-label">Last Name</label><input class="form-inp" type="text" placeholder="Okonkwo"></div>
-      </div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Email</label><input class="form-inp" type="email" placeholder="rachel@lakewoodschools.org"></div></div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Phone (optional)</label><input class="form-inp" type="tel" placeholder="(555) 000-0000"></div></div>
-
-      <div class="form-sep" style="margin:16px 0"></div>
-      <div class="form-section-title">Shipping Address</div>
-      <div class="form-row"><div class="form-group"><label class="form-label">School / Organization (optional)</label><input class="form-inp" type="text" placeholder="Lakewood Middle School"></div></div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Street Address</label><input class="form-inp" type="text" placeholder="1234 Elm Street"></div></div>
-      <div class="form-row three">
-        <div class="form-group"><label class="form-label">City</label><input class="form-inp" type="text" placeholder="Columbus"></div>
-        <div class="form-group"><label class="form-label">State</label><select class="form-inp"><option>OH</option><option>CA</option><option>TX</option><option>NY</option></select></div>
-        <div class="form-group"><label class="form-label">ZIP</label><input class="form-inp" type="text" placeholder="43215"></div>
-      </div>
-
-      <div class="form-sep" style="margin:16px 0"></div>
-      <div class="form-section-title">Shipping Method</div>
-      <div class="ship-opts">
-        <div class="ship-opt sel" onclick="selShip(this,'0.00')"><div class="ship-radio"><div class="ship-dot"></div></div><div class="ship-info"><div class="ship-name">Standard (3&ndash;5 days)</div><div class="ship-eta">Est. Apr 1&ndash;3, 2026</div></div><span class="ship-price">FREE</span></div>
-        <div class="ship-opt" onclick="selShip(this,'9.95')"><div class="ship-radio"><div class="ship-dot"></div></div><div class="ship-info"><div class="ship-name">Expedited (2 days)</div><div class="ship-eta">Est. Mar 31, 2026</div></div><span class="ship-price">$9.95</span></div>
-        <div class="ship-opt" onclick="selShip(this,'24.95')"><div class="ship-radio"><div class="ship-dot"></div></div><div class="ship-info"><div class="ship-name">Overnight</div><div class="ship-eta">Est. Mar 28, 2026</div></div><span class="ship-price">$24.95</span></div>
-      </div>
-
-      <div class="form-sep" style="margin:16px 0"></div>
-      <div class="form-section-title">Payment</div>
-      <div class="card-icons"><div class="card-icon">VISA</div><div class="card-icon">MC</div><div class="card-icon">AMEX</div><div class="card-icon">DISC</div><div class="card-icon">PayPal</div></div>
-      <div class="form-row"><div class="form-group"><label class="form-label">Card Number</label><input class="form-inp" type="text" placeholder="1234 5678 9012 3456" inputmode="numeric"></div></div>
-      <div class="form-row three">
-        <div class="form-group"><label class="form-label">Name on Card</label><input class="form-inp" type="text" placeholder="Rachel Okonkwo"></div>
-        <div class="form-group"><label class="form-label">Expiry</label><input class="form-inp" type="text" placeholder="MM/YY" inputmode="numeric"></div>
-        <div class="form-group"><label class="form-label">CVV</label><input class="form-inp" type="text" placeholder="123" inputmode="numeric"></div>
-      </div>
-      <div class="secure-badge">&#128274; Your payment info is encrypted and never stored on our servers.</div>
-    </div>
-
-    <!-- ORDER SUMMARY -->
-    <div class="order-summary">
-      <div class="os-header"><div class="os-title">Order Summary</div><div class="os-count">2 items</div></div>
-      <div class="os-body">
-        <div class="os-line"><span class="os-label">Appalachian Dawn (Print)</span><span class="os-val">$49.95</span></div>
-        <div class="os-line"><span class="os-label">Lux Perpetua (PDF)</span><span class="os-val">$4.95</span></div>
-        <div class="os-sep"></div>
-        <div class="os-line"><span class="os-label">Subtotal</span><span class="os-val" id="subtotal">$54.90</span></div>
-        <div class="os-line"><span class="os-label">Shipping</span><span class="os-val" id="ship-val">FREE</span></div>
-        <div class="os-line" id="promo-line" style="display:none"><span class="os-label" style="color:var(--sage)">Promo (20%)</span><span class="os-val" style="color:var(--sage)">-$10.98</span></div>
-        <div class="os-line"><span class="os-label">Tax (est.)</span><span class="os-val" id="tax-val">$4.94</span></div>
-        <div class="os-sep"></div>
-        <div class="os-total"><span class="os-tot-label">Total</span><span class="os-tot-val" id="total-val">$59.84</span></div>
-        <button class="checkout-btn" onclick="placeOrder()">Place Order &#8594;</button>
-        <div style="text-align:center;margin-top:10px;font-size:0.7rem;color:var(--muted)">By ordering you agree to our <a href="#" style="color:var(--burgundy)">Terms</a></div>
-      </div>
-      <div class="trust-mini">
-        <div class="tm-item">&#128274; SSL</div>
-        <div class="tm-item">&#128260; 30-day returns</div>
-        <div class="tm-item">&#9889; Instant PDF</div>
+        <div class="trust-mini">
+          <div class="tm-item">&#128274; SSL</div>
+          <div class="tm-item">&#128260; 30-day returns</div>
+          <div class="tm-item">&#9889; Instant PDF</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-var qtys={1:1,2:1},bases={1:49.95,2:4.95},shipping=0,promoApplied=false;
-function recalc(){var sub=qtys[1]*bases[1]+qtys[2]*bases[2];var tax=(sub+shipping)*0.09;var disc=promoApplied?sub*0.2:0;var total=sub+shipping+tax-disc;document.getElementById('subtotal').textContent='$'+sub.toFixed(2);document.getElementById('tax-val').textContent='$'+tax.toFixed(2);document.getElementById('total-val').textContent='$'+total.toFixed(2);document.getElementById('ship-val').textContent=shipping===0?'FREE':'$'+shipping.toFixed(2);}
-function chgQty(n,d,base){qtys[n]=Math.max(1,qtys[n]+d);document.getElementById('q'+n).textContent=qtys[n];document.getElementById('p'+n).textContent='$'+(qtys[n]*base).toFixed(2);recalc();}
-function removeItem(id){var el=document.getElementById(id);if(el){el.style.opacity='0';el.style.transform='translateX(-16px)';el.style.transition='all 0.3s';setTimeout(function(){el.remove();recalc();},300);}}
-function applyPromo(){var code=document.getElementById('promo-inp').value.trim().toUpperCase();if(code==='DIRECTOR20'){promoApplied=true;document.getElementById('promo-ok').style.display='block';document.getElementById('promo-line').style.display='flex';recalc();}}
-function selShip(el,price){document.querySelectorAll('.ship-opt').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel');shipping=parseFloat(price);recalc();}
-function placeOrder(){alert('Order placed! Your PDF is available now and print order ships within 1-2 days.');}
-recalc();
-// Row helpers
-document.querySelectorAll('.form-row.two').forEach(function(r){if(window.innerWidth>=480){r.style.flexDirection='row';}});
-document.querySelectorAll('.form-row.three').forEach(function(r){if(window.innerWidth>=600){r.style.flexDirection='row';}});
-window.addEventListener('resize',function(){document.querySelectorAll('.form-row.two').forEach(function(r){r.style.flexDirection=window.innerWidth>=480?'row':'column';});document.querySelectorAll('.form-row.three').forEach(function(r){r.style.flexDirection=window.innerWidth>=600?'row':'column';});});
+var API = 'https://lionandlambpublishing.com/api';
+var cartItems = [];
+
+function loadCart() {
+  var raw = JSON.parse(localStorage.getItem('lal_cart') || '[]');
+  var needFetch = raw.filter(function(i) { return !i.price_id; });
+  var ready = raw.filter(function(i) { return i.price_id; });
+  if (needFetch.length > 0) {
+    Promise.all(needFetch.map(function(item) {
+      return fetch(API + '/products/' + item.id)
+        .then(function(r) { return r.json(); })
+        .then(function(p) {
+          var price_id = p.stripe_price_pdf || p.stripe_price_print || p.stripe_price_bundle || '';
+          var format = p.stripe_price_pdf ? 'pdf' : (p.stripe_price_print ? 'print' : 'bundle');
+          var price = parseFloat(p.price_pdf || p.price_print || p.price_bundle || 0);
+          return { key: p.id + '_' + price_id, id: p.id, qty: item.qty, price_id: price_id, format: format, price: price, title: p.title, composer: p.composer, ensemble: p.ensemble };
+        });
+    })).then(function(fetched) {
+      cartItems = ready.concat(fetched);
+      localStorage.setItem('lal_cart', JSON.stringify(cartItems));
+      renderCart();
+    }).catch(function() { cartItems = ready; renderCart(); });
+  } else {
+    cartItems = ready;
+    renderCart();
+  }
+}
+
+function renderCart() {
+  if (cartItems.length === 0) {
+    document.getElementById('cart-empty').style.display = 'block';
+    document.getElementById('cart-content').style.display = 'none';
+    return;
+  }
+  document.getElementById('cart-empty').style.display = 'none';
+  document.getElementById('cart-content').style.display = 'block';
+  var hasPdf = cartItems.some(function(i) { return i.format === 'pdf' || i.format === 'bundle'; });
+  document.getElementById('digital-notice').style.display = hasPdf ? 'flex' : 'none';
+  document.getElementById('cart-items').innerHTML = cartItems.map(function(item, idx) {
+    var fmtLabel = item.format === 'pdf' ? '&#9889; Digital PDF &mdash; Instant Download' : (item.format === 'bundle' ? '&#128230; Print + Digital Bundle' : '&#128220; Print Score &amp; Parts');
+    var fmtBadge = item.format === 'pdf' ? 'PDF' : (item.format === 'bundle' ? 'Bundle' : 'Print');
+    var bgColor = item.format === 'pdf' ? '#0d1a14' : (item.format === 'bundle' ? '#111420' : '#1a1410');
+    var badgeColor = item.format === 'pdf' ? 'var(--sage)' : (item.format === 'bundle' ? '#3a4a6a' : 'var(--burgundy)');
+    return '<div class="c-item" id="ci-' + idx + '">'
+      + '<div class="c-thumb" style="background:' + bgColor + '"><div class="ct-lines"><div></div><div></div><div></div><div></div><div></div></div><div class="ct-badge" style="background:' + badgeColor + ';color:#fff">' + fmtBadge + '</div></div>'
+      + '<div class="c-info">'
+      + '<div class="ci-ens">' + (item.ensemble || '') + '</div>'
+      + '<div class="ci-title">' + item.title + '</div>'
+      + '<div class="ci-comp">' + (item.composer || '') + '</div>'
+      + '<div class="ci-fmt">' + fmtLabel + '</div>'
+      + '<div class="ci-row"><div class="qty-ctrl"><button class="q-btn" onclick="chgQty(' + idx + ',-1)">&#8722;</button><span class="q-num" id="qn-' + idx + '">' + item.qty + '</span><button class="q-btn" onclick="chgQty(' + idx + ',1)">+</button></div>'
+      + '<span class="ci-price" id="cp-' + idx + '">$' + (item.qty * item.price).toFixed(2) + '</span></div>'
+      + '<button class="remove-btn" onclick="removeItem(' + idx + ')">Remove</button>'
+      + '</div></div>';
+  }).join('');
+  updateSummary();
+}
+
+function chgQty(idx, d) {
+  cartItems[idx].qty = Math.max(1, cartItems[idx].qty + d);
+  document.getElementById('qn-' + idx).textContent = cartItems[idx].qty;
+  document.getElementById('cp-' + idx).textContent = '$' + (cartItems[idx].qty * cartItems[idx].price).toFixed(2);
+  localStorage.setItem('lal_cart', JSON.stringify(cartItems));
+  updateSummary();
+}
+
+function removeItem(idx) {
+  var el = document.getElementById('ci-' + idx);
+  if (el) { el.style.opacity = '0'; el.style.transform = 'translateX(-16px)'; el.style.transition = 'all 0.3s'; }
+  setTimeout(function() { cartItems.splice(idx, 1); localStorage.setItem('lal_cart', JSON.stringify(cartItems)); renderCart(); }, 300);
+}
+
+function updateSummary() {
+  var total = cartItems.reduce(function(s, i) { return s + i.qty * i.price; }, 0);
+  var count = cartItems.reduce(function(s, i) { return s + i.qty; }, 0);
+  document.getElementById('os-subtotal').textContent = '$' + total.toFixed(2);
+  document.getElementById('os-total').textContent = '$' + total.toFixed(2);
+  document.getElementById('os-count').textContent = count + (count === 1 ? ' item' : ' items');
+  document.getElementById('os-lines').innerHTML = cartItems.map(function(i) {
+    var fmt = i.format === 'pdf' ? 'PDF' : (i.format === 'bundle' ? 'Bundle' : 'Print');
+    return '<div class="os-line"><span class="os-label">' + i.title + ' (' + fmt + ')' + (i.qty > 1 ? ' x' + i.qty : '') + '</span><span class="os-val">$' + (i.qty * i.price).toFixed(2) + '</span></div>';
+  }).join('');
+}
+
+function checkout() {
+  if (cartItems.length === 0) return;
+  var btn = document.getElementById('checkout-btn');
+  var err = document.getElementById('checkout-err');
+  btn.textContent = 'Redirecting to Stripe...';
+  btn.disabled = true;
+  err.style.display = 'none';
+  fetch('/create-checkout-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ items: cartItems.map(function(i) { return { price_id: i.price_id, product_id: i.id, quantity: i.qty }; }) })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.url) { localStorage.removeItem('lal_cart'); window.location.href = data.url; }
+    else throw new Error(data.error || 'Checkout failed');
+  })
+  .catch(function(e) {
+    btn.textContent = 'Proceed to Checkout \u2192';
+    btn.disabled = false;
+    err.textContent = e.message || 'Something went wrong. Please try again.';
+    err.style.display = 'block';
+  });
+}
+
+loadCart();
 </script>
 </body>
 </html>

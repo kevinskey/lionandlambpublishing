@@ -284,24 +284,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
         <div class="m-cell"><span class="mc-label">Pages</span><span class="mc-val">48 + Score</span></div>
       </div>
       <span class="fmt-label">Choose Format</span>
-      <div class="fmt-opts">
-        <div class="fmt-opt sel" onclick="selectFmt(this,'49.95')">
-          <div class="fmt-l"><span class="fmt-name">Print Score &amp; Parts</span><span class="fmt-desc">Ships in 2&ndash;4 business days</span></div>
-          <span class="fmt-price">$49.95</span>
-          <div class="fmt-check">&#10003;</div>
-        </div>
-        <div class="fmt-opt" onclick="selectFmt(this,'6.95')">
-          <div class="fmt-l"><span class="fmt-name">Digital PDF</span><span class="fmt-desc">Instant download</span></div>
-          <span class="fmt-price">$6.95</span>
-          <div class="fmt-check">&#10003;</div>
-        </div>
-        <div class="fmt-opt" onclick="selectFmt(this,'54.95')">
-          <div class="fmt-l"><span class="fmt-name">Print + Digital Bundle <span style="font-size:0.68rem;color:var(--sage);font-weight:400">&mdash; Best Value</span></span><span class="fmt-desc">Print ships + instant PDF</span></div>
-          <span class="fmt-price">$54.95</span>
-          <div class="fmt-check">&#10003;</div>
-        </div>
-      </div>
-      <div class="price-big" id="price-disp">$49.95</div>
+      <div class="fmt-opts" id="fmt-opts"></div>
+      <div class="price-big" id="price-disp"></div>
       <!-- DESKTOP qty+add (hidden on mobile, replaced by sticky bar) -->
       <div style="display:flex;gap:10px;margin-bottom:12px" class="desktop-add">
         <div class="qty-ctrl"><button class="q-btn" onclick="changeQty(-1)">&#8722;</button><span class="q-disp" id="qty-d">1</span><button class="q-btn" onclick="changeQty(1)">+</button></div>
@@ -405,19 +389,73 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 <div class="toast" id="toast">&#10003;&nbsp; Added to cart!</div>
 
 <script>
-var cartCount=0,qty=1,playing=false,playInt=null,prog=0;
+var API='https://lionandlambpublishing.com/api';
+var product=null,selectedPriceId=null,selectedFormat=null,selectedPrice=0,qty=1,playing=false,playInt=null,prog=0;
+
 function toggleDrawer(){var d=document.getElementById('drawer'),h=document.getElementById('ham');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
-(function(){var wf=document.getElementById('waveform');var h=[20,35,60,80,55,90,70,45,85,65,40,75,50,88,60,72,42,66,80,55,38,70,85,50,65,78,44,90,58,72,35,68,80,46,60,88,52,74,40,86,62,70,48,82,56,76,38,64,88,50];h.forEach(function(v,i){var b=document.createElement('div');b.className='w-bar';b.style.height=v+'%';b.dataset.i=i;b.addEventListener('click',function(){prog=i/h.length;updateW(h);});wf.appendChild(b);});})();
-function updateW(h){var bars=document.querySelectorAll('.w-bar');var p=Math.floor(prog*bars.length);bars.forEach(function(b,i){b.classList.toggle('played',i<p)});var t=Math.floor(prog*390);document.getElementById('time-disp').textContent=Math.floor(t/60)+':'+(('0'+t%60).slice(-2))+' / 6:30';}
-function togglePlay(){playing=!playing;document.getElementById('play-btn').innerHTML=playing?'&#9646;&#9646;':'&#9654;';if(playing){playInt=setInterval(function(){prog+=1/390;if(prog>=1){prog=0;playing=false;clearInterval(playInt);document.getElementById('play-btn').innerHTML='&#9654;';}updateW([]);},1000);}else{clearInterval(playInt);}}
-function selectFmt(el,p){document.querySelectorAll('.fmt-opt').forEach(function(o){o.classList.remove('sel')});el.classList.add('sel');document.getElementById('price-disp').textContent='$'+p;document.getElementById('sticky-price').textContent='$'+p;}
+
+// Cart count
+function loadCartCount(){var cart=JSON.parse(localStorage.getItem('lal_cart')||'[]');var ct=cart.reduce(function(s,i){return s+i.qty;},0);var el=document.getElementById('cart-nav');if(el)el.innerHTML='&#128722; Cart ('+ct+')';}
+
+// Load product from API
+function loadProduct(){
+  var id=new URLSearchParams(window.location.search).get('id');
+  if(!id){return;}
+  fetch(API+'/products/'+id).then(function(r){return r.json();}).then(function(p){
+    product=p;
+    document.title=p.title+' \u2014 Lion and Lamb Publishing';
+    var fmts=[];
+    if(p.price_print&&parseFloat(p.price_print)>0) fmts.push({label:'Print Score & Parts',desc:'Ships in 2\u20134 business days',price:p.price_print,price_id:p.stripe_price_print,type:'print'});
+    if(p.price_pdf&&parseFloat(p.price_pdf)>0) fmts.push({label:'Digital PDF',desc:'Instant download',price:p.price_pdf,price_id:p.stripe_price_pdf,type:'pdf'});
+    if(p.price_bundle&&parseFloat(p.price_bundle)>0) fmts.push({label:'Print + Digital Bundle',desc:'Print ships + instant PDF',price:p.price_bundle,price_id:p.stripe_price_bundle,type:'bundle'});
+    var container=document.getElementById('fmt-opts');
+    container.innerHTML=fmts.map(function(f,i){
+      return '<div class="fmt-opt'+(i===0?' sel':'')+'" data-price="'+f.price+'" data-price-id="'+f.price_id+'" data-type="'+f.type+'" onclick="selectFmt(this)">'
+        +'<div class="fmt-l"><span class="fmt-name">'+f.label+'</span><span class="fmt-desc">'+f.desc+'</span></div>'
+        +'<span class="fmt-price">$'+parseFloat(f.price).toFixed(2)+'</span>'
+        +'<div class="fmt-check">&#10003;</div></div>';
+    }).join('');
+    if(fmts.length>0) selectFmt(container.firstChild);
+  }).catch(function(){console.error('Failed to load product');});
+}
+
+function selectFmt(el){
+  document.querySelectorAll('.fmt-opt').forEach(function(o){o.classList.remove('sel');});
+  el.classList.add('sel');
+  selectedPrice=parseFloat(el.dataset.price);
+  selectedPriceId=el.dataset.priceId;
+  selectedFormat=el.dataset.type;
+  document.getElementById('price-disp').textContent='$'+selectedPrice.toFixed(2);
+  document.getElementById('sticky-price').textContent='$'+selectedPrice.toFixed(2);
+}
+
 function changeQty(d){qty=Math.max(1,qty+d);document.getElementById('qty-d').textContent=qty;document.getElementById('qty-m').textContent=qty;}
-function addToCart(){cartCount++;document.getElementById('cart-nav').textContent='&#128722; Cart ('+cartCount+')';var t=document.getElementById('toast');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+
+function addToCart(){
+  if(!product||!selectedPriceId)return;
+  var cart=JSON.parse(localStorage.getItem('lal_cart')||'[]');
+  var key=product.id+'_'+selectedPriceId;
+  var idx=cart.findIndex(function(i){return i.key===key;});
+  if(idx>-1){cart[idx].qty+=qty;}
+  else{cart.push({key:key,id:product.id,qty:qty,price_id:selectedPriceId,format:selectedFormat,price:selectedPrice,title:product.title,composer:product.composer,ensemble:product.ensemble});}
+  localStorage.setItem('lal_cart',JSON.stringify(cart));
+  loadCartCount();
+  var t=document.getElementById('toast');t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);
+}
+
 function toggleWish(){var b=document.getElementById('wish-btn');b.classList.toggle('on');b.innerHTML=b.classList.contains('on')?'&#9829;':'&#9825;';}
-function switchTab(id,btn){document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
-// Hide desktop add on mobile
+function switchTab(id,btn){document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active');});document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});document.getElementById('tab-'+id).classList.add('active');btn.classList.add('active');}
+
+// Audio player
+(function(){var wf=document.getElementById('waveform');var h=[20,35,60,80,55,90,70,45,85,65,40,75,50,88,60,72,42,66,80,55,38,70,85,50,65,78,44,90,58,72,35,68,80,46,60,88,52,74,40,86,62,70,48,82,56,76,38,64,88,50];h.forEach(function(v,i){var b=document.createElement('div');b.className='w-bar';b.style.height=v+'%';b.addEventListener('click',function(){prog=i/h.length;updateW(h);});wf.appendChild(b);});})();
+function updateW(h){var bars=document.querySelectorAll('.w-bar');var p=Math.floor(prog*bars.length);bars.forEach(function(b,i){b.classList.toggle('played',i<p);});var t=Math.floor(prog*390);document.getElementById('time-disp').textContent=Math.floor(t/60)+':'+(('0'+t%60).slice(-2))+' / 6:30';}
+function togglePlay(){playing=!playing;document.getElementById('play-btn').innerHTML=playing?'&#9646;&#9646;':'&#9654;';if(playing){playInt=setInterval(function(){prog+=1/390;if(prog>=1){prog=0;playing=false;clearInterval(playInt);document.getElementById('play-btn').innerHTML='&#9654;';}updateW([]);},1000);}else{clearInterval(playInt);}}
+
 if(window.innerWidth<768){document.querySelector('.desktop-add').style.display='none';}
 window.addEventListener('resize',function(){document.querySelector('.desktop-add').style.display=window.innerWidth>=768?'flex':'none';});
+
+loadCartCount();
+loadProduct();
 </script>
 </body>
 </html>
