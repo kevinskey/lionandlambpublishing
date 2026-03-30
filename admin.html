@@ -26,7 +26,7 @@ body{font-family:'DM Sans',sans-serif;background:#f0ece4;color:var(--ink);min-he
 .tb-logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;color:#fff;display:flex;align-items:center;gap:8px}
 .tb-logo span{display:inline-flex;width:26px;height:26px;background:var(--burgundy);color:#fff;border-radius:4px;align-items:center;justify-content:center;font-size:0.8rem}
 .tb-right{display:flex;align-items:center;gap:12px}
-.tb-badge{font-size:0.72rem;color:rgba(247,243,236,0.5);font-family:'DM Mono',monospace}
+.tb-badge{font-size:0.72rem;color:rgba(247,243,236,0.5);font-family:"DM Mono",monospace}
 .tb-logout{font-size:0.8rem;color:rgba(247,243,236,0.5);background:none;border:none;cursor:pointer}
 .tb-logout:hover{color:#fff}
 .tab-btn{padding:8px 18px;background:transparent;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all 0.2s}
@@ -81,7 +81,7 @@ select.form-input{appearance:none;-webkit-appearance:none;background-image:url("
 .fb-item.selected{background:rgba(123,31,46,0.06)}
 .fb-icon{font-size:1.2rem;flex-shrink:0;width:24px;text-align:center}
 .fb-name{font-size:0.85rem;color:var(--ink);font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.fb-size{font-size:0.72rem;color:var(--muted);font-family:'DM Mono',monospace;flex-shrink:0}
+.fb-size{font-size:0.72rem;color:var(--muted);font-family:"DM Mono",monospace;flex-shrink:0}
 .fb-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
 .fb-empty{padding:40px;text-align:center;color:var(--muted);font-size:0.875rem}
 .fb-loading{padding:40px;text-align:center;color:var(--muted);font-size:0.875rem}
@@ -96,7 +96,7 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(237,230,214,0.4)}
 .td-title{font-weight:600}
 .td-composer{font-size:0.75rem;color:var(--muted)}
-.td-price{font-family:'DM Mono',monospace;font-size:0.82rem}
+.td-price{font-family:"DM Mono",monospace;font-size:0.82rem}
 .td-badge{display:inline-flex;padding:3px 8px;border-radius:3px;font-size:0.62rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase}
 .badge-band{background:rgba(123,31,46,0.1);color:var(--burgundy)}
 .badge-choir{background:rgba(61,90,74,0.1);color:var(--sage)}
@@ -682,7 +682,7 @@ function loadCoupons() {
           ? '<span style="color:#2d6a4f;font-weight:600;font-size:0.8rem">Active</span>'
           : '<span style="color:var(--muted);font-size:0.8rem">Inactive</span>';
         return '<tr>'
-          + '<td><strong style="font-family:'DM Mono',monospace">' + c.code + '</strong></td>'
+          + '<td><strong style="font-family:\'DM Mono\',monospace">' + c.code + '</strong></td>'
           + '<td>' + c.discount + '</td>'
           + '<td>' + (c.times_redeemed || 0) + '</td>'
           + '<td>' + (c.max_redemptions || '∞') + '</td>'
@@ -815,9 +815,9 @@ function loadInvoices() {
         if (inv.invoice_pdf) actions += '<a href="' + inv.invoice_pdf + '" target="_blank" style="color:var(--muted);font-size:0.8rem;margin-right:8px">PDF</a>';
         if (inv.status === 'open') actions += '<button class="tb-logout" style="font-size:0.78rem;color:var(--muted)" onclick="resendInvoice(\'' + inv.id + '\')">Resend</button> ';
         if (inv.status !== 'void' && inv.status !== 'paid') actions += '<button class="tb-logout" style="font-size:0.78rem;color:#c44a2a" onclick="voidInvoice(\'' + inv.id + '\')">Void</button>';
-        return '<tr><td><span style="font-family:'DM Mono',monospace;font-size:0.8rem">' + (inv.number || inv.id.slice(-6)) + '</span></td>'
+        return '<tr><td><span style="font-family:\'DM Mono\',monospace;font-size:0.8rem">' + (inv.number || inv.id.slice(-6)) + '</span></td>'
           + '<td><div style="font-weight:600;font-size:0.88rem">' + (inv.customer_name || '') + '</div><div style="color:var(--muted);font-size:0.78rem">' + (inv.customer_email || '') + '</div></td>'
-          + '<td style="font-family:'DM Mono',monospace">' + amount + '</td>'
+          + '<td style="font-family:\'DM Mono\',monospace">' + amount + '</td>'
           + '<td>' + due + '</td>'
           + '<td>' + status + '</td>'
           + '<td>' + actions + '</td></tr>';
@@ -853,7 +853,7 @@ function loadSchools() {
       var statusColor = { pending: '#c49a2a', approved: '#2d6a4f', denied: '#c44a2a' };
       tbody.innerHTML = data.map(s => {
         var status = '<span style="font-weight:700;font-size:0.78rem;color:' + (statusColor[s.status]||'#666') + '">' + s.status.toUpperCase() + '</span>';
-        var code = s.account_code ? '<span style="font-family:'DM Mono',monospace;font-size:0.78rem">' + s.account_code + '</span>' : '—';
+        var code = s.account_code ? '<span style="font-family:\'DM Mono\',monospace;font-size:0.78rem">' + s.account_code + '</span>' : '—';
         var actions = '';
         if (s.status === 'pending') {
           actions = '<button class="btn-p" style="font-size:0.75rem;padding:5px 12px;margin-right:6px" onclick="approveSchool(' + s.id + ')">Approve</button>'
