@@ -230,12 +230,12 @@ footer{background:var(--ink);padding:48px 16px 32px}
 
 <!-- NAV -->
 <nav class="nav">
-  <a class="nav-logo" href="#"><span class="nav-mark">&#119070;</span>Lion and Lamb Publishing</a>
+  <a class="nav-logo" href="index.html"><span class="nav-mark">&#119070;</span>Lion and Lamb Publishing</a>
   <ul class="nav-links-desk">
     <li><a href="search.html">Sheet Music</a></li>
-    <li><a href="#">Digital Downloads</a></li>
-    <li><a href="#">By Ensemble</a></li>
-    <li><a href="#">For Directors</a></li>
+    <li><a href="digital-downloads.html">Digital Downloads</a></li>
+    <li><a href="by-ensemble.html">By Ensemble</a></li>
+    <li><a href="for-directors.html">For Directors</a></li>
   </ul>
   <div class="nav-r">
     <a class="nav-cart" href="cart.html">&#128722; Cart (0)</a>
@@ -250,10 +250,10 @@ footer{background:var(--ink);padding:48px 16px 32px}
   <div class="drawer-inner">
     <div class="drawer-links">
       <a class="drawer-link" href="search.html"><span class="d-icon">&#127925;</span>Sheet Music</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#9889;</span>Digital Downloads</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#127932;</span>By Ensemble</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#127979;</span>For Directors</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#10024;</span>New Arrivals</a>
+      <a class="drawer-link" href="digital-downloads.html"><span class="d-icon">&#9889;</span>Digital Downloads</a>
+      <a class="drawer-link" href="by-ensemble.html"><span class="d-icon">&#127932;</span>By Ensemble</a>
+      <a class="drawer-link" href="for-directors.html"><span class="d-icon">&#127979;</span>For Directors</a>
+      <a class="drawer-link" href="search.html"><span class="d-icon">&#10024;</span>New Arrivals</a>
     </div>
     <div class="drawer-sep"></div>
     <div class="drawer-ctas">
@@ -294,13 +294,13 @@ footer{background:var(--ink);padding:48px 16px 32px}
         <div class="hc-clef">&#119074;</div>
         <div class="featured-label">&#9733; Featured Score</div>
       </div>
-      <div class="hero-card-body">
-        <div class="hc-cat">Concert Band &middot; Grade 4</div>
-        <div class="hc-title">Appalachian Dawn</div>
-        <div class="hc-composer">arr. Marcus L. Hendricks</div>
+      <div class="hero-card-body" id="featured-card-body">
+        <div class="hc-cat" id="featured-cat">Loading…</div>
+        <div class="hc-title" id="featured-title">&nbsp;</div>
+        <div class="hc-composer" id="featured-composer">&nbsp;</div>
         <div class="hc-footer">
-          <span class="hc-price">$49.95</span>
-          <button class="hc-btn">Add to Cart</button>
+          <span class="hc-price" id="featured-price">&nbsp;</span>
+          <button class="hc-btn" id="featured-btn" onclick="featuredGoToProduct()">View Score</button>
         </div>
       </div>
     </div>
@@ -363,24 +363,7 @@ footer{background:var(--ink);padding:48px 16px 32px}
     <button class="f-btn">Jazz</button>
     <button class="f-btn">Digital</button>
   </div>
-  <div class="prods-grid">
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-a"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--burgundy);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">Bestseller</span></div>
-      <div class="prod-body"><div class="prod-ens">Concert Band &middot; Gr.3</div><div class="prod-title">Elegy for a Quiet Morning</div><div class="prod-composer">Samuel Haverford</div><div class="prod-foot"><span class="prod-price">$54.95</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-b"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span></div>
-      <div class="prod-body"><div class="prod-ens">SATB Choir</div><div class="prod-title">Lux Perpetua</div><div class="prod-composer">Elena V&aacute;squez-Muro</div><div class="prod-foot"><span class="prod-price">$4.95</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-c"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--gold);color:var(--ink);font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">New</span></div>
-      <div class="prod-body"><div class="prod-ens">String Orch. &middot; Gr.2</div><div class="prod-title">Autumn Portraits</div><div class="prod-composer">Ji-Young Park</div><div class="prod-foot"><span class="prod-price">$39.95</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-d"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span></div>
-      <div class="prod-body"><div class="prod-ens">Jazz Ensemble</div><div class="prod-title">Blue Horizon Shuffle</div><div class="prod-composer">arr. T. W. Cole</div><div class="prod-foot"><span class="prod-price">$6.50</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-  </div>
+  <div class="prods-grid" id="prods-grid"><div style="grid-column:1/-1;text-align:center;padding:40px 0;color:var(--muted)">Loading scores…</div></div>
 </div>
 
 <!-- ENSEMBLES -->
@@ -475,17 +458,64 @@ footer{background:var(--ink);padding:48px 16px 32px}
 </footer>
 
 <script>
-function toggleDrawer(){
-  var d=document.getElementById('drawer'),h=document.getElementById('ham');
-  d.classList.toggle('open');h.classList.toggle('open');
-  document.body.style.overflow=d.classList.contains('open')?'hidden':'';
+var API='https://lionandlambpublishing.com/api';
+var allProducts=[];
+var featuredProduct=null;
+function toggleDrawer(){var d=document.getElementById('drawer'),h=document.getElementById('ham');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
+function loadFeatured(){
+  fetch(API+'/products/featured').then(function(r){return r.ok?r.json():null}).then(function(p){
+    if(!p){setHeroDefault();return;}
+    featuredProduct=p;
+    var price=p.price_pdf?'$'+parseFloat(p.price_pdf).toFixed(2):p.price_print?'$'+parseFloat(p.price_print).toFixed(2):'';
+    var cat=(p.ensemble||'')+(p.grade?' · Gr.'+p.grade:'');
+    document.getElementById('featured-cat').textContent=cat||'Sheet Music';
+    document.getElementById('featured-title').textContent=p.title||'';
+    document.getElementById('featured-composer').textContent=p.composer||'';
+    document.getElementById('featured-price').textContent=price;
+  }).catch(function(){setHeroDefault();});
+}
+function setHeroDefault(){
+  document.getElementById('featured-cat').textContent='Featured Score';
+  document.getElementById('featured-title').textContent='Browse Our Catalog';
+  document.getElementById('featured-composer').textContent='Sheet music for every ensemble';
+  document.getElementById('featured-price').textContent='';
+}
+function featuredGoToProduct(){if(featuredProduct)location.href='product.html?id='+featuredProduct.id;else location.href='search.html';}
+var thumbClasses=['pt-a','pt-b','pt-c','pt-d'];
+function renderGrid(products){
+  var grid=document.getElementById('prods-grid');
+  if(!products||!products.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:var(--muted);font-size:0.9rem">No products yet. Add them in the <a href=\"admin.html\" style=\"color:var(--burgundy)\">admin panel</a>.</div>';return;}
+  grid.innerHTML=products.map(function(p,i){
+    var price=p.price_pdf?'$'+parseFloat(p.price_pdf).toFixed(2):p.price_print?'$'+parseFloat(p.price_print).toFixed(2):'';
+    var badge=p.featured?'<span style="position:absolute;top:8px;left:8px;background:var(--burgundy);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">Featured</span>':(p.format==='PDF'?'<span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span>':'');
+    var thumb=p.image_url?'<img src="'+p.image_url+'" style="width:100%;height:100%;object-fit:cover" alt="">':'<div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div>';
+    var ens=(p.ensemble||'')+(p.grade?' · Gr.'+p.grade:'');
+    return '<div class="prod-card" onclick="location.href=\'product.html?id='+p.id+'\'">'+'<div class="prod-thumb '+thumbClasses[i%4]+'">'+thumb+badge+'</div>'+'<div class="prod-body"><div class="prod-ens">'+ens+'</div><div class="prod-title">'+p.title+'</div><div class="prod-composer">'+p.composer+'</div><div class="prod-foot"><span class="prod-price">'+price+'</span><button class="prod-add" onclick="event.stopPropagation();addToCart('+p.id+')">+</button></div></div></div>';
+  }).join('');
+}
+function loadProducts(){
+  fetch(API+'/products').then(function(r){return r.json()}).then(function(products){allProducts=products;renderGrid(products);}).catch(function(){renderGrid([]);});
 }
 document.querySelectorAll('.f-btn').forEach(function(b){
   b.addEventListener('click',function(){
     document.querySelectorAll('.f-btn').forEach(function(x){x.classList.remove('active')});
     b.classList.add('active');
+    var map={'All':null,'Concert Band':'Concert Band','Choral':'Choral','Orchestra':'Orchestra','Jazz':'Jazz','Digital':'PDF'};
+    var val=map[b.textContent.trim()];
+    var filtered=val?allProducts.filter(function(p){return val==='PDF'?(p.format||'').toUpperCase()==='PDF':(p.ensemble||'').toLowerCase().indexOf(val.toLowerCase())>-1}):allProducts;
+    renderGrid(filtered);
   });
 });
+function addToCart(id){
+  var cart=JSON.parse(localStorage.getItem('lal_cart')||'[]');
+  var idx=cart.findIndex(function(i){return i.id===id});
+  if(idx>-1)cart[idx].qty++;else cart.push({id:id,qty:1});
+  localStorage.setItem('lal_cart',JSON.stringify(cart));
+  var ct=cart.reduce(function(s,i){return s+i.qty},0);
+  var el=document.getElementById('cart-count');if(el)el.textContent=ct;
+}
+loadFeatured();
+loadProducts();
 </script>
 </body>
 </html>

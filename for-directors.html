@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Directors — Forte Music</title>
+<title>For Directors — Lion and Lamb Publishing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -42,6 +42,15 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .btn-p:hover{background:var(--burgundy-dark)}
 .btn-g-inv{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:0.9rem;font-weight:500;padding:12px 22px;border:1.5px solid rgba(247,243,236,0.25);background:transparent;border-radius:var(--r);cursor:pointer;color:var(--cream);transition:all 0.2s;text-decoration:none}
 .btn-g-inv:hover{border-color:rgba(247,243,236,0.5);background:rgba(247,243,236,0.06)}
+
+/* PO FORM */
+.po-label{display:block;font-size:0.75rem;font-weight:600;color:rgba(247,243,236,0.6);margin-bottom:5px;letter-spacing:0.04em;text-transform:uppercase}
+.po-input{width:100%;padding:11px 14px;background:rgba(255,255,255,0.07);border:1.5px solid rgba(247,243,236,0.15);border-radius:var(--r);font-family:'DM Sans',sans-serif;font-size:0.92rem;color:var(--cream);outline:none;transition:border 0.2s;-webkit-appearance:none}
+.po-input:focus{border-color:rgba(247,243,236,0.4)}
+.po-input::placeholder{color:rgba(247,243,236,0.3)}
+.po-input option{background:var(--ink);color:var(--cream)}
+.po-item-row{display:grid;grid-template-columns:3fr 1fr 1fr auto;gap:10px;margin-bottom:10px;align-items:end}
+@media(max-width:540px){.po-item-row{grid-template-columns:1fr 1fr;}.po-item-row .po-desc-cell{grid-column:1/-1}}
 
 /* FEATURES */
 .features-section{padding:48px 16px;background:var(--parchment);border-bottom:1px solid var(--border)}
@@ -150,7 +159,7 @@ footer{background:var(--ink);padding:40px 16px 32px}
 </head>
 <body>
 <nav class="nav">
-  <a class="nav-logo" href="index.html"><span class="nav-mark">&#119070;</span>Forte Music</a>
+  <a class="nav-logo" href="index.html"><span class="nav-mark">&#119070;</span>Lion and Lamb Publishing</a>
   <ul class="nav-links-desk">
     <li><a href="search.html">Sheet Music</a></li>
     <li><a href="digital-downloads.html">Digital Downloads</a></li>
@@ -188,7 +197,7 @@ footer{background:var(--ink);padding:40px 16px 32px}
   <div class="section-label">Director Tools</div>
   <h2 class="section-title">Built around<br>how you work.</h2>
   <div class="features-grid">
-    <div class="feat-card"><div class="feat-icon-wrap">&#127979;</div><div><div class="feat-title">School Purchase Orders</div><div class="feat-desc">Submit a PO at checkout — we'll invoice your district's billing department and ship or deliver your files immediately. No credit card required.</div></div></div>
+    <div class="feat-card"><div class="feat-icon-wrap">&#127979;</div><div><div class="feat-title">School Purchase Orders</div><div class="feat-desc">Submit a PO at checkout — we'll invoice your district's billing department and ship or deliver your files immediately. No credit card required. <a href="#po-form-section" style="color:var(--gold)">Submit below &#8594;</a></div></div></div>
     <div class="feat-card"><div class="feat-icon-wrap">&#128269;</div><div><div class="feat-title">Score Preview</div><div class="feat-desc">Preview the first pages of any score and listen to a full MIDI recording before you buy. No more surprises at rehearsal.</div></div></div>
     <div class="feat-card"><div class="feat-icon-wrap">&#9889;</div><div><div class="feat-title">Instant Digital Delivery</div><div class="feat-desc">Need music tonight? Buy a PDF and it's in your inbox before the bell rings. Files stored permanently in your account library.</div></div></div>
     <div class="feat-card"><div class="feat-icon-wrap">&#128101;</div><div><div class="feat-title">School Account</div><div class="feat-desc">Manage all orders, POs, downloads, and wish lists from one director dashboard. Share access with your department head.</div></div></div>
@@ -197,17 +206,129 @@ footer{background:var(--ink);padding:40px 16px 32px}
   </div>
 </div>
 
-<div class="po-section">
+<div class="po-section" id="po-form-section">
   <div class="po-eyebrow">School Billing Made Easy</div>
-  <h2 class="po-title">Purchase orders,<br>zero friction.</h2>
-  <p class="po-desc">Over 60% of our school orders are paid by purchase order. We've made it as seamless as possible — your music ships the same day regardless of when your district pays.</p>
-  <div class="po-steps">
-    <div class="po-step"><div class="po-step-num">1</div><div><div class="po-step-title">Add items to your cart</div><div class="po-step-desc">Browse and select print scores or digital downloads as normal.</div></div></div>
-    <div class="po-step"><div class="po-step-num">2</div><div><div class="po-step-title">Choose "Purchase Order" at checkout</div><div class="po-step-desc">Upload your official PO document or enter your PO number and district billing email.</div></div></div>
-    <div class="po-step"><div class="po-step-num">3</div><div><div class="po-step-title">We ship immediately</div><div class="po-step-desc">Print orders ship within 24 hours. PDFs are delivered instantly. We invoice your district and handle the rest.</div></div></div>
-    <div class="po-step"><div class="po-step-num">4</div><div><div class="po-step-title">Track everything in your dashboard</div><div class="po-step-desc">View PO status, payment confirmation, and order tracking all in one place.</div></div></div>
+  <h2 class="po-title">Submit a Purchase<br>Order Request.</h2>
+  <p class="po-desc">Fill out the form below. We'll email your district an official invoice with your PO details — your music is delivered immediately, regardless of when payment clears.</p>
+
+  <!-- Success state -->
+  <div id="po-success" style="display:none;background:rgba(255,255,255,0.08);border:1px solid rgba(247,243,236,0.2);border-radius:12px;padding:32px;text-align:center;max-width:520px">
+    <div style="font-size:2.5rem;margin-bottom:12px">&#10003;</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:800;color:var(--cream);margin-bottom:8px">Invoice Sent!</div>
+    <p style="color:rgba(247,243,236,0.6);font-size:0.9rem;margin-bottom:20px">Check your email for the invoice. Your download links have been sent and are ready to use.</p>
+    <button onclick="resetPOForm()" style="padding:10px 22px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);cursor:pointer;font-weight:600">Submit Another Order</button>
   </div>
-  <a class="btn-p" href="cart.html">Submit a Purchase Order &#8594;</a>
+
+  <!-- Form -->
+  
+  <!-- Step 1: Not verified — show options -->
+  <div id="po-gate" style="max-width:600px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:0">
+      <div onclick="showApplyForm()" style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(247,243,236,0.2);border-radius:10px;padding:24px;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(247,243,236,0.2)'">
+        <div style="font-size:1.6rem;margin-bottom:10px">&#127979;</div>
+        <div style="font-family:'Playfair Display',serif;font-weight:700;color:var(--cream);font-size:1rem;margin-bottom:6px">Apply for School Account</div>
+        <div style="font-size:0.8rem;color:rgba(247,243,236,0.55);line-height:1.5">First time? Apply for Net 30 invoicing. We'll review and approve your school within 1 business day.</div>
+      </div>
+      <div onclick="showVerifyForm()" style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(247,243,236,0.2);border-radius:10px;padding:24px;cursor:pointer;transition:all 0.2s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(247,243,236,0.2)'">
+        <div style="font-size:1.6rem;margin-bottom:10px">&#10003;</div>
+        <div style="font-family:'Playfair Display',serif;font-weight:700;color:var(--cream);font-size:1rem;margin-bottom:6px">Already Approved</div>
+        <div style="font-size:0.8rem;color:rgba(247,243,236,0.55);line-height:1.5">Have an account code? Sign in and submit your purchase order now.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 1a: Apply form -->
+  <div id="apply-form-wrap" style="display:none;background:rgba(255,255,255,0.06);border:1px solid rgba(247,243,236,0.15);border-radius:12px;padding:28px;max-width:700px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(247,243,236,0.1)">
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--cream)">Apply for School Invoicing Account</div>
+      <button onclick="showGate()" style="background:none;border:none;color:rgba(247,243,236,0.4);cursor:pointer;font-size:1.2rem">&larr;</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px">
+      <div style="grid-column:1/-1"><label class="po-label">School / Organization Name *</label><input class="po-input" id="app-school" type="text" placeholder="Lincoln High School — Music Dept."></div>
+      <div><label class="po-label">Director Name *</label><input class="po-input" id="app-name" type="text" placeholder="Dr. Jane Smith"></div>
+      <div><label class="po-label">Email Address *</label><input class="po-input" id="app-email" type="email" placeholder="jsmith@lincolnschools.edu"></div>
+      <div><label class="po-label">Phone Number</label><input class="po-input" id="app-phone" type="tel" placeholder="(555) 000-0000"></div>
+      <div><label class="po-label">School District</label><input class="po-input" id="app-district" type="text" placeholder="Lincoln Unified School District"></div>
+      <div style="grid-column:1/-1"><label class="po-label">Billing Address</label><input class="po-input" id="app-address" type="text" placeholder="123 Main St"></div>
+      <div><label class="po-label">City</label><input class="po-input" id="app-city" type="text" placeholder="Springfield"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label class="po-label">State</label><input class="po-input" id="app-state" type="text" placeholder="IL" maxlength="2"></div><div><label class="po-label">ZIP</label><input class="po-input" id="app-zip" type="text" placeholder="62701"></div></div>
+    </div>
+    <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:700;color:var(--cream);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(247,243,236,0.08)">Accounts Payable Contact <span style="font-size:0.75rem;font-weight:400;color:rgba(247,243,236,0.4)">(who receives invoices)</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+      <div><label class="po-label">AP Contact Name</label><input class="po-input" id="app-po-name" type="text" placeholder="Mary Johnson (optional)"></div>
+      <div><label class="po-label">AP Contact Email</label><input class="po-input" id="app-po-email" type="email" placeholder="billing@district.edu (optional)"></div>
+    </div>
+    <div id="app-error" style="display:none;color:#f87171;font-size:0.82rem;margin-bottom:12px;padding:10px 14px;background:rgba(248,113,113,0.1);border-radius:6px"></div>
+    <button id="app-submit-btn" onclick="submitApplication()" style="width:100%;padding:14px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);font-size:0.95rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Submit Application &#8594;</button>
+  </div>
+
+  <!-- Step 1a success -->
+  <div id="apply-success" style="display:none;background:rgba(255,255,255,0.07);border:1px solid rgba(247,243,236,0.2);border-radius:12px;padding:32px;max-width:560px;text-align:center">
+    <div style="font-size:2.5rem;margin-bottom:12px">&#128233;</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:800;color:var(--cream);margin-bottom:8px">Application Submitted!</div>
+    <p style="color:rgba(247,243,236,0.6);font-size:0.88rem;line-height:1.6">We'll review your application and email your approval within <strong style="color:var(--cream)">1 business day</strong>. Once approved, you'll receive an account code to submit purchase orders.</p>
+  </div>
+
+  <!-- Step 1b: Verify code -->
+  <div id="verify-form-wrap" style="display:none;background:rgba(255,255,255,0.06);border:1px solid rgba(247,243,236,0.15);border-radius:12px;padding:28px;max-width:480px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(247,243,236,0.1)">
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--cream)">Enter Your Account Code</div>
+      <button onclick="showGate()" style="background:none;border:none;color:rgba(247,243,236,0.4);cursor:pointer;font-size:1.2rem">&larr;</button>
+    </div>
+    <div style="margin-bottom:14px"><label class="po-label">Email Address</label><input class="po-input" id="ver-email" type="email" placeholder="jsmith@lincolnschools.edu"></div>
+    <div style="margin-bottom:20px"><label class="po-label">Account Code</label><input class="po-input" id="ver-code" type="text" placeholder="LAL-XXXX-XXXX" style="font-family:'DM Mono',monospace;letter-spacing:0.05em;text-transform:uppercase" oninput="this.value=this.value.toUpperCase()"></div>
+    <div id="ver-error" style="display:none;color:#f87171;font-size:0.82rem;margin-bottom:12px;padding:10px 14px;background:rgba(248,113,113,0.1);border-radius:6px"></div>
+    <button id="ver-btn" onclick="verifyCode()" style="width:100%;padding:14px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);font-size:0.95rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif">Continue to Order Form &#8594;</button>
+  </div>
+
+  <!-- Step 2: Verified — PO Form -->
+<div id="po-form-wrap" style="display:none;background:rgba(255,255,255,0.06);border:1px solid rgba(247,243,236,0.15);border-radius:12px;padding:28px;max-width:700px">
+
+    <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--cream);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid rgba(247,243,236,0.1)">School Information</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+      <div style="grid-column:1/-1"><label class="po-label">School / Organization Name *</label><input class="po-input" id="po-school" type="text" placeholder="Lincoln High School — Music Department"></div>
+      <div><label class="po-label">Director Name *</label><input class="po-input" id="po-name" type="text" placeholder="Dr. Jane Smith"></div>
+      <div><label class="po-label">Email Address *</label><input class="po-input" id="po-email" type="email" placeholder="jsmith@lincolnschools.edu"></div>
+      <div><label class="po-label">PO Number</label><input class="po-input" id="po-number" type="text" placeholder="PO-2026-0042 (optional)"></div>
+      <div><label class="po-label">Payment Terms</label>
+        <select class="po-input" id="po-terms">
+          <option value="30">Net 30</option>
+          <option value="60">Net 60</option>
+          <option value="14">Net 14</option>
+          <option value="7">Due in 7 days</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--cream);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(247,243,236,0.1)">Order Items</div>
+
+    <div id="po-items-list"></div>
+
+    <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+      <button onclick="addCatalogItem()" style="padding:9px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(247,243,236,0.2);border-radius:6px;color:var(--cream);font-size:0.82rem;cursor:pointer;font-weight:600">+ Add from Catalog</button>
+      <button onclick="addCustomItem()" style="padding:9px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(247,243,236,0.12);border-radius:6px;color:rgba(247,243,236,0.6);font-size:0.82rem;cursor:pointer">+ Add Custom Item</button>
+    </div>
+
+    <div><label class="po-label">Notes</label><input class="po-input" id="po-notes" type="text" placeholder="Any additional notes or instructions for the invoice"></div>
+
+    <div id="po-error" style="display:none;color:#f87171;font-size:0.82rem;margin-top:12px;padding:10px 14px;background:rgba(248,113,113,0.1);border-radius:6px"></div>
+
+    <button id="po-submit-btn" onclick="submitPO()" style="margin-top:20px;width:100%;padding:15px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);font-size:1rem;font-weight:700;cursor:pointer;transition:background 0.2s;font-family:'DM Sans',sans-serif">Send Invoice Request &#8594;</button>
+  </div>
+
+  <!-- Catalog picker modal -->
+  <div id="catalog-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:500;align-items:center;justify-content:center;padding:20px">
+    <div style="background:var(--cream);border-radius:12px;width:100%;max-width:520px;max-height:80vh;display:flex;flex-direction:column">
+      <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.1rem">Choose from Catalog</div>
+        <button onclick="closeCatalogModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted)">&times;</button>
+      </div>
+      <div style="padding:12px 24px;border-bottom:1px solid var(--border)">
+        <input type="text" id="catalog-search" placeholder="Search titles..." oninput="filterCatalog()" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.9rem;background:var(--cream);color:var(--ink)">
+      </div>
+      <div id="catalog-list" style="overflow-y:auto;flex:1;padding:12px 0"></div>
+    </div>
+  </div>
 </div>
 
 <div class="bulk-section">
@@ -244,7 +365,7 @@ footer{background:var(--ink);padding:40px 16px 32px}
 
 <div class="cta-banner">
   <h2 class="cta-title">Ready to find your<br>next great piece?</h2>
-  <p class="cta-sub">Join 14,000+ directors who trust Forte Music for their programming needs.</p>
+  <p class="cta-sub">Join 14,000+ directors who trust Lion and Lamb Publishing for their programming needs.</p>
   <div class="cta-btns">
     <a class="btn-white" href="search.html">Browse Sheet Music</a>
     <a class="btn-outline-white" href="director-dashboard.html">Open My Dashboard</a>
@@ -252,16 +373,205 @@ footer{background:var(--ink);padding:40px 16px 32px}
 </div>
 
 <footer>
-  <div class="ft-logo">Forte Music</div>
+  <div class="ft-logo">Lion and Lamb Publishing</div>
   <p class="ft-desc">The premier destination for band directors, choir conductors, and orchestra teachers.</p>
   <div class="ft-links-row">
     <a href="index.html">Home</a><a href="search.html">Sheet Music</a><a href="digital-downloads.html">Digital Downloads</a><a href="by-ensemble.html">By Ensemble</a><a href="for-directors.html">For Directors</a><a href="cart.html">Cart</a>
   </div>
-  <div class="ft-bottom">&copy; 2026 Forte Music Co. All rights reserved.</div>
+  <div class="ft-bottom">&copy; 2026 Lion and Lamb Publishing Co. All rights reserved.</div>
 </footer>
 
 <script>
+var API = 'https://lionandlambpublishing.com/api';
+var catalogProducts = [];
+var poItemCount = 0;
+var verifiedEmail = '';
+var verifiedCode = '';
+var verifiedSchool = null;
+
+function showGate() {
+  document.getElementById('po-gate').style.display = 'grid';
+  document.getElementById('apply-form-wrap').style.display = 'none';
+  document.getElementById('verify-form-wrap').style.display = 'none';
+  document.getElementById('apply-success').style.display = 'none';
+  document.getElementById('po-form-wrap').style.display = 'none';
+  document.getElementById('po-success').style.display = 'none';
+}
+function showApplyForm() {
+  document.getElementById('po-gate').style.display = 'none';
+  document.getElementById('apply-form-wrap').style.display = 'block';
+}
+function showVerifyForm() {
+  document.getElementById('po-gate').style.display = 'none';
+  document.getElementById('verify-form-wrap').style.display = 'block';
+  document.getElementById('ver-email').focus();
+}
+
+function submitApplication() {
+  var school = document.getElementById('app-school').value.trim();
+  var name = document.getElementById('app-name').value.trim();
+  var email = document.getElementById('app-email').value.trim();
+  var errEl = document.getElementById('app-error');
+  errEl.style.display = 'none';
+  if (!school) return errEl.textContent = 'School name is required.' , errEl.style.display = 'block';
+  if (!name) return errEl.textContent = 'Director name is required.' , errEl.style.display = 'block';
+  if (!email || !email.includes('@')) return errEl.textContent = 'Valid email is required.' , errEl.style.display = 'block';
+  var btn = document.getElementById('app-submit-btn');
+  btn.textContent = 'Submitting…'; btn.disabled = true;
+  fetch(API + '/school-apply', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ school_name: school, director_name: name, email, phone: document.getElementById('app-phone').value, district: document.getElementById('app-district').value, address: document.getElementById('app-address').value, city: document.getElementById('app-city').value, state: document.getElementById('app-state').value, zip: document.getElementById('app-zip').value, po_contact_name: document.getElementById('app-po-name').value, po_contact_email: document.getElementById('app-po-email').value })
+  }).then(r => r.json()).then(d => {
+    btn.textContent = 'Submit Application →'; btn.disabled = false;
+    if (d.error) return errEl.textContent = d.error, errEl.style.display = 'block';
+    document.getElementById('apply-form-wrap').style.display = 'none';
+    document.getElementById('apply-success').style.display = 'block';
+  }).catch(() => { btn.textContent = 'Submit Application →'; btn.disabled = false; errEl.textContent = 'Something went wrong. Please try again.'; errEl.style.display = 'block'; });
+}
+
+function verifyCode() {
+  var email = document.getElementById('ver-email').value.trim();
+  var code = document.getElementById('ver-code').value.trim().toUpperCase();
+  var errEl = document.getElementById('ver-error');
+  errEl.style.display = 'none';
+  if (!email || !code) return errEl.textContent = 'Please enter your email and account code.', errEl.style.display = 'block';
+  var btn = document.getElementById('ver-btn');
+  btn.textContent = 'Verifying…'; btn.disabled = true;
+  fetch(API + '/school-verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, code }) })
+    .then(r => r.json()).then(d => {
+      btn.textContent = 'Continue to Order Form →'; btn.disabled = false;
+      if (d.error) return errEl.textContent = d.error, errEl.style.display = 'block';
+      verifiedEmail = email; verifiedCode = code; verifiedSchool = d.school;
+      document.getElementById('verify-form-wrap').style.display = 'none';
+      document.getElementById('po-form-wrap').style.display = 'block';
+      document.getElementById('po-school').value = d.school.school_name || '';
+      document.getElementById('po-name').value = d.school.director_name || '';
+      document.getElementById('po-email').value = email;
+      document.getElementById('po-school').readOnly = true;
+      document.getElementById('po-name').readOnly = true;
+      document.getElementById('po-email').readOnly = true;
+    }).catch(() => { btn.textContent = 'Continue to Order Form →'; btn.disabled = false; errEl.textContent = 'Something went wrong.'; errEl.style.display = 'block'; });
+}
+
 function toggleDrawer(){var d=document.getElementById('drawer'),h=document.getElementById('ham');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
+
+// Load catalog
+fetch(API + '/products').then(r => r.json()).then(p => { catalogProducts = p; }).catch(() => {});
+
+// Add item from catalog picker
+function addCatalogItem() {
+  renderCatalogList(catalogProducts);
+  var m = document.getElementById('catalog-modal');
+  m.style.display = 'flex';
+  document.getElementById('catalog-search').value = '';
+}
+function closeCatalogModal() {
+  document.getElementById('catalog-modal').style.display = 'none';
+}
+function filterCatalog() {
+  var q = document.getElementById('catalog-search').value.toLowerCase();
+  renderCatalogList(catalogProducts.filter(p => (p.title + ' ' + p.composer).toLowerCase().includes(q)));
+}
+function renderCatalogList(products) {
+  var el = document.getElementById('catalog-list');
+  if (!products.length) { el.innerHTML = '<div style="padding:20px 24px;color:var(--muted);font-size:0.9rem">No products found.</div>'; return; }
+  el.innerHTML = products.map(p => {
+    var price = p.price_pdf ? parseFloat(p.price_pdf).toFixed(2) : p.price_print ? parseFloat(p.price_print).toFixed(2) : '0.00';
+    var format = p.format || 'PDF';
+    return '<div onclick="selectCatalogProduct(' + p.id + ')" style="padding:14px 24px;cursor:pointer;border-bottom:1px solid var(--border);transition:background 0.15s" onmouseover="this.style.background='var(--parchment)'" onmouseout="this.style.background=''">'
+      + '<div style="font-weight:600;font-size:0.92rem;color:var(--ink)">' + p.title + '</div>'
+      + '<div style="font-size:0.78rem;color:var(--muted);margin-top:2px">' + (p.composer || '') + (p.ensemble ? ' · ' + p.ensemble : '') + ' · ' + format + ' · $' + price + '</div>'
+      + '</div>';
+  }).join('');
+}
+function selectCatalogProduct(id) {
+  var p = catalogProducts.find(x => x.id === id);
+  if (!p) return;
+  var price = p.price_pdf || p.price_print || '0';
+  addItemRow(p.title + (p.composer ? ' — ' + p.composer : ''), 1, price, p.stripe_price_pdf || p.stripe_price_print || '');
+  closeCatalogModal();
+}
+
+// Add custom item
+function addCustomItem() { addItemRow('', 1, '', ''); }
+
+function addItemRow(desc, qty, price, priceId) {
+  poItemCount++;
+  var id = 'poi-' + poItemCount;
+  var row = document.createElement('div');
+  row.id = id;
+  row.className = 'po-item-row';
+  row.innerHTML = '<div class="po-desc-cell"><label class="po-label">Description</label>'
+    + '<input class="po-input" type="text" value="' + (desc||'').replace(/"/g,'&quot;') + '" placeholder="Score title / description" data-field="desc">'
+    + '<input type="hidden" value="' + (priceId||'') + '" data-field="price_id"></div>'
+    + '<div><label class="po-label">Qty</label><input class="po-input" type="number" value="' + (qty||1) + '" min="1" data-field="qty"></div>'
+    + '<div><label class="po-label">Unit Price ($)</label><input class="po-input" type="number" step="0.01" value="' + (price||'') + '" placeholder="0.00" data-field="price"></div>'
+    + '<button onclick="document.getElementById(\'' + id + '\').remove()" style="background:none;border:none;color:rgba(247,243,236,0.4);font-size:1.3rem;cursor:pointer;padding:0 4px;margin-top:18px">&times;</button>';
+  document.getElementById('po-items-list').appendChild(row);
+}
+
+function submitPO() {
+  var school = document.getElementById('po-school').value.trim();
+  var name = document.getElementById('po-name').value.trim();
+  var email = document.getElementById('po-email').value.trim();
+  var poNum = document.getElementById('po-number').value.trim();
+  var terms = document.getElementById('po-terms').value;
+  var notes = document.getElementById('po-notes').value.trim();
+  var errEl = document.getElementById('po-error');
+  errEl.style.display = 'none';
+
+  if (!school) return showError('Please enter your school name.');
+  if (!name) return showError('Please enter your name.');
+  if (!email || !email.includes('@')) return showError('Please enter a valid email address.');
+
+  var items = [];
+  document.querySelectorAll('#po-items-list .po-item-row').forEach(row => {
+    var desc = row.querySelector('[data-field="desc"]').value.trim();
+    var qty = row.querySelector('[data-field="qty"]').value;
+    var price = row.querySelector('[data-field="price"]').value;
+    var priceId = row.querySelector('[data-field="price_id"]').value;
+    if (desc && price) items.push({ description: desc, quantity: parseInt(qty)||1, unit_amount: parseFloat(price), price_id: priceId||null });
+  });
+  if (!items.length) return showError('Please add at least one item to the order.');
+
+  var btn = document.getElementById('po-submit-btn');
+  btn.textContent = 'Sending…'; btn.disabled = true;
+
+  var notesText = [poNum ? 'PO #' + poNum : '', notes].filter(Boolean).join(' | ');
+
+  fetch(API + '/admin/invoices', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-account-code': verifiedCode, 'x-account-email': verifiedEmail },
+    body: JSON.stringify({ customer_name: name, customer_email: email, school_name: school, items, days_until_due: terms, notes: notesText })
+  })
+  .then(r => r.json())
+  .then(d => {
+    btn.textContent = 'Send Invoice Request →'; btn.disabled = false;
+    if (d.error) return showError('Error: ' + d.error);
+    document.getElementById('po-form-wrap').style.display = 'none';
+    document.getElementById('po-success').style.display = 'block';
+  })
+  .catch(() => { btn.textContent = 'Send Invoice Request →'; btn.disabled = false; showError('Something went wrong. Please try again.'); });
+}
+
+function showError(msg) {
+  var e = document.getElementById('po-error');
+  e.textContent = msg; e.style.display = 'block';
+}
+function resetPOForm() {
+  document.getElementById('po-success').style.display = 'none';
+  showGate();
+  document.getElementById('po-school').value = '';
+  document.getElementById('po-name').value = '';
+  document.getElementById('po-email').value = '';
+  document.getElementById('po-number').value = '';
+  document.getElementById('po-notes').value = '';
+  document.getElementById('po-items-list').innerHTML = '';
+  poItemCount = 0;
+}
+// Close modal on backdrop click
+document.getElementById('catalog-modal').addEventListener('click', function(e){ if(e.target===this) closeCatalogModal(); });
 </script>
 </body>
 </html>

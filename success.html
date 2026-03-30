@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmed — Lion and Lamb Publishing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#0f0d0a;--cream:#f7f3ec;--burgundy:#7b1f2e;--gold:#c49a2a;--muted:#6b6257;--border:#d6cfc2;--r:10px}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:48px 40px;max-width:520px;width:100%;text-align:center;box-shadow:0 8px 40px rgba(15,13,10,0.1)}
+.icon{width:64px;height:64px;background:#e8f5e9;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2rem}
+.eyebrow{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+h1{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;margin-bottom:12px}
+.sub{color:var(--muted);font-size:0.95rem;line-height:1.6;margin-bottom:32px}
+.email-badge{display:inline-block;background:var(--cream);border:1px solid var(--border);border-radius:6px;padding:10px 20px;font-family:'DM Mono',monospace;font-size:0.9rem;margin-bottom:32px}
+.info-box{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:20px;text-align:left;margin-bottom:32px}
+.info-row{display:flex;justify-content:space-between;font-size:0.88rem;padding:6px 0;border-bottom:1px solid var(--border)}
+.info-row:last-child{border-bottom:none;font-weight:600}
+.info-label{color:var(--muted)}
+.btns{display:flex;flex-direction:column;gap:10px}
+.btn-p{display:flex;align-items:center;justify-content:center;padding:14px;background:var(--burgundy);color:#fff;border-radius:var(--r);font-weight:600;text-decoration:none;font-size:0.95rem}
+.btn-g{display:flex;align-items:center;justify-content:center;padding:13px;border:1.5px solid var(--border);border-radius:var(--r);font-size:0.9rem;color:var(--ink);text-decoration:none}
+.logo{font-family:'Playfair Display',serif;font-weight:900;font-size:1.1rem;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:32px}
+.logo-mark{width:26px;height:26px;background:var(--burgundy);color:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.8rem}
+</style>
+</head>
+<body>
+<div class="card">
+  <a class="logo" href="index.html"><span class="logo-mark">&#119070;</span>Lion and Lamb Publishing</a>
+  <div class="icon">&#10003;</div>
+  <div class="eyebrow">Payment Confirmed</div>
+  <h1>Thank you!</h1>
+  <p class="sub" id="sub-text">Your order has been confirmed. Check your email for download links — they're valid for 48 hours.</p>
+  <div class="email-badge" id="email-display">Sending confirmation email&hellip;</div>
+  <div class="info-box" id="order-box" style="display:none">
+    <div class="info-row"><span class="info-label">Order Total</span><span id="order-total"></span></div>
+  </div>
+  <div class="btns">
+    <a class="btn-p" href="search.html">Browse More Scores &rarr;</a>
+    <a class="btn-g" href="index.html">Back to Home</a>
+  </div>
+</div>
+<script>
+var params = new URLSearchParams(window.location.search);
+var sessionId = params.get('session_id');
+if (sessionId) {
+  fetch('https://lionandlambpublishing.com/api/order/' + sessionId)
+    .then(function(r){return r.json()})
+    .then(function(d){
+      if (d.email) {
+        document.getElementById('email-display').textContent = d.email;
+        document.getElementById('sub-text').textContent = 'Your order is confirmed. Download links have been sent to your email and are valid for 48 hours.';
+      }
+      if (d.amount) {
+        var total = '$' + (d.amount / 100).toFixed(2) + ' ' + (d.currency || 'usd').toUpperCase();
+        document.getElementById('order-total').textContent = total;
+        document.getElementById('order-box').style.display = 'block';
+      }
+    })
+    .catch(function(){
+      document.getElementById('email-display').textContent = 'Check your inbox for download links.';
+    });
+} else {
+  document.getElementById('email-display').textContent = 'Check your inbox for download links.';
+}
+// Clear cart
+localStorage.removeItem('lal_cart');
+</script>
+</body>
+</html>

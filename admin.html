@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forte Music — Admin</title>
+<title>Lion and Lamb Publishing — Admin</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -29,6 +29,9 @@ body{font-family:'DM Sans',sans-serif;background:#f0ece4;color:var(--ink);min-he
 .tb-badge{font-size:0.72rem;color:rgba(247,243,236,0.5);font-family:'DM Mono',monospace}
 .tb-logout{font-size:0.8rem;color:rgba(247,243,236,0.5);background:none;border:none;cursor:pointer}
 .tb-logout:hover{color:#fff}
+.tab-btn{padding:8px 18px;background:transparent;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;color:var(--muted);transition:all 0.2s}
+.tab-btn.active{background:var(--burgundy);color:#fff;border-color:var(--burgundy)}
+.tab-btn:hover:not(.active){border-color:var(--ink);color:var(--ink)}
 .main{max-width:1200px;margin:0 auto;padding:32px 20px}
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
 .stat-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px}
@@ -123,7 +126,7 @@ tr:hover td{background:rgba(237,230,214,0.4)}
 
 <div class="login-screen" id="login-screen">
   <div class="login-card">
-    <div class="login-logo"><span>&#119070;</span>Forte Music</div>
+    <a class="login-logo" href="index.html" style="text-decoration:none;color:inherit"><span>&#119070;</span>Lion and Lamb Publishing</a>
     <p class="login-sub">Admin Dashboard</p>
     <label class="login-label">Admin Key</label>
     <input class="login-input" type="password" id="login-key" placeholder="Enter your admin key" onkeydown="if(event.key==='Enter')doLogin()">
@@ -134,10 +137,11 @@ tr:hover td{background:rgba(237,230,214,0.4)}
 
 <div class="app" id="app">
   <div class="topbar">
-    <div class="tb-logo"><span>&#119070;</span>Forte Admin</div>
+    <div class="tb-logo"><span>&#119070;</span>Lion and Lamb Admin</div>
     <div class="tb-right">
       <a href="index.html" style="font-size:0.8rem;color:rgba(247,243,236,0.5);text-decoration:none;margin-right:4px" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(247,243,236,0.5)'">&#8592; View Site</a>
       <span class="tb-badge" id="product-count-badge">0 products</span>
+      <button class="tb-logout" onclick="showResetKey()" style="margin-right:12px">Reset Key</button>
       <button class="tb-logout" onclick="logout()">Sign Out</button>
     </div>
   </div>
@@ -148,6 +152,14 @@ tr:hover td{background:rgba(237,230,214,0.4)}
       <div class="stat-card"><div class="stat-label">Digital PDFs</div><div class="stat-val" id="stat-pdf">0</div></div>
     </div>
 
+    <div class="admin-tabs" style="display:flex;gap:8px;margin-bottom:24px">
+      <button class="tab-btn active" id="tab-products" onclick="showTab('products')">Products</button>
+      <button class="tab-btn" id="tab-coupons" onclick="showTab('coupons')">Coupons</button>
+      <button class="tab-btn" id="tab-invoices" onclick="showTab('invoices')">Invoices</button>
+      <button class="tab-btn" id="tab-schools" onclick="showTab('schools')">Schools</button>
+    </div>
+
+    <div id="panel-products">
     <div class="section-head">
       <div class="section-title">Product Catalog</div>
       <button class="btn-p" onclick="toggleForm()">&#43; Add Product</button>
@@ -262,6 +274,111 @@ tr:hover td{background:rgba(237,230,214,0.4)}
       </div>
     </div>
   </div>
+  </div><!-- end panel-products -->
+
+  <!-- COUPONS PANEL -->
+  <div id="panel-coupons" style="display:none">
+    <div class="section-head">
+      <div class="section-title">Coupon Codes</div>
+      <button class="btn-p" onclick="toggleCouponForm()">&#43; New Coupon</button>
+    </div>
+
+    <!-- Create coupon form -->
+    <div id="coupon-form" style="display:none;background:var(--parchment);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:24px">
+      <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;margin-bottom:16px">New Coupon Code</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div><label class="form-label">Promo Code *</label><input class="form-input" id="c-code" type="text" placeholder="e.g. DIRECTOR20" style="text-transform:uppercase"></div>
+        <div><label class="form-label">Discount Type</label>
+          <select class="form-input" id="c-type" onchange="toggleDiscountType()">
+            <option value="percent">Percentage Off</option>
+            <option value="amount">Fixed Amount Off</option>
+          </select>
+        </div>
+        <div id="c-percent-wrap"><label class="form-label">Percent Off *</label><input class="form-input" id="c-percent" type="number" min="1" max="100" placeholder="e.g. 20"></div>
+        <div id="c-amount-wrap" style="display:none"><label class="form-label">Amount Off ($) *</label><input class="form-input" id="c-amount" type="number" min="0.01" step="0.01" placeholder="e.g. 5.00"></div>
+        <div><label class="form-label">Max Redemptions</label><input class="form-input" id="c-max" type="number" min="1" placeholder="Leave blank for unlimited"></div>
+        <div><label class="form-label">Expiry Date</label><input class="form-input" id="c-expires" type="date"></div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-p" onclick="saveCoupon()">Create Coupon</button>
+        <button class="btn-g" onclick="toggleCouponForm()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Coupons table -->
+    <div class="table-wrap">
+      <table class="prod-table">
+        <thead><tr><th>Code</th><th>Discount</th><th>Redeemed</th><th>Max</th><th>Expires</th><th>Status</th><th></th></tr></thead>
+        <tbody id="coupons-tbody"><tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+  <!-- INVOICES PANEL -->
+  <div id="panel-invoices" style="display:none">
+    <div class="section-head">
+      <div class="section-title">School Invoices</div>
+      <button class="btn-p" onclick="toggleInvoiceForm()">&#43; New Invoice</button>
+    </div>
+
+    <!-- Create invoice form -->
+    <div id="invoice-form" style="display:none;background:var(--parchment);border:1px solid var(--border);border-radius:var(--r);padding:24px;margin-bottom:24px">
+      <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1rem;margin-bottom:16px">New School Invoice</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div><label class="form-label">Director Name</label><input class="form-input" id="inv-name" type="text" placeholder="Dr. Jane Smith"></div>
+        <div><label class="form-label">Email *</label><input class="form-input" id="inv-email" type="email" placeholder="director@school.edu"></div>
+        <div><label class="form-label">School / Organization</label><input class="form-input" id="inv-school" type="text" placeholder="Lincoln High School"></div>
+        <div><label class="form-label">Payment Terms</label>
+          <select class="form-input" id="inv-terms">
+            <option value="30">Net 30</option>
+            <option value="60">Net 60</option>
+            <option value="14">Net 14</option>
+            <option value="7">Due in 7 days</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="font-weight:600;font-size:0.85rem;margin-bottom:10px;color:var(--ink)">Line Items</div>
+      <div id="inv-items"></div>
+      <button class="btn-g" onclick="addInvoiceItem()" style="margin-bottom:16px;font-size:0.82rem;padding:8px 14px">+ Add Item</button>
+
+      <div><label class="form-label">Notes / PO Number</label><input class="form-input" id="inv-notes" type="text" placeholder="PO #12345 or any notes for the footer"></div>
+
+      <div style="display:flex;gap:10px;margin-top:16px">
+        <button class="btn-p" onclick="sendInvoice()">Send Invoice</button>
+        <button class="btn-g" onclick="toggleInvoiceForm()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Invoices table -->
+    <div class="table-wrap">
+      <table class="prod-table">
+        <thead><tr><th>#</th><th>School / Director</th><th>Amount</th><th>Due</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="invoices-tbody"><tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted)">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+  <!-- SCHOOLS PANEL -->
+  <div id="panel-schools" style="display:none">
+    <div class="section-head">
+      <div class="section-title">School Accounts</div>
+      <div style="display:flex;gap:8px">
+        <span id="schools-pending-badge" style="display:none;background:#c49a2a;color:#fff;font-size:0.72rem;font-weight:700;padding:4px 10px;border-radius:20px">0 Pending</span>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="prod-table">
+        <thead><tr><th>School</th><th>Director</th><th>District</th><th>Applied</th><th>Status</th><th>Code</th><th>Actions</th></tr></thead>
+        <tbody id="schools-tbody"><tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">Loading...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
 </div>
 
 <!-- FILE BROWSER MODAL -->
@@ -316,6 +433,16 @@ function doLogin() {
 }
 
 function logout() { adminKey=''; document.getElementById('login-screen').style.display='flex'; document.getElementById('app').style.display='none'; document.getElementById('login-key').value=''; }
+function showResetKey() {
+  const newKey = prompt('Enter new admin key (min 16 characters):');
+  if (!newKey) return;
+  if (newKey.length < 16) { alert('Key must be at least 16 characters.'); return; }
+  fetch(API + '/admin/reset-key', { method:'POST', headers:{'Content-Type':'application/json','x-admin-key':adminKey}, body:JSON.stringify({newKey}) })
+    .then(r => r.json()).then(d => {
+      if (d.success) { adminKey = newKey; alert('Admin key updated successfully. Save it somewhere safe:\n\n' + newKey); }
+      else alert('Error: ' + d.error);
+    });
+}
 
 function loadProducts() {
   fetch(API + '/products').then(r => r.json()).then(data => { products = data; renderProducts(data); updateStats(data); });
@@ -512,6 +639,264 @@ function showToast(msg, type) {
   t.textContent = msg;
   t.className = 'toast show '+(type||'');
   setTimeout(() => t.className='toast', 2800);
+}
+
+// --- TABS ---
+function showTab(tab) {
+  document.getElementById('panel-products').style.display = tab === 'products' ? 'block' : 'none';
+  document.getElementById('panel-coupons').style.display = tab === 'coupons' ? 'block' : 'none';
+  document.getElementById('tab-products').classList.toggle('active', tab === 'products');
+  document.getElementById('tab-coupons').classList.toggle('active', tab === 'coupons');
+  document.getElementById('tab-invoices').classList.toggle('active', tab === 'invoices');
+  var panels = ['products','coupons','invoices','schools'];
+  panels.forEach(p => document.getElementById('panel-'+p).style.display = (p===tab?'block':'none'));
+  document.getElementById('tab-schools').classList.toggle('active', tab === 'schools');
+  if (tab === 'coupons') loadCoupons();
+  if (tab === 'invoices') loadInvoices();
+  if (tab === 'schools') loadSchools();
+}
+
+// --- COUPONS ---
+function toggleCouponForm() {
+  var f = document.getElementById('coupon-form');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  if (f.style.display === 'block') document.getElementById('c-code').focus();
+}
+function toggleDiscountType() {
+  var t = document.getElementById('c-type').value;
+  document.getElementById('c-percent-wrap').style.display = t === 'percent' ? 'block' : 'none';
+  document.getElementById('c-amount-wrap').style.display = t === 'amount' ? 'block' : 'none';
+}
+function loadCoupons() {
+  fetch(API + '/admin/coupons', { headers: { 'x-admin-key': adminKey } })
+    .then(r => r.json())
+    .then(data => {
+      var tbody = document.getElementById('coupons-tbody');
+      if (!data.length) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">No coupons yet. Create your first one above.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = data.map(c => {
+        var exp = c.expires_at ? new Date(c.expires_at * 1000).toLocaleDateString() : '—';
+        var status = c.active
+          ? '<span style="color:#2d6a4f;font-weight:600;font-size:0.8rem">Active</span>'
+          : '<span style="color:var(--muted);font-size:0.8rem">Inactive</span>';
+        return '<tr>'
+          + '<td><strong style="font-family:'DM Mono',monospace">' + c.code + '</strong></td>'
+          + '<td>' + c.discount + '</td>'
+          + '<td>' + (c.times_redeemed || 0) + '</td>'
+          + '<td>' + (c.max_redemptions || '∞') + '</td>'
+          + '<td>' + exp + '</td>'
+          + '<td>' + status + '</td>'
+          + '<td>' + (c.active ? '<button class="tb-logout" style="color:var(--burgundy);font-size:0.8rem" onclick="deactivateCoupon(\'' + c.promo_id + '\')">Deactivate</button>' : '') + '</td>'
+          + '</tr>';
+      }).join('');
+    })
+    .catch(() => showToast('Failed to load coupons'));
+}
+function saveCoupon() {
+  var code = document.getElementById('c-code').value.trim().toUpperCase();
+  var type = document.getElementById('c-type').value;
+  var percent = document.getElementById('c-percent').value;
+  var amount = document.getElementById('c-amount').value;
+  var max = document.getElementById('c-max').value;
+  var expires = document.getElementById('c-expires').value;
+  if (!code) return showToast('Enter a promo code');
+  if (type === 'percent' && !percent) return showToast('Enter percent off');
+  if (type === 'amount' && !amount) return showToast('Enter amount off');
+  var body = { code };
+  if (type === 'percent') body.percent_off = percent;
+  else body.amount_off = amount;
+  if (max) body.max_redemptions = max;
+  if (expires) body.expires_at = expires;
+  fetch(API + '/admin/coupons', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey }, body: JSON.stringify(body) })
+    .then(r => r.json())
+    .then(d => {
+      if (d.error) return showToast('Error: ' + d.error);
+      showToast('Coupon ' + d.code + ' created!');
+      toggleCouponForm();
+      loadCoupons();
+      document.getElementById('c-code').value = '';
+      document.getElementById('c-percent').value = '';
+      document.getElementById('c-amount').value = '';
+      document.getElementById('c-max').value = '';
+      document.getElementById('c-expires').value = '';
+    })
+    .catch(() => showToast('Failed to create coupon'));
+}
+function deactivateCoupon(promoId) {
+  if (!confirm('Deactivate this coupon code?')) return;
+  fetch(API + '/admin/coupons/' + promoId, { method: 'DELETE', headers: { 'x-admin-key': adminKey } })
+    .then(r => r.json())
+    .then(d => { if (d.success) { showToast('Coupon deactivated'); loadCoupons(); } })
+    .catch(() => showToast('Failed to deactivate'));
+}
+
+// --- INVOICES ---
+var invoiceItemCount = 0;
+
+function toggleInvoiceForm() {
+  var f = document.getElementById('invoice-form');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+  if (f.style.display === 'block' && invoiceItemCount === 0) addInvoiceItem();
+}
+
+function addInvoiceItem() {
+  invoiceItemCount++;
+  var id = 'inv-item-' + invoiceItemCount;
+  var div = document.createElement('div');
+  div.id = id;
+  div.style.cssText = 'display:grid;grid-template-columns:3fr 1fr 1fr auto;gap:10px;margin-bottom:10px;align-items:end';
+  div.innerHTML = '<div><label class="form-label">Description</label><input class="form-input" type="text" placeholder="Title / Score name" data-field="desc"></div>'
+    + '<div><label class="form-label">Qty</label><input class="form-input" type="number" value="1" min="1" data-field="qty"></div>'
+    + '<div><label class="form-label">Unit Price ($)</label><input class="form-input" type="number" step="0.01" placeholder="0.00" data-field="price"></div>'
+    + '<button class="btn-g" onclick="document.getElementById(\'' + id + '\').remove();invoiceItemCount--" style="padding:10px;font-size:1rem;margin-top:18px">&times;</button>';
+  document.getElementById('inv-items').appendChild(div);
+}
+
+function sendInvoice() {
+  var name = document.getElementById('inv-name').value.trim();
+  var email = document.getElementById('inv-email').value.trim();
+  var school = document.getElementById('inv-school').value.trim();
+  var terms = document.getElementById('inv-terms').value;
+  var notes = document.getElementById('inv-notes').value.trim();
+  if (!email) return showToast('Email is required');
+
+  var items = [];
+  document.querySelectorAll('#inv-items > div').forEach(function(row) {
+    var desc = row.querySelector('[data-field="desc"]').value.trim();
+    var qty = row.querySelector('[data-field="qty"]').value;
+    var price = row.querySelector('[data-field="price"]').value;
+    if (desc && price) items.push({ description: desc, quantity: qty, unit_amount: price });
+  });
+  if (!items.length) return showToast('Add at least one line item');
+
+  var btn = document.querySelector('#invoice-form .btn-p');
+  btn.textContent = 'Sending...'; btn.disabled = true;
+
+  fetch(API + '/admin/invoices', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey },
+    body: JSON.stringify({ customer_name: name, customer_email: email, school_name: school, items, days_until_due: terms, notes })
+  })
+  .then(r => r.json())
+  .then(d => {
+    btn.textContent = 'Send Invoice'; btn.disabled = false;
+    if (d.error) return showToast('Error: ' + d.error);
+    showToast('Invoice sent to ' + email);
+    toggleInvoiceForm();
+    document.getElementById('inv-name').value = '';
+    document.getElementById('inv-email').value = '';
+    document.getElementById('inv-school').value = '';
+    document.getElementById('inv-notes').value = '';
+    document.getElementById('inv-items').innerHTML = '';
+    invoiceItemCount = 0;
+    loadInvoices();
+  })
+  .catch(() => { btn.textContent = 'Send Invoice'; btn.disabled = false; showToast('Failed to send invoice'); });
+}
+
+function loadInvoices() {
+  fetch(API + '/admin/invoices', { headers: { 'x-admin-key': adminKey } })
+    .then(r => r.json())
+    .then(data => {
+      var tbody = document.getElementById('invoices-tbody');
+      if (!data.length) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:32px;color:var(--muted)">No invoices yet.</td></tr>';
+        return;
+      }
+      var statusColor = { open: '#c49a2a', paid: '#2d6a4f', void: '#999', draft: '#888', uncollectible: '#c44a2a' };
+      tbody.innerHTML = data.map(inv => {
+        var amount = inv.amount_due ? '$' + (inv.amount_due / 100).toFixed(2) : '-';
+        var due = inv.due_date ? new Date(inv.due_date * 1000).toLocaleDateString() : '-';
+        var status = '<span style="font-weight:700;font-size:0.78rem;color:' + (statusColor[inv.status] || '#666') + '">' + inv.status.toUpperCase() + '</span>';
+        var actions = '';
+        if (inv.hosted_invoice_url) actions += '<a href="' + inv.hosted_invoice_url + '" target="_blank" style="color:var(--burgundy);font-size:0.8rem;margin-right:8px">View</a>';
+        if (inv.invoice_pdf) actions += '<a href="' + inv.invoice_pdf + '" target="_blank" style="color:var(--muted);font-size:0.8rem;margin-right:8px">PDF</a>';
+        if (inv.status === 'open') actions += '<button class="tb-logout" style="font-size:0.78rem;color:var(--muted)" onclick="resendInvoice(\'' + inv.id + '\')">Resend</button> ';
+        if (inv.status !== 'void' && inv.status !== 'paid') actions += '<button class="tb-logout" style="font-size:0.78rem;color:#c44a2a" onclick="voidInvoice(\'' + inv.id + '\')">Void</button>';
+        return '<tr><td><span style="font-family:'DM Mono',monospace;font-size:0.8rem">' + (inv.number || inv.id.slice(-6)) + '</span></td>'
+          + '<td><div style="font-weight:600;font-size:0.88rem">' + (inv.customer_name || '') + '</div><div style="color:var(--muted);font-size:0.78rem">' + (inv.customer_email || '') + '</div></td>'
+          + '<td style="font-family:'DM Mono',monospace">' + amount + '</td>'
+          + '<td>' + due + '</td>'
+          + '<td>' + status + '</td>'
+          + '<td>' + actions + '</td></tr>';
+      }).join('');
+    })
+    .catch(() => showToast('Failed to load invoices'));
+}
+
+function resendInvoice(id) {
+  fetch(API + '/admin/invoices/' + id + '/resend', { method: 'POST', headers: { 'x-admin-key': adminKey } })
+    .then(r => r.json())
+    .then(d => { if (d.success) showToast('Invoice resent'); else showToast('Error: ' + d.error); });
+}
+
+function voidInvoice(id) {
+  if (!confirm('Void this invoice? This cannot be undone.')) return;
+  fetch(API + '/admin/invoices/' + id, { method: 'DELETE', headers: { 'x-admin-key': adminKey } })
+    .then(r => r.json())
+    .then(d => { if (d.success) { showToast('Invoice voided'); loadInvoices(); } });
+}
+
+// --- SCHOOLS ---
+function loadSchools() {
+  fetch(API + '/admin/schools', { headers: { 'x-admin-key': adminKey } })
+    .then(r => r.json())
+    .then(data => {
+      var tbody = document.getElementById('schools-tbody');
+      var pending = data.filter(s => s.status === 'pending').length;
+      var badge = document.getElementById('schools-pending-badge');
+      if (pending > 0) { badge.textContent = pending + ' Pending'; badge.style.display = 'inline-block'; }
+      else badge.style.display = 'none';
+      if (!data.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--muted)">No school applications yet.</td></tr>'; return; }
+      var statusColor = { pending: '#c49a2a', approved: '#2d6a4f', denied: '#c44a2a' };
+      tbody.innerHTML = data.map(s => {
+        var status = '<span style="font-weight:700;font-size:0.78rem;color:' + (statusColor[s.status]||'#666') + '">' + s.status.toUpperCase() + '</span>';
+        var code = s.account_code ? '<span style="font-family:'DM Mono',monospace;font-size:0.78rem">' + s.account_code + '</span>' : '—';
+        var actions = '';
+        if (s.status === 'pending') {
+          actions = '<button class="btn-p" style="font-size:0.75rem;padding:5px 12px;margin-right:6px" onclick="approveSchool(' + s.id + ')">Approve</button>'
+            + '<button class="btn-g" style="font-size:0.75rem;padding:5px 12px" onclick="denySchool(' + s.id + ')">Deny</button>';
+        } else if (s.status === 'approved') {
+          actions = '<button class="tb-logout" style="font-size:0.78rem;color:var(--muted)" onclick="resendApproval(' + s.id + ', \'' + s.email + '\')">Resend Code</button>';
+        }
+        return '<tr>'
+          + '<td><div style="font-weight:600;font-size:0.88rem">' + s.school_name + '</div><div style="color:var(--muted);font-size:0.75rem">' + s.email + '</div></td>'
+          + '<td style="font-size:0.88rem">' + s.director_name + '</td>'
+          + '<td style="font-size:0.82rem;color:var(--muted)">' + (s.district||'—') + '</td>'
+          + '<td style="font-size:0.8rem;color:var(--muted)">' + new Date(s.created_at).toLocaleDateString() + '</td>'
+          + '<td>' + status + '</td>'
+          + '<td>' + code + '</td>'
+          + '<td>' + actions + '</td>'
+          + '</tr>';
+      }).join('');
+    }).catch(() => showToast('Failed to load schools'));
+}
+
+function approveSchool(id) {
+  if (!confirm('Approve this school account? They will receive an email with their account code.')) return;
+  fetch(API + '/admin/schools/' + id + '/approve', { method: 'POST', headers: { 'x-admin-key': adminKey } })
+    .then(r => r.json())
+    .then(d => {
+      if (d.error) return showToast('Error: ' + d.error);
+      showToast('Approved! Code: ' + d.code);
+      loadSchools();
+    }).catch(() => showToast('Failed to approve'));
+}
+
+function denySchool(id) {
+  var reason = prompt('Optional: enter a reason for denial (will be included in email)');
+  if (reason === null) return;
+  fetch(API + '/admin/schools/' + id + '/deny', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-admin-key': adminKey }, body: JSON.stringify({ reason }) })
+    .then(r => r.json())
+    .then(d => { if (d.success) { showToast('Application denied'); loadSchools(); } });
+}
+
+function resendApproval(id, email) {
+  fetch(API + '/admin/schools/' + id + '/approve', { method: 'POST', headers: { 'x-admin-key': adminKey } })
+    .then(r => r.json())
+    .then(d => { if (d.success) showToast('Approval email resent to ' + email); });
 }
 </script>
 </body>
