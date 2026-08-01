@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Unsubscribe — Lion and Lamb Publishing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--green:#3ab54a;--ink:#0f0d0a;--cream:#f5f9f6;--border:#c4d9c9;--muted:#5a6672;--r:8px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:48px 40px;max-width:460px;width:100%;text-align:center;box-shadow:0 4px 24px rgba(15,13,10,0.07)}
+.logo{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:900;color:var(--ink);margin-bottom:32px}
+h1{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:800;color:var(--ink);margin-bottom:12px}
+p{font-size:0.9rem;color:var(--muted);line-height:1.6;margin-bottom:24px}
+.btn{display:inline-block;background:var(--ink);color:#fff;padding:12px 28px;border-radius:var(--r);font-size:0.875rem;font-weight:600;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:background 0.2s}
+.btn:hover{background:#333}
+.btn-g{background:transparent;color:var(--muted);border:1.5px solid var(--border);margin-left:10px}
+.btn-g:hover{background:var(--cream)}
+#result{display:none;margin-top:20px;font-size:0.875rem;font-weight:500}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo"><a href="index.html" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px;justify-content:center"><img src="/img/lion-and-lamb-logo.png?v=2" alt="LLP" style="height:36px;width:auto">Lion and Lamb Publishing</a></div>
+  <h1>Unsubscribe</h1>
+  <p id="intro-msg">Are you sure you want to unsubscribe from the Lion and Lamb Publishing newsletter?</p>
+  <div id="actions">
+    <button class="btn" onclick="doUnsub()">Yes, unsubscribe</button>
+    <button class="btn btn-g" onclick="window.location='index.html'">Cancel</button>
+  </div>
+  <div id="result"></div>
+</div>
+<script>
+const API = 'https://lionandlambpublishing.com/api';
+const params = new URLSearchParams(window.location.search);
+const email = params.get('email') || '';
+if (email) document.getElementById('intro-msg').textContent =
+  'Are you sure you want to unsubscribe ' + email + ' from the LLP newsletter?';
+
+async function doUnsub() {
+  document.getElementById('actions').style.display = 'none';
+  const res = document.getElementById('result');
+  res.style.display = 'block';
+  res.textContent = 'Processing…';
+  try {
+    const r = await fetch(API + '/unsubscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    if (!r.ok) throw new Error();
+    res.style.color = 'var(--muted)';
+    res.textContent = "You've been unsubscribed. You won't receive any more emails from us.";
+    document.getElementById('intro-msg').style.display = 'none';
+  } catch {
+    res.style.color = '#c0392b';
+    res.textContent = 'Something went wrong. Please try again.';
+    document.getElementById('actions').style.display = 'block';
+  }
+}
+</script>
+</body>
+</html>
