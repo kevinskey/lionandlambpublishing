@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Lion and Lamb Publishing</title>
+<meta name="description" content="Lion and Lamb Publishing is the home of choral music by Dr. Kevin Phillip Johnson — spirituals, gospel, and sacred arrangements for all voicings — performed on stages that matter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--px:16px;--ink:#0f0d0a;--cream:#f5f9f6;--parchment:#e8f2ea;--gold:#3ab54a;--gold-light:#7dd98a;--green:#3ab54a;--green-dark:#2d9139;--sage:#1a7a2e;--muted:#5a6672;--border:#c4d9c9;--nav-h:64px;--r:8px;--shadow:0 4px 12px rgba(15,13,10,0.12);--shadow-lg:0 8px 28px rgba(15,13,10,0.16)}
+@media(min-width:480px){:root{--px:20px}}
+@media(min-width:640px){:root{--px:24px}}
+@media(min-width:768px){:root{--px:40px;--nav-h:68px}}
+@media(min-width:1024px){:root{--px:60px}}
+@media(min-width:1280px){:root{--px:80px}}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ── NAV (identical to index) ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(245,249,246,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 var(--px)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.58rem;font-weight:900;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-logo-img{height:60px;width:auto;object-fit:contain;flex-shrink:0}
+.nav-r{display:flex;align-items:center;gap:8px}
+.nav-cart{display:flex;align-items:center;gap:5px;padding:7px 12px;background:var(--green);color:#fff;border:none;border-radius:5px;font-size:0.78rem;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
+.hamburger{width:38px;height:38px;background:transparent;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.hamburger span{display:block;width:16px;height:1.5px;background:var(--ink);border-radius:2px;transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
+.hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
+.nav-links-desk{display:none}
+.drawer{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:var(--cream);z-index:190;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;border-top:1px solid var(--border)}
+.drawer.open{transform:translateX(0)}
+.drawer-inner{padding:24px var(--px) 48px}
+.drawer-links{display:flex;flex-direction:column;gap:2px;margin-bottom:28px}
+.drawer-link{display:flex;align-items:center;padding:14px 16px;font-size:1rem;font-weight:500;color:var(--ink);border-radius:6px;transition:background 0.2s;text-decoration:none}
+.drawer-link:active,.drawer-link:hover{background:var(--parchment)}
+.d-icon{margin-right:12px;width:22px;text-align:center}
+.drawer-sep{height:1px;background:var(--border);margin:16px 0}
+.drawer-ctas{display:flex;flex-direction:column;gap:10px}
+.btn-p{display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.9rem;font-weight:600;padding:13px 20px;background:var(--green);color:#fff;border:none;border-radius:var(--r);cursor:pointer;transition:background 0.2s;text-decoration:none}
+.btn-p:hover{background:var(--green-dark)}
+.btn-g{display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.9rem;font-weight:500;padding:12px 20px;border:1.5px solid var(--border);background:transparent;border-radius:var(--r);cursor:pointer;color:var(--ink);transition:all 0.2s;text-decoration:none}
+.btn-g:hover{border-color:var(--ink);background:var(--parchment)}
+.shimmer-link{font-style:italic;font-weight:600!important;background:linear-gradient(90deg,#3ab54a 0%,#3ab54a 40%,#6ed47a 50%,#3ab54a 60%,#3ab54a 100%);background-size:300% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer-move 4s ease-in-out infinite;text-decoration:none}
+@keyframes shimmer-move{0%{background-position:200% center}100%{background-position:-200% center}}
+
+/* ── FOOTER (identical to index) ── */
+footer{background:var(--ink);padding:44px var(--px) 28px}
+.ft-top{display:grid;grid-template-columns:1fr 1fr;gap:28px 20px;margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid rgba(245,249,246,0.1)}
+.ft-brand{grid-column:1/-1}
+.ft-brand-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--cream);margin-bottom:8px}
+.ft-brand-desc{font-size:0.8rem;color:rgba(245,249,246,0.45);line-height:1.6;font-weight:300;margin-bottom:16px}
+.ft-social{display:flex;gap:8px}
+.ft-s{width:32px;height:32px;border:1px solid rgba(245,249,246,0.15);border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.8rem;color:rgba(245,249,246,0.5);transition:all 0.2s}
+.ft-s:hover{border-color:var(--gold);color:var(--gold)}
+.ft-col-title{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.ft-links{list-style:none;display:flex;flex-direction:column;gap:8px}
+.ft-links a{font-size:0.8rem;color:rgba(245,249,246,0.45);text-decoration:none;transition:color 0.2s}
+.ft-links a:hover{color:var(--cream)}
+.ft-bottom{display:flex;flex-direction:column;gap:5px;font-size:0.7rem;color:rgba(245,249,246,0.25)}
+
+/* ── NEWSLETTER ── */
+.nl-section{padding:44px var(--px);border-top:1px solid var(--border)}
+.nl-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,6vw,2.4rem);font-weight:800;letter-spacing:-0.02em;line-height:1.15;color:var(--ink);margin-bottom:10px}
+.nl-sub{font-size:0.88rem;color:var(--muted);line-height:1.6;margin-bottom:20px;font-weight:300}
+.nl-form{display:flex;flex-direction:column;gap:10px}
+.nl-input{font-family:'DM Sans',sans-serif;font-size:0.95rem;padding:13px 14px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--cream);color:var(--ink);outline:none;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;width:100%}
+.nl-input:focus{border-color:var(--ink)}
+.nl-input::placeholder{color:#aaa}
+.nl-small{font-size:0.7rem;color:var(--muted);margin-top:8px}
+
+/* ── ABOUT PAGE STYLES ── */
+.page-hero{padding:36px var(--px) 40px;background:linear-gradient(135deg,#0d1a0e 0%,#1a2e1b 55%,#111d12 100%);position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(transparent,transparent 11px,rgba(255,255,255,0.025) 11px,rgba(255,255,255,0.025) 12px);pointer-events:none;z-index:0}
+.page-hero::after{content:'';position:absolute;right:-80px;top:-60px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(58,181,74,0.14) 0%,rgba(58,181,74,0.05) 45%,transparent 70%);pointer-events:none;z-index:0}
+.page-hero-inner{max-width:760px;position:relative;z-index:1}
+.eyebrow{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+.page-title{font-family:'Playfair Display',serif;font-size:clamp(1.85rem,7vw,4.5rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;color:var(--cream);margin-bottom:16px}
+.page-title em{font-style:italic;color:var(--green)}
+.page-lead{font-size:clamp(0.9rem,2.5vw,1.1rem);line-height:1.7;color:rgba(245,249,246,0.6);font-weight:300;max-width:600px}
+
+/* Mission strip */
+.mission-strip{background:var(--ink);padding:48px var(--px)}
+.mission-inner{max-width:900px;margin:0 auto;display:grid;gap:28px}
+.mission-quote{font-family:'Playfair Display',serif;font-size:clamp(1.4rem,4vw,2.2rem);font-weight:700;font-style:italic;line-height:1.3;color:var(--cream)}
+.mission-quote em{color:var(--gold-light);font-style:normal}
+.mission-attr{font-size:0.8rem;color:rgba(245,249,246,0.4);font-weight:300;margin-top:12px}
+
+/* Composer section */
+.composer-section{padding:64px var(--px);background:var(--parchment);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.composer-inner{max-width:1000px;margin:0 auto;display:grid;gap:40px}
+.composer-photo{width:100%;aspect-ratio:4/3;background:var(--cream);border:1px solid var(--border);border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+.composer-photo img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.composer-photo-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-size:0.82rem;text-align:center;padding:32px}
+.composer-photo-placeholder .avatar{width:72px;height:72px;border-radius:50%;background:var(--parchment);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:900;color:var(--sage)}
+.composer-bio{}
+.bio-name{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;letter-spacing:-0.02em;color:var(--ink);margin-bottom:6px}
+.bio-title{font-size:0.82rem;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:20px}
+.bio-body{font-size:0.92rem;line-height:1.8;color:var(--ink);font-weight:300}
+.bio-body p{margin-bottom:16px}
+.bio-body p:last-child{margin-bottom:0}
+.bio-credentials{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}
+.bio-cred{font-size:0.72rem;font-weight:600;padding:5px 12px;background:var(--cream);border:1px solid var(--border);border-radius:100px;color:var(--muted)}
+
+/* Stats bar */
+.stats-bar{background:var(--green);padding:40px var(--px)}
+.stats-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.stat-item{text-align:center}
+.stat-val{font-family:'Playfair Display',serif;font-size:clamp(2rem,6vw,3rem);font-weight:900;color:#fff;line-height:1;margin-bottom:6px}
+.stat-label{font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.09em;color:rgba(255,255,255,0.7)}
+
+/* Philosophy section */
+.philosophy-section{padding:64px var(--px);background:var(--cream)}
+.philosophy-inner{max-width:900px;margin:0 auto}
+.section-eyebrow{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--green);margin-bottom:12px}
+.section-h{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,5vw,2.6rem);font-weight:800;letter-spacing:-0.02em;color:var(--ink);margin-bottom:32px}
+.pillars{display:grid;grid-template-columns:1fr;gap:20px}
+.pillar{display:flex;gap:20px;align-items:flex-start}
+.pillar-icon{width:44px;height:44px;flex-shrink:0;background:var(--parchment);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.pillar-body{}
+.pillar-title{font-size:0.92rem;font-weight:700;color:var(--ink);margin-bottom:5px}
+.pillar-text{font-size:0.86rem;line-height:1.7;color:var(--muted);font-weight:300}
+
+/* Publishers section */
+.publishers-section{padding:52px var(--px);background:var(--parchment);border-top:1px solid var(--border)}
+.publishers-inner{max-width:760px;margin:0 auto;text-align:center}
+.pub-list{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+.pub-badge{font-size:0.8rem;font-weight:600;padding:8px 18px;background:var(--cream);border:1.5px solid var(--border);border-radius:100px;color:var(--ink)}
+
+/* CTA section */
+.cta-section{background:linear-gradient(135deg,#0d1a14 0%,#1a2e1a 100%);padding:64px var(--px);text-align:center;position:relative;overflow:hidden}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(58,181,74,0.1) 0%,transparent 70%);pointer-events:none}
+.cta-inner{position:relative;max-width:600px;margin:0 auto}
+.cta-label{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.cta-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:900;line-height:1.1;letter-spacing:-0.02em;color:var(--cream);margin-bottom:14px}
+.cta-sub{font-size:0.88rem;line-height:1.7;color:rgba(245,249,246,0.55);margin-bottom:28px;font-weight:300}
+.cta-btns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.cta-btn-p{display:inline-flex;align-items:center;gap:7px;padding:14px 32px;background:var(--green);color:#fff;border-radius:var(--r);font-size:0.92rem;font-weight:700;text-decoration:none;box-shadow:0 4px 16px rgba(58,181,74,0.4);transition:background 0.2s}
+.cta-btn-p:hover{background:var(--green-dark)}
+.cta-btn-g{display:inline-flex;align-items:center;gap:7px;padding:13px 28px;border:1.5px solid rgba(245,249,246,0.25);color:rgba(245,249,246,0.8);border-radius:var(--r);font-size:0.92rem;font-weight:600;text-decoration:none;transition:all 0.2s}
+.cta-btn-g:hover{border-color:rgba(245,249,246,0.6);color:#fff}
+
+/* ── RESPONSIVE ── */
+@media(min-width:640px){
+  .nl-form{flex-direction:row}
+  .nl-input{flex:1}
+  .stats-inner{grid-template-columns:repeat(4,1fr)}
+}
+@media(min-width:768px){
+  .nav-logo{font-size:2.1rem}
+  .nav-logo-img{height:75px}
+  .page-hero{padding:44px var(--px) 48px}
+  .composer-inner{grid-template-columns:280px 1fr;align-items:start}
+  .composer-photo{aspect-ratio:3/4}
+  .mission-inner{grid-template-columns:1fr;gap:0}
+  .pillars{grid-template-columns:1fr 1fr}
+  .ft-top{grid-template-columns:2fr 1fr 1fr;gap:40px 48px}
+  .ft-brand{grid-column:auto}
+  .ft-bottom{flex-direction:row;justify-content:space-between}
+  .nl-section{padding:60px var(--px)}
+  footer{padding:60px var(--px) 36px}
+}
+@media(min-width:1024px){
+  .nav-links-desk{display:flex;align-items:center;gap:24px;list-style:none}
+  .nav-links-desk a{font-size:0.85rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s}
+  .nav-links-desk a:hover{color:var(--ink)}
+  .hamburger{display:none}
+  .drawer{display:none}
+
+  .page-hero{padding:52px var(--px) 56px
+  .composer-inner{grid-template-columns:320px 1fr;gap:56px}
+  .pillars{grid-template-columns:1fr 1fr}
+  .philosophy-section{padding:80px var(--px)}
+  .composer-section{padding:80px var(--px)}
+  .ft-top{grid-template-columns:2fr 1fr 1fr 1fr}
+  .nl-section{padding:80px var(--px);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .nl-sub{margin-bottom:0}
+  .nl-form{flex-direction:column}
+  footer{padding:72px var(--px) 40px}
+}
+</style>
+<style id="llp-header-fix">
+/* Unified header — auto-fits all screens */
+.nav-logo{font-size:clamp(1rem,0.62rem + 1vw,1.35rem)!important;white-space:nowrap!important;flex-shrink:1;min-width:0;overflow:hidden;gap:8px}
+.nav-logo img,.nav-logo-img{height:clamp(32px,26px + 1.2vw,42px)!important}
+.nav-cart,.btn-cart{white-space:nowrap!important;flex-shrink:0}
+.nav-links-desk{align-items:center;justify-content:center;gap:2px;list-style:none;flex:1 1 auto;min-width:0;margin:0 10px;padding:0}
+.nav-links-desk li{list-style:none}
+.nav-links-desk a{white-space:nowrap!important;font-size:0.8rem!important;padding:6px 8px}
+@media(max-width:1139.9px){.nav-links-desk{display:none!important}.hamburger{display:flex!important}.drawer{display:block!important}}
+@media(min-width:1140px){.nav-links-desk{display:flex!important}.hamburger{display:none!important}.drawer{display:none!important}}
+@media(max-width:480px){.nav-logo{font-size:0.9rem!important}.nav-cart,.btn-cart{padding:8px 10px!important}}
+@media(min-width:768px) and (max-width:1139.9px){
+  .nav-logo{font-size:1.5rem!important}
+  .nav-logo img,.nav-logo-img{height:46px!important}
+  .nav-cart,.btn-cart{font-size:0.9rem!important;padding:10px 18px!important}
+  .hamburger{width:44px!important;height:44px!important}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="index.html"><img src="/img/lion-and-lamb-logo.png?v=2" alt="Lion and Lamb Publishing" class="nav-logo-img">Lion and Lamb Publishing</a>
+  <ul class="nav-links-desk">
+    <li><a href="search.html">Sheet Music</a></li>
+    <li><a href="music.html">MP3s</a></li>
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="/soulful-singing-series/" class="shimmer-link">Soulful Singing Series</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="director-dashboard.html">Account</a></li>
+  </ul>
+  <div class="nav-r">
+    <a class="nav-cart" href="cart.html" id="cart-nav"><svg style="width:15px;height:15px;vertical-align:-2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2 2h3l2.6 12.5a2 2 0 0 0 2 1.5h8.7a2 2 0 0 0 2-1.5L22 7H6"/></svg> Cart <span id="cart-count">0</span></a>
+    <button class="hamburger" id="ham" onclick="toggleDrawer()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-inner">
+    <div class="drawer-links">
+      <a class="drawer-link" href="index.html"><span class="d-icon">&#127968;</span>Home</a>
+      <a class="drawer-link" href="search.html"><span class="d-icon">&#127925;</span>Sheet Music</a>
+      <a class="drawer-link" href="music.html"><span class="d-icon">&#127911;</span>MP3s</a>
+      <a class="drawer-link" href="merch.html"><span class="d-icon">&#128717;</span>Merch</a>
+      <a class="drawer-link" href="/soulful-singing-series/" style="font-style:italic;color:var(--green);font-weight:600"><span class="d-icon">&#127925;</span>Soulful Singing Series</a>
+      <a class="drawer-link" href="blog.html"><span class="d-icon">&#128221;</span>Blog</a>
+      <a class="drawer-link" href="free-resources.html"><span class="d-icon">&#11088;</span>Free Resources</a>
+      <a class="drawer-link" href="about.html"><span class="d-icon">&#128196;</span>About</a>
+      <a class="drawer-link" href="director-dashboard.html"><span class="d-icon">&#128100;</span>Account</a>
+      <a class="drawer-link" href="cart.html"><span class="d-icon">&#128722;</span>Cart</a>
+    </div>
+    <div class="drawer-sep"></div>
+    <div class="drawer-ctas">
+      <a class="btn-p" href="director-dashboard.html">&#9685; Director Dashboard</a>
+      <a class="btn-g" href="director-dashboard.html">Sign In</a>
+    </div>
+  </div>
+</div>
+
+    <div class="drawer-sep"></div>
+    <div class="drawer-ctas">
+      <a class="btn-p" href="director-dashboard.html">&#9685; Director Dashboard</a>
+      <a class="btn-g" href="director-dashboard.html">Sign In</a>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="eyebrow">About Us</div>
+    <h1 class="page-title">Music rooted<br>in <em>tradition.</em><br>Built for today.</h1>
+    <p class="page-lead">Lion and Lamb Publishing is the home of choral music by Dr. Kevin Phillip Johnson — spirituals, gospel, and sacred arrangements for SATB, SSA, TTBB, and beyond — performed on stages that matter.</p>
+  </div>
+</section>
+
+<!-- MISSION STRIP -->
+<div class="mission-strip">
+  <div class="mission-inner">
+    <p class="mission-quote">&ldquo;Every piece of music I write is meant to do two things: <em>challenge the ensemble</em> and move the audience. Everyone who knows me knows that my music goal is to always &ldquo;Amaze and Inspire!&rdquo;</p>
+    <p class="mission-attr">— Dr. Kevin Phillip Johnson, Composer &amp; Founder</p>
+  </div>
+</div>
+
+<!-- COMPOSER BIO -->
+<section class="composer-section">
+  <div class="composer-inner">
+    <div>
+      <div class="composer-photo">
+        <img src="/img/kevin-photo.png" alt="Dr. Kevin Phillip Johnson"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="composer-photo-placeholder" style="display:none">
+          <div class="avatar">KJ</div>
+          <span>Dr. Kevin Phillip Johnson</span>
+        </div>
+      </div>
+    </div>
+    <div class="composer-bio">
+      <div class="eyebrow" style="margin-bottom:10px">The Composer</div>
+      <h2 class="bio-name">Dr. Kevin<br>Phillip Johnson</h2>
+      <div class="bio-title">Conductor &middot; Composer &middot; Arranger &middot; Educator</div>
+      <p style="font-family:'Playfair Display',serif;font-size:clamp(1rem,2.5vw,1.2rem);font-style:italic;font-weight:700;color:var(--ink);line-height:1.35;margin-bottom:20px">Music that moves<br>people and ensembles.</p>
+      <div class="bio-body">
+        <p>Dr. Kevin Phillip Johnson is a conductor, composer, arranger, and educator whose choral works are performed by ensembles around the world. Grounded in African American sacred music, his works carry both historical depth and an energy that connects with modern ensembles and their audiences.</p>
+        <p>He serves as Director of Music at the Lyke House Catholic Center at the AUC and Associate Professor of Music at Spelman College, where he teaches choral conducting, literature, music theory, and music technology. He has also served as a music consultant for Catholic Archdioceses nationwide, and brings more than thirty years of experience as a Director of Music at churches across the country.</p>
+        <p>An active clinician and guest conductor, Dr. Johnson has provided choral workshops, master classes, seminars, and retreats for music educators and churches throughout the United States and Europe. His works have been performed at all-state choral festivals, Catholic Archdioceses nationwide, and on international stages. In March 2016, he conducted a performance at the White House for President Barack Obama.</p>
+        <p>As a composer, Dr. Johnson has received commissions from leading institutions and organizations including Spelman College, the Dominican Friars, the Archdiocese of Chicago, and the Knights of Peter Claver. His catalog includes seven mass settings &mdash; among them <em>The Mass of Faith</em>, <em>The Preacher&rsquo;s Mass</em>, <em>The Mass of St. Benedict the African</em>, and <em>The Mass of St. Peter Claver</em> &mdash; along with more than 300 psalm settings, the large-scale works <em>Lift Every Voice and Sing Trilogy</em> and <em>Spirituals</em>, and a growing body of sacred songs and choral arrangements.</p>
+        <p>His published works appear with Carl Fischer Music, GIA Publications, Colla Voce, Treble Clef Press, and his own Lion and Lamb Publishing imprint. In 2022, he joined the Carl Fischer catalog with the <em>Soulful Singing Choral Series</em> &mdash; a collection of spirituals and original compositions crafted for the modern treble ensemble.</p>
+      </div>
+      <div class="bio-credentials">
+        <span class="bio-cred">Spelman College</span>
+        <span class="bio-cred">Lyke House AUC</span>
+        <span class="bio-cred">Carl Fischer Music</span>
+        <span class="bio-cred">GIA Publications</span>
+        <span class="bio-cred">Colla Voce</span>
+        <span class="bio-cred">Treble Clef Press</span>
+        <span class="bio-cred">White House 2016</span>
+        <span class="bio-cred">7 Mass Settings</span>
+        <span class="bio-cred">300+ Psalm Settings</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-val">50+</div>
+      <div class="stat-label">Published Titles</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">3</div>
+      <div class="stat-label">Major Publishers</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">SSA</div>
+      <div class="stat-label">Flagship Voicing</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-val">PDF</div>
+      <div class="stat-label">Instant Download</div>
+    </div>
+  </div>
+</div>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy-section">
+  <div class="philosophy-inner">
+    <div class="section-eyebrow">Our Approach</div>
+    <h2 class="section-h">What we believe<br>about choral music</h2>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-icon">&#127981;</div>
+        <div class="pillar-body">
+          <div class="pillar-title">Tradition is the foundation</div>
+          <p class="pillar-text">Every arrangement begins with a deep respect for the source material. Spirituals, hymns, and gospel songs carry centuries of cultural weight. We don't take shortcuts with that.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">&#127925;</div>
+        <div class="pillar-body">
+          <div class="pillar-title">Singability is non-negotiable</div>
+          <p class="pillar-text">Beautiful music that doesn't get performed serves no one. Every piece is written to be sung — by real students, in real rehearsals, with real conductors who have limited time.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">&#127979;</div>
+        <div class="pillar-body">
+          <div class="pillar-title">Directors deserve better tools</div>
+          <p class="pillar-text">Instant download, clear licensing, fair pricing, and responsive support. We built this store because the experience of buying sheet music online should be frictionless.</p>
+        </div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">&#128218;</div>
+        <div class="pillar-body">
+          <div class="pillar-title">Representation in the repertoire</div>
+          <p class="pillar-text">Black voices, Black stories, and Black musical traditions belong on every stage — not as a seasonal gesture but as essential, year-round concert programming.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLISHERS / CREDITS -->
+<div class="publishers-section">
+  <div class="publishers-inner">
+    <div class="eyebrow" style="text-align:center">Also Published Through</div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-top:8px">Works available from major publishers</h3>
+    <div class="pub-list">
+      <span class="pub-badge">Carl Fischer Music</span>
+      <span class="pub-badge">Hal Leonard</span>
+      <span class="pub-badge">Alfred Music</span>
+      <span class="pub-badge">Lion and Lamb Publishing</span>
+    </div>
+    <p style="font-size:0.82rem;color:var(--muted);margin-top:18px;line-height:1.6">Original compositions and arrangements available exclusively here offer the best pricing, instant PDF delivery, and direct support from the composer.</p>
+  </div>
+</div>
+
+<!-- CLOSING CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-inner">
+    <div class="cta-label">Ready to explore?</div>
+    <h2 class="cta-title">Find your next<br>concert piece today.</h2>
+    <p class="cta-sub">Browse the full catalog, preview scores, and download instantly. Most titles ship as PDF within seconds of purchase.</p>
+    <div class="cta-btns">
+      <a class="cta-btn-p" href="search.html">Browse the Catalog &#8594;</a>
+      <a class="cta-btn-g" href="/soulful-singing-series/">Soulful Singing Series &#127925;</a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="nl-section">
+  <div>
+    <h2 class="nl-title">Stay in the score.</h2>
+    <p class="nl-sub">New arrivals, director resources, seasonal programming ideas, and exclusive discounts — delivered monthly.</p>
+  </div>
+  <div>
+    <div class="nl-form" id="nl-form">
+      <input class="nl-input" id="nl-email" type="email" placeholder="your@school.edu" onkeydown="if(event.key==='Enter')nlSubscribe()">
+      <button class="btn-p" id="nl-btn" onclick="nlSubscribe()" style="padding:14px 24px;white-space:nowrap">Subscribe &#8594;</button>
+    </div>
+    <p class="nl-small" id="nl-msg">No spam. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-top">
+    <div class="ft-brand">
+      <div class="ft-brand-name">Lion and Lamb Publishing</div>
+      <p class="ft-brand-desc">The premier destination for band directors, choir conductors, and orchestra teachers. Sheet music and digital scores for every ensemble.</p>
+      <div class="ft-social">
+        <div class="ft-s">&#120143;</div><div class="ft-s">f</div><div class="ft-s">in</div><div class="ft-s">&#9654;</div>
+      </div>
+    </div>
+    <div>
+      <div class="ft-col-title">Shop</div>
+      <ul class="ft-links">
+        <li><a href="search.html">Sheet Music</a></li>
+        <li><a href="music.html">MP3s</a></li>
+        <li><a href="merch.html">Merch</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-title">Directors</div>
+      <ul class="ft-links">
+        <li><a href="cart.html">Purchase Orders</a></li>
+        <li><a href="director-dashboard.html">School Accounts</a></li>
+        <li><a href="for-directors.html">Bulk Discounts</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="ft-col-title">Company</div>
+      <ul class="ft-links">
+        <li><a href="about.html" style="color:var(--cream)">About</a></li>
+        <li><a href="director-dashboard.html">My Account</a></li>
+        <li><a href="for-directors.html">For Directors</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-bottom">
+    <span>&copy; 2026 Lion and Lamb Publishing. All rights reserved.</span>
+    <span>Built for directors. Powered by music.</span>
+  </div>
+</footer>
+
+<script>
+var API = 'https://lionandlambpublishing.com/api';
+
+function toggleDrawer() {
+  var d = document.getElementById('drawer'), h = document.getElementById('ham');
+  d.classList.toggle('open');
+  h.classList.toggle('open');
+  document.body.style.overflow = d.classList.contains('open') ? 'hidden' : '';
+}
+
+// Cart count
+(function() {
+  var cart = JSON.parse(localStorage.getItem('lal_cart') || '[]');
+  var ct = cart.reduce(function(s, i) { return s + i.qty; }, 0);
+  var el = document.getElementById('cart-count');
+  if (el) el.textContent = ct;
+})();
+
+// Newsletter
+async function nlSubscribe() {
+  const emailEl = document.getElementById('nl-email');
+  const btn = document.getElementById('nl-btn');
+  const msg = document.getElementById('nl-msg');
+  const email = emailEl.value.trim();
+  if (!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+    msg.textContent = 'Please enter a valid email address.';
+    msg.style.color = '#c0392b';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Subscribing\u2026';
+  try {
+    const r = await fetch(API + '/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Server error');
+    document.getElementById('nl-form').innerHTML = '<div style="font-size:1rem;font-weight:600;color:var(--green)">&#10003; You\u2019re on the list!</div>';
+    msg.textContent = 'Check your inbox for a welcome email.';
+    msg.style.color = '';
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = 'Subscribe \u2192';
+    msg.textContent = 'Something went wrong \u2014 please try again.';
+    msg.style.color = '#c0392b';
+  }
+}
+</script>
+<script>window.toggleDrawer=window.toggleDrawer||function(){var d=document.getElementById('drawer'),h=document.getElementById('ham');if(d)d.classList.toggle('open');if(h)h.classList.toggle('open');};</script>
+</body>
+</html>

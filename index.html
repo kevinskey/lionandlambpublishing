@@ -3,237 +3,275 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Forte Music — Sheet Music & Digital Scores</title>
+<title>Lion and Lamb Publishing — Sheet Music & Digital Scores</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--ink:#0f0d0a;--cream:#f7f3ec;--parchment:#ede6d6;--gold:#c49a2a;--gold-light:#e8c96a;--burgundy:#7b1f2e;--burgundy-dark:#9a2638;--sage:#3d5a4a;--muted:#6b6257;--border:#d6cfc2;--nav-h:60px;--r:8px}
+:root{--px:16px;--ink:#0f0d0a;--cream:#f5f9f6;--parchment:#e8f2ea;--gold:#3ab54a;--gold-light:#7dd98a;--green:#3ab54a;--green-dark:#2d9139;--sage:#1a7a2e;--muted:#5a6672;--border:#c4d9c9;--nav-h:64px;--banner-h:40px;--r:8px;--shadow:0 4px 12px rgba(15,13,10,0.12);--shadow-lg:0 8px 28px rgba(15,13,10,0.16)}
+@media(min-width:480px){:root{--px:20px}}
+@media(min-width:640px){:root{--px:24px}}
+@media(min-width:768px){:root{--px:40px;--nav-h:68px}}
+@media(min-width:1024px){:root{--px:60px}}
+@media(min-width:1280px){:root{--px:80px}}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.5}
-
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-top:calc(var(--nav-h) + var(--banner-h))}
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(247,243,236,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
-.nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none}
-.nav-mark{display:inline-flex;width:27px;height:27px;background:var(--burgundy);color:var(--cream);border-radius:4px;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0}
+.nav{position:fixed;top:var(--banner-h);left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(245,249,246,0.95);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 var(--px)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.58rem;font-weight:900;letter-spacing:-0.02em;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-logo-img{height:60px;width:auto;object-fit:contain;flex-shrink:0}
 .nav-r{display:flex;align-items:center;gap:8px}
-.nav-cart{display:flex;align-items:center;gap:5px;padding:8px 14px;background:var(--burgundy);color:#fff;border:none;border-radius:5px;font-size:0.8rem;font-weight:600;cursor:pointer;text-decoration:none;-webkit-tap-highlight-color:transparent}
-.hamburger{width:40px;height:40px;background:transparent;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;-webkit-tap-highlight-color:transparent}
-.hamburger span{display:block;width:17px;height:1.5px;background:var(--ink);border-radius:2px;transition:all 0.3s}
+.nav-cart{display:flex;align-items:center;gap:5px;padding:7px 12px;background:var(--green);color:#fff;border:none;border-radius:5px;font-size:0.78rem;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap}
+.hamburger{width:38px;height:38px;background:transparent;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.hamburger span{display:block;width:16px;height:1.5px;background:var(--ink);border-radius:2px;transition:all 0.3s}
 .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
 .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
 .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
 .nav-links-desk{display:none}
-
 /* DRAWER */
 .drawer{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:var(--cream);z-index:190;transform:translateX(100%);transition:transform 0.32s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;border-top:1px solid var(--border)}
 .drawer.open{transform:translateX(0)}
-.drawer-inner{padding:24px 20px 48px}
+.drawer-inner{padding:24px var(--px) 48px}
 .drawer-links{display:flex;flex-direction:column;gap:2px;margin-bottom:28px}
 .drawer-link{display:flex;align-items:center;padding:14px 16px;font-size:1rem;font-weight:500;color:var(--ink);border-radius:6px;transition:background 0.2s;text-decoration:none}
 .drawer-link:active,.drawer-link:hover{background:var(--parchment)}
 .d-icon{margin-right:12px;width:22px;text-align:center}
 .drawer-sep{height:1px;background:var(--border);margin:16px 0}
 .drawer-ctas{display:flex;flex-direction:column;gap:10px}
-.btn-p{display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.9rem;font-weight:600;padding:14px 22px;background:var(--burgundy);color:#fff;border:none;border-radius:var(--r);cursor:pointer;transition:background 0.2s;text-decoration:none;-webkit-tap-highlight-color:transparent}
-.btn-p:hover{background:var(--burgundy-dark)}
-.btn-g{display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.9rem;font-weight:500;padding:13px 22px;border:1.5px solid var(--border);background:transparent;border-radius:var(--r);cursor:pointer;color:var(--ink);transition:all 0.2s;text-decoration:none}
+.btn-p{display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.9rem;font-weight:600;padding:13px 20px;background:var(--green);color:#fff;border:none;border-radius:var(--r);cursor:pointer;transition:background 0.2s;text-decoration:none}
+.btn-p:hover{background:var(--green-dark)}
+.btn-g{display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.9rem;font-weight:500;padding:12px 20px;border:1.5px solid var(--border);background:transparent;border-radius:var(--r);cursor:pointer;color:var(--ink);transition:all 0.2s;text-decoration:none}
 .btn-g:hover{border-color:var(--ink);background:var(--parchment)}
-
 /* HERO */
-.hero{padding:calc(var(--nav-h) + 40px) 16px 48px;display:flex;flex-direction:column;gap:32px}
-.hero-eyebrow{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.hero-eyebrow::before{content:'';display:block;width:20px;height:1px;background:var(--gold)}
-.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,10vw,5rem);font-weight:900;line-height:1.0;letter-spacing:-0.03em;color:var(--ink);margin-bottom:18px}
-.hero-title em{font-style:italic;color:var(--burgundy)}
-.hero-sub{font-size:1rem;line-height:1.65;color:var(--muted);margin-bottom:28px;font-weight:300}
-.hero-search{display:flex;border:1.5px solid var(--ink);border-radius:var(--r);overflow:hidden;background:#fff;box-shadow:3px 3px 0 var(--ink);margin-bottom:16px}
-.hero-search input{flex:1;padding:14px 16px;font-size:0.95rem;border:none;outline:none;background:transparent;color:var(--ink);min-width:0}
+.hero{padding:24px var(--px) 32px;display:flex;flex-direction:column;gap:20px}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,7.5vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;color:var(--ink);margin-bottom:10px}
+.hero-title em{font-style:italic;color:var(--green)}
+.hero-sub{font-size:0.9rem;line-height:1.65;color:var(--muted);margin-bottom:16px;font-weight:300}
+.hero-search{display:flex;border:1.5px solid var(--ink);border-radius:var(--r);overflow:hidden;background:#fff;box-shadow:3px 3px 0 var(--ink);margin-bottom:14px}
+.hero-search input{flex:1;padding:12px 14px;font-size:0.92rem;border:none;outline:none;background:transparent;color:var(--ink);min-width:0}
 .hero-search input::placeholder{color:#aaa}
-.hero-search button{padding:0 18px;background:var(--ink);color:var(--cream);border:none;cursor:pointer;font-size:0.85rem;font-weight:600;letter-spacing:0.04em;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.hero-search button{padding:0 16px;background:var(--ink);color:var(--cream);border:none;cursor:pointer;font-size:0.82rem;font-weight:600;letter-spacing:0.04em;white-space:nowrap}
 .hero-tags{display:flex;flex-wrap:wrap;gap:7px}
-.h-tag{font-size:0.75rem;padding:6px 13px;background:var(--parchment);border:1px solid var(--border);border-radius:100px;color:var(--muted);cursor:pointer;transition:all 0.2s;font-weight:500;-webkit-tap-highlight-color:transparent}
+.h-tag{font-size:0.73rem;padding:5px 12px;background:var(--parchment);border:1px solid var(--border);border-radius:100px;color:var(--muted);cursor:pointer;transition:all 0.2s;font-weight:500}
 .h-tag:hover,.h-tag:active{background:var(--cream);border-color:var(--ink);color:var(--ink)}
-
 /* HERO CARD */
 .hero-card{background:var(--parchment);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg)}
-.hero-card-score{height:160px;background:var(--ink);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.hc-staff{width:78%;opacity:0.4}
-.hc-staff div{height:1px;background:var(--cream);margin:9px 0;position:relative}
-.hc-note{position:absolute;width:9px;height:7px;background:var(--gold);border-radius:50%;transform:rotate(-15deg);top:-3px}
-.hc-note::after{content:'';position:absolute;right:-1px;top:-15px;width:1.5px;height:17px;background:var(--gold)}
-.hc-clef{position:absolute;font-size:3rem;color:rgba(196,154,42,0.25);right:14px;bottom:-4px;font-family:'Playfair Display',serif;font-style:italic}
+.hero-card-score{height:190px;background:#f8f6f0;position:relative;overflow:hidden}
+.hero-card-score img{width:100%;height:100%;object-fit:cover;object-position:top center}
 .featured-label{position:absolute;top:10px;left:10px;font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);background:rgba(15,13,10,0.7);padding:4px 9px;border-radius:3px}
-.hero-card-body{padding:16px 18px}
-.hc-cat{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);font-weight:600;margin-bottom:5px}
-.hc-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--ink);margin-bottom:3px}
-.hc-composer{font-size:0.82rem;color:var(--muted);margin-bottom:14px}
+.hero-card-body{padding:14px 16px}
+.hc-cat{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);font-weight:600;margin-bottom:4px}
+.hc-title{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.hc-composer{font-size:0.8rem;color:var(--muted);margin-bottom:12px}
 .hc-footer{display:flex;align-items:center;justify-content:space-between}
-.hc-price{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:500;color:var(--ink)}
-.hc-btn{padding:9px 18px;background:var(--burgundy);color:#fff;border:none;border-radius:5px;font-size:0.82rem;font-weight:600;cursor:pointer;transition:background 0.2s}
-.hc-btn:hover{background:var(--burgundy-dark)}
-.hero-stats{display:flex;justify-content:space-around;padding:16px;background:var(--cream);border-top:1px solid var(--border)}
-.hs-num{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--ink);display:block;text-align:center}
-.hs-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);font-weight:500;display:block;text-align:center}
-
-/* MARQUEE */
-.marquee{background:var(--ink);padding:13px 0;overflow:hidden}
-.marquee-inner{display:flex;animation:marquee 28s linear infinite;white-space:nowrap}
-.m-item{display:inline-flex;align-items:center;gap:20px;padding:0 32px;font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(247,243,236,0.65)}
-.m-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-
-/* CATEGORIES */
-.cats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.cat-card{border:1.5px solid var(--border);border-radius:var(--r);padding:20px 16px;cursor:pointer;transition:all 0.2s;position:relative;background:var(--cream);-webkit-tap-highlight-color:transparent}
-.cat-card:hover,.cat-card:active{border-color:var(--ink);transform:translateY(-2px);box-shadow:var(--shadow)}
-.cat-icon{font-size:1.8rem;margin-bottom:10px;display:block}
-.cat-name{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.2}
-.cat-count{font-size:0.72rem;color:var(--muted)}
-.cat-arr{position:absolute;top:14px;right:14px;font-size:0.95rem;color:var(--border);transition:all 0.2s}
-.cat-card:hover .cat-arr{color:var(--burgundy);transform:translate(2px,-2px)}
-
-/* PRODUCTS SECTION */
-.prod-section{background:var(--parchment);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:52px 16px}
-.prod-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px}
-.view-all{font-size:0.82rem;font-weight:600;color:var(--burgundy);white-space:nowrap;display:flex;align-items:center;gap:4px}
-.filters-scroll{display:flex;gap:7px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:4px;margin-bottom:24px}
-.filters-scroll::-webkit-scrollbar{display:none}
-.f-btn{flex-shrink:0;padding:8px 16px;border:1.5px solid var(--border);border-radius:100px;background:transparent;font-size:0.8rem;font-weight:500;color:var(--muted);cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent;white-space:nowrap}
-.f-btn.active,.f-btn:hover{background:var(--ink);border-color:var(--ink);color:var(--cream)}
-.prods-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.prod-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
-.prod-card:hover,.prod-card:active{transform:translateY(-3px);box-shadow:var(--shadow)}
-.prod-thumb{height:130px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.hc-price{font-family:'DM Mono',monospace;font-size:1rem;font-weight:500;color:var(--ink)}
+.hc-btn{padding:8px 16px;background:var(--green);color:#fff;border:none;border-radius:5px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:background 0.2s}
+.hc-btn:hover{background:var(--green-dark)}
+/* PRODUCTS */
+.prod-section{background:var(--parchment);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:44px var(--px)}
+.prod-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+.view-all{font-size:0.82rem;font-weight:600;color:var(--green);white-space:nowrap}
+.prods-grid{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:560px){.prods-grid{grid-template-columns:1fr 1fr}}
+.prod-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;cursor:pointer;transition:all 0.2s}
+.prod-card:hover,.prod-card:active{transform:translateY(-2px);box-shadow:var(--shadow)}
+.prod-thumb{aspect-ratio:17/22;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#0d1a14}
 .pt-a{background:#1a1410}.pt-b{background:#0d1a14}.pt-c{background:#1a0d12}.pt-d{background:#111420}
 .pt-staff{width:76%;opacity:0.35}
 .pt-staff div{height:1px;background:var(--cream);margin:8px 0}
-.prod-body{padding:12px 13px}
-.prod-ens{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--gold);font-weight:600;margin-bottom:4px}
-.prod-title{font-family:'Playfair Display',serif;font-size:0.88rem;font-weight:700;color:var(--ink);margin-bottom:2px;line-height:1.25}
-.prod-composer{font-size:0.72rem;color:var(--muted);margin-bottom:10px}
+.score-img{width:100%;height:100%;object-fit:cover;object-position:top;position:absolute;top:0;left:0}
+.prod-body{padding:10px 10px}
+.prod-ens{font-size:0.58rem;text-transform:uppercase;letter-spacing:0.07em;color:var(--gold);font-weight:600;margin-bottom:3px}
+.prod-title{font-family:'Playfair Display',serif;font-size:0.8rem;font-weight:700;color:var(--ink);margin-bottom:2px;line-height:1.2}
+.prod-composer{font-size:0.68rem;color:var(--muted);margin-bottom:7px}
 .prod-foot{display:flex;align-items:center;justify-content:space-between}
-.prod-price{font-family:'DM Mono',monospace;font-size:0.9rem;font-weight:500;color:var(--ink)}
-.prod-add{padding:6px 11px;background:var(--burgundy);color:#fff;border:none;border-radius:4px;font-size:0.72rem;font-weight:600;cursor:pointer;transition:background 0.2s}
-.prod-add:hover{background:var(--burgundy-dark)}
-
-/* ENSEMBLES */
-.ens-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.ens-tile{aspect-ratio:1;border:1.5px solid var(--border);border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all 0.2s;background:var(--cream);-webkit-tap-highlight-color:transparent}
-.ens-tile:hover,.ens-tile:active{background:var(--ink);border-color:var(--ink)}
-.ens-tile:hover .ens-name,.ens-tile:active .ens-name{color:var(--cream)}
-.ens-icon{font-size:1.6rem}
-.ens-name{font-size:0.72rem;font-weight:600;color:var(--ink);text-align:center;line-height:1.2;transition:color 0.2s}
-
+.prod-price{font-family:'DM Mono',monospace;font-size:0.82rem;font-weight:500;color:var(--ink)}
+.prod-add{padding:5px 9px;background:var(--green);color:#fff;border:none;border-radius:4px;font-size:0.68rem;font-weight:600;cursor:pointer}
+.prod-add:hover{background:var(--green-dark)}
 /* DIGITAL BANNER */
-.digi-banner{margin:0 16px 52px;background:var(--ink);border-radius:10px;padding:36px 24px;overflow:hidden;position:relative}
-.digi-banner::before{content:'⬇';position:absolute;font-size:200px;right:-20px;top:50%;transform:translateY(-50%);opacity:0.04;color:var(--gold);pointer-events:none}
-.digi-eyebrow{font-family:'DM Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
-.digi-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,6vw,2.6rem);font-weight:800;line-height:1.1;letter-spacing:-0.02em;color:var(--cream);margin-bottom:14px}
+.digi-banner{margin:0 var(--px) 44px;background:var(--ink);border-radius:10px;padding:32px var(--px);overflow:hidden;position:relative}
+.digi-eyebrow{font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.digi-title{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,6vw,2.6rem);font-weight:800;line-height:1.1;letter-spacing:-0.02em;color:var(--cream);margin-bottom:12px}
 .digi-title em{font-style:italic;color:var(--gold-light)}
-.digi-desc{font-size:0.88rem;line-height:1.65;color:rgba(247,243,236,0.6);margin-bottom:24px;font-weight:300}
-.digi-features{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
-.df-item{display:flex;align-items:flex-start;gap:10px}
-.df-icon{width:30px;height:30px;background:rgba(196,154,42,0.15);border:1px solid rgba(196,154,42,0.3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;flex-shrink:0}
-.df-text{font-size:0.78rem;color:rgba(247,243,236,0.65);line-height:1.4}
+.digi-desc{font-size:0.85rem;line-height:1.6;color:rgba(245,249,246,0.6);margin-bottom:20px;font-weight:300}
+.digi-features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.df-item{display:flex;align-items:flex-start;gap:8px}
+.df-icon{width:28px;height:28px;background:rgba(58,181,74,0.15);border:1px solid rgba(58,181,74,0.3);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.82rem;flex-shrink:0}
+.df-text{font-size:0.75rem;color:rgba(245,249,246,0.65);line-height:1.4}
 .df-text strong{display:block;color:var(--cream);font-weight:600;margin-bottom:1px}
-
-/* TESTIMONIALS */
-.testi-section{background:var(--parchment);border-top:1px solid var(--border);padding:52px 16px}
-.testi-cards{display:flex;flex-direction:column;gap:14px;margin-top:0}
-.testi-card{background:var(--cream);border:1px solid var(--border);border-radius:var(--r);padding:22px}
-.testi-stars{color:var(--gold);font-size:0.85rem;letter-spacing:2px;margin-bottom:12px}
-.testi-quote{font-family:'Playfair Display',serif;font-size:0.95rem;font-style:italic;line-height:1.65;color:var(--ink);margin-bottom:18px}
-.testi-author{display:flex;align-items:center;gap:10px}
-.t-avatar{width:38px;height:38px;border-radius:50%;background:var(--parchment);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
-.t-name{font-size:0.82rem;font-weight:600;color:var(--ink)}
-.t-role{font-size:0.72rem;color:var(--muted)}
-
+/* VIDEOS */
+.videos-section{padding:48px var(--px);background:var(--cream);border-top:1px solid var(--border)}
+.videos-inner{max-width:1200px;margin:0 auto}
+.videos-inner .section-label{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+.videos-inner .section-heading{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:800;color:var(--ink);margin:0 0 8px}
+.videos-inner .section-sub{color:var(--muted);font-size:0.88rem;margin:0 0 24px}
+.videos-grid{display:grid;grid-template-columns:1fr;gap:16px}
+.video-card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.07);border:1px solid var(--border)}
+.video-embed{position:relative;padding-bottom:56.25%;height:0;overflow:hidden}
+.video-embed iframe{position:absolute;top:0;left:0;width:100%;height:100%}
+.video-info{padding:12px 14px}
+.video-title{font-family:'Playfair Display',serif;font-size:0.92rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.video-meta{font-size:0.78rem;color:var(--muted)}
 /* NEWSLETTER */
-.nl-section{padding:48px 16px;border-top:1px solid var(--border)}
-.nl-title{font-family:'Playfair Display',serif;font-size:clamp(1.7rem,6vw,2.4rem);font-weight:800;letter-spacing:-0.02em;line-height:1.15;color:var(--ink);margin-bottom:10px}
-.nl-sub{font-size:0.9rem;color:var(--muted);line-height:1.6;margin-bottom:24px;font-weight:300}
+.nl-section{padding:44px var(--px);border-top:1px solid var(--border)}
+.nl-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,6vw,2.4rem);font-weight:800;letter-spacing:-0.02em;line-height:1.15;color:var(--ink);margin-bottom:10px}
+.nl-sub{font-size:0.88rem;color:var(--muted);line-height:1.6;margin-bottom:20px;font-weight:300}
 .nl-form{display:flex;flex-direction:column;gap:10px}
-.nl-input{font-family:'DM Sans',sans-serif;font-size:1rem;padding:14px 16px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--cream);color:var(--ink);outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+.nl-input{font-family:'DM Sans',sans-serif;font-size:0.95rem;padding:13px 14px;border:1.5px solid var(--border);border-radius:var(--r);background:var(--cream);color:var(--ink);outline:none;transition:border-color 0.2s;appearance:none;-webkit-appearance:none;width:100%}
 .nl-input:focus{border-color:var(--ink)}
 .nl-input::placeholder{color:#aaa}
-.nl-small{font-size:0.72rem;color:var(--muted);margin-top:8px}
-
+.nl-small{font-size:0.7rem;color:var(--muted);margin-top:8px}
 /* FOOTER */
-footer{background:var(--ink);padding:48px 16px 32px}
-.ft-top{display:grid;grid-template-columns:1fr 1fr;gap:32px 24px;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid rgba(247,243,236,0.1)}
+footer{background:var(--ink);padding:44px var(--px) 28px}
+.ft-top{display:grid;grid-template-columns:1fr 1fr;gap:28px 20px;margin-bottom:36px;padding-bottom:36px;border-bottom:1px solid rgba(245,249,246,0.1)}
 .ft-brand{grid-column:1/-1}
-.ft-brand-name{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--cream);margin-bottom:10px}
-.ft-brand-desc{font-size:0.82rem;color:rgba(247,243,236,0.45);line-height:1.6;font-weight:300;margin-bottom:18px}
-.ft-social{display:flex;gap:10px}
-.ft-s{width:34px;height:34px;border:1px solid rgba(247,243,236,0.15);border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.85rem;color:rgba(247,243,236,0.5);transition:all 0.2s}
+.ft-brand-name{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:900;color:var(--cream);margin-bottom:8px}
+.ft-brand-desc{font-size:0.8rem;color:rgba(245,249,246,0.45);line-height:1.6;font-weight:300;margin-bottom:16px}
+.ft-social{display:flex;gap:8px}
+.ft-s{width:32px;height:32px;border:1px solid rgba(245,249,246,0.15);border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.8rem;color:rgba(245,249,246,0.5);transition:all 0.2s}
 .ft-s:hover{border-color:var(--gold);color:var(--gold)}
-.ft-col-title{font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.ft-col-title{font-size:0.62rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 .ft-links{list-style:none;display:flex;flex-direction:column;gap:8px}
-.ft-links a{font-size:0.82rem;color:rgba(247,243,236,0.45);text-decoration:none;transition:color 0.2s}
+.ft-links a{font-size:0.8rem;color:rgba(245,249,246,0.45);text-decoration:none;transition:color 0.2s}
 .ft-links a:hover{color:var(--cream)}
-.ft-bottom{display:flex;flex-direction:column;gap:6px;font-size:0.72rem;color:rgba(247,243,236,0.25)}
-
-/* DESKTOP UPGRADES */
+.ft-bottom{display:flex;flex-direction:column;gap:5px;font-size:0.7rem;color:rgba(245,249,246,0.25)}
+/* SHIMMER */
+.shimmer-link{font-style:italic;font-weight:600!important;background:linear-gradient(90deg,#3ab54a 0%,#3ab54a 40%,#6ed47a 50%,#3ab54a 60%,#3ab54a 100%);background-size:300% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer-move 4s ease-in-out infinite;text-decoration:none}
+@keyframes shimmer-move{0%{background-position:200% center}100%{background-position:-200% center}}
+/* 640px — small tablet */
 @media(min-width:640px){
-  .prods-grid{grid-template-columns:repeat(4,1fr)}
-  .cats-grid{grid-template-columns:repeat(4,1fr)}
-  .ens-grid{grid-template-columns:repeat(6,1fr)}
-  .testi-cards{display:grid;grid-template-columns:repeat(3,1fr)}
+  .prods-grid{grid-template-columns:repeat(3,1fr);gap:16px}
+  .videos-grid{grid-template-columns:1fr 1fr;gap:20px}
   .nl-form{flex-direction:row}
   .nl-input{flex:1}
 }
+/* 768px — tablet */
 @media(min-width:768px){
-  :root{--nav-h:68px}
-  .nav{padding:0 40px}
-  .nav-logo{font-size:1.5rem}
-  .nav-mark{width:30px;height:30px}
-  .nav-links-desk{display:flex;align-items:center;gap:28px;list-style:none}
-  .nav-links-desk a{font-size:0.85rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s}
-  .nav-links-desk a:hover{color:var(--ink)}
-  .hamburger{display:none}
-  .drawer{display:none}
-  .hero{flex-direction:row;align-items:center;padding:calc(var(--nav-h) + 60px) 48px 80px;gap:56px}
-  .hero-left{flex:1}
-  .hero-right{flex:0 0 340px}
-  .prod-section{padding:72px 48px}
-  .digi-banner{margin:0 48px 72px;padding:60px 64px;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-  .testi-section{padding:72px 48px}
-  .nl-section{padding:64px 48px}
-  footer{padding:64px 48px 40px}
+  .nav-logo{font-size:2.1rem}
+  .nav-logo-img{height:75px}
+  .hero{flex-direction:row;align-items:center;padding:48px var(--px) 64px;gap:48px}
+  .hero-left{flex:1;min-width:0}
+  .hero-right{flex:0 0 300px}
+  .prod-section{padding:60px var(--px)}
+  .digi-banner{margin:0 var(--px) 60px;padding:52px var(--px);display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .nl-section{padding:60px var(--px)}
+  footer{padding:60px var(--px) 36px}
   .ft-top{grid-template-columns:2fr 1fr 1fr;gap:40px 48px}
   .ft-brand{grid-column:auto}
   .ft-bottom{flex-direction:row;justify-content:space-between}
 }
+/* 1024px — desktop */
 @media(min-width:1024px){
-  .nav{padding:0 56px}
-  .hero{padding:calc(var(--nav-h) + 80px) 72px 96px}
-  .hero-right{flex:0 0 400px}
-  .prod-section{padding:88px 72px}
-  .digi-banner{margin:0 72px 88px;padding:72px 80px}
-  .testi-section{padding:88px 72px}
-  .nl-section{padding:80px 72px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+  .hero{padding:64px var(--px) 80px}
+  .hero-right{flex:0 0 380px}
+  .prods-grid{grid-template-columns:repeat(4,1fr)}
+  .prod-section{padding:80px var(--px)}
+  .digi-banner{margin:0 var(--px) 80px;padding:64px var(--px)}
+  .videos-section{padding:72px var(--px)}
+  .videos-grid{grid-template-columns:1fr 1fr;gap:28px}
+  .nl-section{padding:80px var(--px);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
   .nl-sub{margin-bottom:0}
   .nl-form{flex-direction:column}
-  footer{padding:72px 72px 40px}
+  footer{padding:72px var(--px) 40px}
   .ft-top{grid-template-columns:2fr 1fr 1fr 1fr}
+}
+
+/* TESTIMONIALS */
+.testimonials-grid{display:grid;grid-template-columns:1fr;gap:28px}
+.tcard{background:#fff;border:1px solid var(--border);border-radius:16px;padding:32px 28px 24px;display:flex;flex-direction:column;box-shadow:0 6px 28px rgba(15,13,10,0.09);position:relative;overflow:hidden}
+.tcard::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--green),var(--green-dark));border-radius:16px 16px 0 0}
+.tcard-quote{font-family:'Playfair Display',serif;font-size:5.5rem;line-height:0.65;color:var(--green);font-weight:900;display:block;margin-bottom:4px;opacity:0.18;letter-spacing:-4px}
+.tcard-text{font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;line-height:1.85;color:var(--ink);margin-bottom:24px;flex:1}
+.tcard-author{display:flex;align-items:center;gap:14px;border-top:1px solid var(--border);padding-top:18px;margin-top:auto}
+.tcard-av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-dark));display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(58,181,74,0.35)}
+.tcard-name{font-size:0.85rem;font-weight:700;color:var(--ink)}
+.tcard-role{font-size:0.71rem;color:var(--muted);margin-top:3px;line-height:1.4}
+/* SSS SECTION */
+.sss-section{background:linear-gradient(135deg,#0d1a14 0%,#1a2e1a 100%);padding:64px var(--px);overflow:hidden;position:relative}
+.sss-glow{position:absolute;top:-60px;right:-60px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(58,181,74,0.12) 0%,transparent 70%);pointer-events:none}
+.sss-glow2{position:absolute;bottom:-80px;left:-40px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(58,181,74,0.07) 0%,transparent 70%);pointer-events:none}
+.sss-inner{max-width:960px;margin:0 auto;position:relative}
+.sss-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;max-width:400px}
+.sss-stat{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:14px 12px;text-align:center}
+.sss-stat-val{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold-light)}
+.sss-stat-label{font-size:0.65rem;color:rgba(245,249,246,0.45);text-transform:uppercase;letter-spacing:0.07em;margin-top:3px}
+/* HERO CTA BTNS */
+.hero-ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.hero-btn-p{display:inline-flex;align-items:center;gap:6px;padding:13px 24px;background:var(--green);color:#fff;border-radius:var(--r);font-size:0.9rem;font-weight:600;text-decoration:none;transition:background 0.2s;box-shadow:0 3px 10px rgba(58,181,74,0.3)}
+.hero-btn-p:hover{background:var(--green-dark)}
+.hero-btn-g{display:inline-flex;align-items:center;gap:6px;padding:12px 22px;border:1.5px solid var(--border);color:var(--ink);border-radius:var(--r);font-size:0.9rem;font-weight:600;text-decoration:none;background:transparent;transition:all 0.2s}
+.hero-btn-g:hover{border-color:var(--green);color:var(--green)}
+@media(min-width:768px){
+  .testimonials-grid{grid-template-columns:repeat(3,1fr);gap:28px}
+  .sss-section{padding:80px var(--px)}
+}
+@media(min-width:1024px){
+  .nav-links-desk{display:flex;align-items:center;gap:24px;list-style:none}
+  .nav-links-desk a{font-size:0.85rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color 0.2s}
+  .nav-links-desk a:hover{color:var(--ink)}
+  .hamburger{display:none}
+  .drawer{display:none}
+}
+</style>
+<style id="llp-header-fix">
+/* Unified header — auto-fits all screens */
+.nav-logo{font-size:clamp(1rem,0.62rem + 1vw,1.35rem)!important;white-space:nowrap!important;flex-shrink:1;min-width:0;overflow:hidden;gap:8px}
+.nav-logo img,.nav-logo-img{height:clamp(32px,26px + 1.2vw,42px)!important}
+.nav-cart,.btn-cart{white-space:nowrap!important;flex-shrink:0}
+.nav-links-desk{align-items:center;justify-content:center;gap:2px;list-style:none;flex:1 1 auto;min-width:0;margin:0 10px;padding:0}
+.nav-links-desk li{list-style:none}
+.nav-links-desk a{white-space:nowrap!important;font-size:0.8rem!important;padding:6px 8px}
+@media(max-width:1139.9px){.nav-links-desk{display:none!important}.hamburger{display:flex!important}.drawer{display:block!important}}
+@media(min-width:1140px){.nav-links-desk{display:flex!important}.hamburger{display:none!important}.drawer{display:none!important}}
+@media(max-width:480px){.nav-logo{font-size:0.9rem!important}.nav-cart,.btn-cart{padding:8px 10px!important}}
+@media(min-width:768px) and (max-width:1139.9px){
+  .nav-logo{font-size:1.5rem!important}
+  .nav-logo img,.nav-logo-img{height:46px!important}
+  .nav-cart,.btn-cart{font-size:0.9rem!important;padding:10px 18px!important}
+  .hamburger{width:44px!important;height:44px!important}
 }
 </style>
 </head>
 <body>
 
+<!-- SALE BANNER -->
+<div id="sale-banner" style="background:linear-gradient(90deg,#1a3a1c,#2d5a2f);color:#fff;text-align:center;padding:0 var(--px);font-size:0.82rem;font-weight:600;display:flex;align-items:center;justify-content:center;gap:12px;position:fixed;top:0;left:0;right:0;height:var(--banner-h);z-index:300">
+  <span>&#127991; Spring Sale — 20% off all sheet music! Ends in <span id="sale-countdown" style="font-family:'DM Mono',monospace;color:#7dd98a;margin-left:4px">--:--:--</span></span>
+  <a href="search.html" style="color:#7dd98a;text-decoration:underline;white-space:nowrap">Shop Now →</a>
+  <button onclick="document.getElementById('sale-banner').style.display='none';document.documentElement.style.setProperty('--banner-h','0px');sessionStorage.setItem('saleDismissed','1')" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,0.5);font-size:1.1rem;cursor:pointer;line-height:1;padding:4px">&times;</button>
+</div>
+<script>
+(function(){
+  if(sessionStorage.getItem('saleDismissed')){document.getElementById('sale-banner').style.display='none';document.documentElement.style.setProperty('--banner-h','0px');return;}
+  var end = new Date('2026-04-08T23:59:59');
+  function tick(){
+    var now = new Date(), diff = end - now;
+    if(diff <= 0){document.getElementById('sale-banner').style.display='none';document.documentElement.style.setProperty('--banner-h','0px');return;}
+    var h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+    var el = document.getElementById('sale-countdown');
+    if(el) el.textContent = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 1000);
+})();
+</script>
+
 <!-- NAV -->
 <nav class="nav">
-  <a class="nav-logo" href="#"><span class="nav-mark">&#119070;</span>Forte Music</a>
+  <a class="nav-logo" href="index.html"><img src="/img/lion-and-lamb-logo.png?v=2" alt="Lion and Lamb Publishing" class="nav-logo-img">Lion and Lamb Publishing</a>
   <ul class="nav-links-desk">
     <li><a href="search.html">Sheet Music</a></li>
-    <li><a href="#">Digital Downloads</a></li>
-    <li><a href="#">By Ensemble</a></li>
-    <li><a href="#">For Directors</a></li>
+    <li><a href="music.html">MP3s</a></li>
+    
+    
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="/soulful-singing-series/" class="shimmer-link">Soulful Singing Series</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="free-resources.html">Free Resources</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="director-dashboard.html">Account</a></li>
   </ul>
   <div class="nav-r">
-    <a class="nav-cart" href="cart.html">&#128722; Cart (0)</a>
+    <a class="nav-cart" href="cart.html"><svg style="width:15px;height:15px;vertical-align:-2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2 2h3l2.6 12.5a2 2 0 0 0 2 1.5h8.7a2 2 0 0 0 2-1.5L22 7H6"/></svg> Cart (0)</a>
     <button class="hamburger" id="ham" onclick="toggleDrawer()">
       <span></span><span></span><span></span>
     </button>
@@ -244,16 +282,19 @@ footer{background:var(--ink);padding:48px 16px 32px}
 <div class="drawer" id="drawer">
   <div class="drawer-inner">
     <div class="drawer-links">
+      <a class="drawer-link" href="index.html"><span class="d-icon">&#127968;</span>Home</a>
       <a class="drawer-link" href="search.html"><span class="d-icon">&#127925;</span>Sheet Music</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#9889;</span>Digital Downloads</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#127932;</span>By Ensemble</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#127979;</span>For Directors</a>
-      <a class="drawer-link" href="#"><span class="d-icon">&#10024;</span>New Arrivals</a>
+      <a class="drawer-link" href="music.html"><span class="d-icon">&#127911;</span>MP3s</a>
+      <a class="drawer-link" href="merch.html"><span class="d-icon">&#128717;</span>Merch</a>
+      <a class="drawer-link" href="/soulful-singing-series/" style="font-style:italic;color:var(--green);font-weight:600"><span class="d-icon">&#127925;</span>Soulful Singing Series</a>
+      <a class="drawer-link" href="about.html"><span class="d-icon">&#128196;</span>About</a>
+      <a class="drawer-link" href="director-dashboard.html"><span class="d-icon">&#128100;</span>Account</a>
+      <a class="drawer-link" href="cart.html"><span class="d-icon">&#128722;</span>Cart</a>
     </div>
     <div class="drawer-sep"></div>
     <div class="drawer-ctas">
       <a class="btn-p" href="director-dashboard.html">&#9685; Director Dashboard</a>
-      <a class="btn-g" href="#">Sign In</a>
+      <a class="btn-g" href="director-dashboard.html">Sign In</a>
     </div>
   </div>
 </div>
@@ -261,83 +302,54 @@ footer{background:var(--ink);padding:48px 16px 32px}
 <!-- HERO -->
 <section class="hero">
   <div class="hero-left">
-    <div class="hero-eyebrow">The Director's Music Resource</div>
+    <div style="font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);margin-bottom:12px">&#9889; Download Tonight &middot; Print Tomorrow</div>
     <h1 class="hero-title">Music that<br><em>moves</em> your<br>ensemble.</h1>
-    <p class="hero-sub">Trusted by 14,000+ band directors and choir conductors. Discover print scores and digital downloads curated for every level.</p>
+    <p class="hero-sub">Professional choral arrangements by Dr. Kevin Phillip Johnson — trusted by directors nationwide. Purchase before rehearsal, download in seconds, print as many copies as your ensemble needs.</p>
     <div class="hero-search">
-      <input type="text" placeholder="Search by title, composer&hellip;">
-      <button>Search</button>
+      <input type="text" id="hero-q" placeholder="Search by title, composer, or ensemble" onkeydown="if(event.key==='Enter')heroSearch()">
+      <button onclick="heroSearch()">Search</button>
     </div>
-    <div class="hero-tags">
-      <span class="h-tag">Concert Band</span>
-      <span class="h-tag">Choir SATB</span>
-      <span class="h-tag">String Orchestra</span>
-      <span class="h-tag">Grade 2&ndash;3</span>
-      <span class="h-tag">Jazz</span>
+    <div class="hero-ctas">
+      <a class="hero-btn-p" href="search.html">Browse All Scores &#8594;</a>
+      <a class="hero-btn-g" href="/soulful-singing-series/">Soulful Singing Series &#127925;</a>
     </div>
   </div>
   <div class="hero-right">
-    <div class="hero-card">
-      <div class="hero-card-score">
-        <div class="hc-staff">
-          <div><div class="hc-note" style="left:14%"></div></div>
-          <div><div class="hc-note" style="left:30%"></div></div>
-          <div><div class="hc-note" style="left:50%"></div></div>
-          <div><div class="hc-note" style="left:66%"></div></div>
-          <div><div class="hc-note" style="left:80%"></div></div>
-        </div>
-        <div class="hc-clef">&#119074;</div>
-        <div class="featured-label">&#9733; Featured Score</div>
-      </div>
-      <div class="hero-card-body">
-        <div class="hc-cat">Concert Band &middot; Grade 4</div>
-        <div class="hc-title">Appalachian Dawn</div>
-        <div class="hc-composer">arr. Marcus L. Hendricks</div>
-        <div class="hc-footer">
-          <span class="hc-price">$49.95</span>
-          <button class="hc-btn">Add to Cart</button>
+    <div class="hero-card" style="border-radius:14px;overflow:hidden;box-shadow:0 8px 40px rgba(15,13,10,0.14),0 2px 8px rgba(15,13,10,0.06)">
+
+      <!-- Composer header -->
+      <div style="background:var(--ink);padding:28px 24px 24px;position:relative;overflow:hidden">
+        <!-- Decorative background glyph -->
+        <div style="position:absolute;right:-18px;bottom:-28px;font-size:9rem;opacity:0.06;line-height:1;pointer-events:none;user-select:none;font-family:serif">&#9835;</div>
+        <!-- Badge -->
+        <div style="display:inline-flex;align-items:center;gap:5px;font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--green);background:rgba(58,181,74,0.12);border:1px solid rgba(58,181,74,0.28);border-radius:4px;padding:4px 10px;margin-bottom:20px">&#9733; Composer &amp; Arranger</div>
+        <!-- Avatar + name -->
+        <div style="display:flex;align-items:center;gap:16px">
+          <div style="width:72px;height:72px;border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,0.15);flex-shrink:0"><img src="/img/kevin-photo.png" alt="Dr. Kevin Phillip Johnson" style="width:100%;height:100%;object-fit:cover;object-position:center top"></div>
+          <div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:900;color:#fff;line-height:1.15;letter-spacing:-0.01em">Dr. Kevin<br>Phillip Johnson</div>
+            <div style="font-size:0.72rem;color:rgba(245,249,246,0.45);margin-top:4px;font-weight:300">Atlanta, GA</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="hero-stats">
-      <div><span class="hs-num">85K+</span><span class="hs-label">Titles</span></div>
-      <div><span class="hs-num">14K+</span><span class="hs-label">Directors</span></div>
-      <div><span class="hs-num">24hr</span><span class="hs-label">PDF Delivery</span></div>
-    </div>
-  </div>
-</section>
 
-<!-- MARQUEE -->
-<div class="marquee">
-  <div class="marquee-inner">
-    <span class="m-item">Free shipping on orders over $75 <span class="m-dot"></span></span>
-    <span class="m-item">Instant PDF delivery <span class="m-dot"></span></span>
-    <span class="m-item">30-day return policy <span class="m-dot"></span></span>
-    <span class="m-item">School purchase orders accepted <span class="m-dot"></span></span>
-    <span class="m-item">Preview any score before you buy <span class="m-dot"></span></span>
-    <span class="m-item">Over 85,000 titles <span class="m-dot"></span></span>
-    <span class="m-item">Free shipping on orders over $75 <span class="m-dot"></span></span>
-    <span class="m-item">Instant PDF delivery <span class="m-dot"></span></span>
-    <span class="m-item">30-day return policy <span class="m-dot"></span></span>
-    <span class="m-item">School purchase orders accepted <span class="m-dot"></span></span>
-    <span class="m-item">Preview any score before you buy <span class="m-dot"></span></span>
-    <span class="m-item">Over 85,000 titles <span class="m-dot"></span></span>
-  </div>
-</div>
-
-<!-- CATEGORIES -->
-<section class="section">
-  <div class="section-label">Browse the Catalog</div>
-  <h2 class="section-title">Find music for<br>every program.</h2>
-  <div class="cats-grid">
-    <div class="cat-card"><span class="cat-icon">&#127932;</span><div class="cat-name">Concert Band</div><div class="cat-count">18,400+ titles</div><span class="cat-arr">&#8599;</span></div>
-    <div class="cat-card"><span class="cat-icon">&#127926;</span><div class="cat-name">Choral &amp; Vocal</div><div class="cat-count">22,100+ titles</div><span class="cat-arr">&#8599;</span></div>
-    <div class="cat-card"><span class="cat-icon">&#127931;</span><div class="cat-name">String Orchestra</div><div class="cat-count">9,800+ titles</div><span class="cat-arr">&#8599;</span></div>
-    <div class="cat-card"><span class="cat-icon">&#129345;</span><div class="cat-name">Marching Band</div><div class="cat-count">5,200+ titles</div><span class="cat-arr">&#8599;</span></div>
-    <div class="cat-card"><span class="cat-icon">&#127929;</span><div class="cat-name">Piano &amp; Keyboard</div><div class="cat-count">12,600+ titles</div><span class="cat-arr">&#8599;</span></div>
-    <div class="cat-card"><span class="cat-icon">&#127927;</span><div class="cat-name">Jazz Ensemble</div><div class="cat-count">7,300+ titles</div><span class="cat-arr">&#8599;</span></div>
-    <div class="cat-card"><span class="cat-icon">&#128276;</span><div class="cat-name">Handbell &amp; Perc.</div><div class="cat-count">3,100+ titles</div><span class="cat-arr">&#8599;</span></div>
-    <div class="cat-card"><span class="cat-icon">&#128444;</span><div class="cat-name">Digital Downloads</div><div class="cat-count">41,000+ files</div><span class="cat-arr">&#8599;</span></div>
+      <!-- Bio + credentials -->
+      <div style="padding:20px 22px 22px;background:var(--parchment)">
+        <p style="font-size:0.82rem;line-height:1.65;color:var(--muted);margin-bottom:16px">Conductor, composer, and educator whose sacred, gospel, and spiritual works are performed by ensembles at HBCUs and schools nationwide.</p>
+        <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+          <div style="display:flex;align-items:center;gap:9px;font-size:0.78rem;color:var(--ink)">
+            <span style="color:var(--green);font-size:0.6rem">&#9670;</span>
+            <span>Creator of the <em>Soulful Singing Series</em></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px;font-size:0.78rem;color:var(--ink)">
+            <span style="color:var(--green);font-size:0.6rem">&#9670;</span>
+            <span>80+ published choral titles</span>
+          </div>
+        </div>
+        <a href="about.html" style="display:flex;align-items:center;justify-content:center;gap:7px;padding:13px 20px;background:var(--green);color:#fff;border-radius:var(--r);font-size:0.88rem;font-weight:700;text-decoration:none;letter-spacing:0.01em;transition:background 0.2s;box-shadow:0 3px 12px rgba(58,181,74,0.28)" onmouseover="this.style.background='#2d9139'" onmouseout="this.style.background='var(--green)'">Meet the Composer &#8594;</a>
+      </div>
+    </div>
+    </div>
   </div>
 </section>
 
@@ -350,74 +362,113 @@ footer{background:var(--ink);padding:48px 16px 32px}
     </div>
     <a class="view-all" href="search.html">All &#8594;</a>
   </div>
-  <div class="filters-scroll">
-    <button class="f-btn active">All</button>
-    <button class="f-btn">Concert Band</button>
-    <button class="f-btn">Choral</button>
-    <button class="f-btn">Orchestra</button>
-    <button class="f-btn">Jazz</button>
-    <button class="f-btn">Digital</button>
-  </div>
-  <div class="prods-grid">
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-a"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--burgundy);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">Bestseller</span></div>
-      <div class="prod-body"><div class="prod-ens">Concert Band &middot; Gr.3</div><div class="prod-title">Elegy for a Quiet Morning</div><div class="prod-composer">Samuel Haverford</div><div class="prod-foot"><span class="prod-price">$54.95</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-b"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span></div>
-      <div class="prod-body"><div class="prod-ens">SATB Choir</div><div class="prod-title">Lux Perpetua</div><div class="prod-composer">Elena V&aacute;squez-Muro</div><div class="prod-foot"><span class="prod-price">$4.95</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-c"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--gold);color:var(--ink);font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">New</span></div>
-      <div class="prod-body"><div class="prod-ens">String Orch. &middot; Gr.2</div><div class="prod-title">Autumn Portraits</div><div class="prod-composer">Ji-Young Park</div><div class="prod-foot"><span class="prod-price">$39.95</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-    <div class="prod-card" onclick="location.href='product.html'">
-      <div class="prod-thumb pt-d"><div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div><span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span></div>
-      <div class="prod-body"><div class="prod-ens">Jazz Ensemble</div><div class="prod-title">Blue Horizon Shuffle</div><div class="prod-composer">arr. T. W. Cole</div><div class="prod-foot"><span class="prod-price">$6.50</span><button class="prod-add" onclick="event.stopPropagation()">+</button></div></div>
-    </div>
-  </div>
+  <div class="prods-grid" id="prods-grid"><div style="grid-column:1/-1;text-align:center;padding:40px 0;color:var(--muted)">Loading scores…</div></div>
 </div>
-
-<!-- ENSEMBLES -->
-<section class="section">
-  <div class="section-label">Quick Browse</div>
-  <h2 class="section-title" style="margin-bottom:24px">Shop by ensemble</h2>
-  <div class="ens-grid">
-    <div class="ens-tile"><span class="ens-icon">&#127930;</span><span class="ens-name">Brass Ensemble</span></div>
-    <div class="ens-tile"><span class="ens-icon">&#127931;</span><span class="ens-name">String Quartet</span></div>
-    <div class="ens-tile"><span class="ens-icon">&#129511;</span><span class="ens-name">Woodwind Quintet</span></div>
-    <div class="ens-tile"><span class="ens-icon">&#127897;</span><span class="ens-name">Show Choir</span></div>
-    <div class="ens-tile"><span class="ens-icon">&#129345;</span><span class="ens-name">Percussion Ensemble</span></div>
-    <div class="ens-tile"><span class="ens-icon">&#127929;</span><span class="ens-name">Piano Solo</span></div>
-  </div>
-</section>
 
 <!-- DIGITAL BANNER -->
 <div class="digi-banner">
   <div>
     <div class="digi-eyebrow">Instant Access &middot; No Waiting</div>
     <h2 class="digi-title">Print it. Play it.<br><em>Tonight.</em></h2>
-    <p class="digi-desc">Over 41,000 scores as instant PDF downloads. Purchase before rehearsal, download in seconds, print as many copies as your ensemble needs.</p>
+    <p class="digi-desc">Purchase before rehearsal, download in seconds, print as many copies as your ensemble needs.</p>
     <div class="digi-features">
       <div class="df-item"><div class="df-icon">&#9889;</div><div class="df-text"><strong>Instant Delivery</strong>Download on checkout</div></div>
       <div class="df-item"><div class="df-icon">&#128424;</div><div class="df-text"><strong>Print Unlimited</strong>Licensed for your ensemble</div></div>
       <div class="df-item"><div class="df-icon">&#128241;</div><div class="df-text"><strong>Any Device</strong>PDF on tablets &amp; stands</div></div>
       <div class="df-item"><div class="df-icon">&#127979;</div><div class="df-text"><strong>PO Accepted</strong>School orders welcome</div></div>
     </div>
-    <a class="btn-p" href="search.html" style="display:inline-flex;padding:14px 28px">Browse Digital Scores &#8594;</a>
+    <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:4px">
+      <a class="btn-p" href="search.html" style="display:inline-flex;padding:15px 34px;font-size:1rem;font-weight:700;box-shadow:0 4px 16px rgba(58,181,74,0.4)">Download Tonight &#8594;</a>
+      <span style="font-size:0.8rem;color:rgba(245,249,246,0.55)">PDF scores from <strong style="color:rgba(245,249,246,0.85)">$6.00</strong></span>
+    </div>
   </div>
 </div>
 
-<!-- TESTIMONIALS -->
-<div class="testi-section">
-  <div class="section-label">From the Podium</div>
-  <h2 class="section-title">Directors love Forte.</h2>
-  <div class="testi-cards">
-    <div class="testi-card"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-quote">"I ordered a grade 3 concert band set on Thursday and had the PDF in my inbox before dismissal. My students sight-read it Friday morning. Absolutely indispensable."</p><div class="testi-author"><div class="t-avatar">&#128105;&#8205;&#127979;</div><div><div class="t-name">Rachel Okonkwo</div><div class="t-role">Band Director &middot; Lakewood Middle School</div></div></div></div>
-    <div class="testi-card"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-quote">"The score preview feature is a game-changer. I can listen to a MIDI rendering and check difficulty before committing — no more surprises at rehearsal."</p><div class="testi-author"><div class="t-avatar">&#127928;</div><div><div class="t-name">David Carmichael</div><div class="t-role">Choral Director &middot; Roosevelt High School</div></div></div></div>
-    <div class="testi-card"><div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div><p class="testi-quote">"Submitting a purchase order is seamless. Our district's finance department was thrilled — everything is itemized and properly invoiced."</p><div class="testi-author"><div class="t-avatar">&#127931;</div><div><div class="t-name">Mei-Lin Zhao</div><div class="t-role">Orchestra Director &middot; Westfield Academy</div></div></div></div>
+
+<!-- SOULFUL SINGING SERIES SPOTLIGHT -->
+<section style="background:linear-gradient(135deg,#0d1a14 0%,#1a2e1a 100%);padding:64px var(--px) 72px;overflow:hidden;position:relative">
+  <div style="position:absolute;top:-60px;right:-60px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(58,181,74,0.12) 0%,transparent 70%);pointer-events:none"></div>
+  <div style="position:absolute;bottom:-80px;left:-40px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(58,181,74,0.07) 0%,transparent 70%);pointer-events:none"></div>
+  <div style="max-width:960px;margin:0 auto;position:relative">
+    <div style="font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;color:#7dd98a;font-weight:700;margin-bottom:14px">&#127925; Flagship Series</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(2rem,6.5vw,3.4rem);font-weight:900;letter-spacing:-0.025em;line-height:1.05;color:#f5f9f6;margin-bottom:16px">The <em style="color:#7dd98a;font-style:italic">Soulful<br>Singing Series</em></h2>
+    <p style="font-size:0.92rem;line-height:1.75;color:rgba(245,249,246,0.6);max-width:540px;margin-bottom:32px;font-weight:300">A curated collection of spirituals, gospel, and sacred arrangements rooted in tradition and shaped for today&rsquo;s treble ensemble. Written to challenge, inspire, and move both choir and congregation.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:32px;max-width:360px">
+      <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:14px 12px;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#7dd98a">12+</div>
+        <div style="font-size:0.65rem;color:rgba(245,249,246,0.45);text-transform:uppercase;letter-spacing:0.07em;margin-top:3px">Titles</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:14px 12px;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#7dd98a">SSA</div>
+        <div style="font-size:0.65rem;color:rgba(245,249,246,0.45);text-transform:uppercase;letter-spacing:0.07em;margin-top:3px">Voicing</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:14px 12px;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#7dd98a">PDF</div>
+        <div style="font-size:0.65rem;color:rgba(245,249,246,0.45);text-transform:uppercase;letter-spacing:0.07em;margin-top:3px">Instant</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+      <a href="/soulful-singing-series/" style="display:inline-flex;align-items:center;gap:8px;padding:14px 34px;background:#3ab54a;color:#fff;border-radius:8px;font-size:0.92rem;font-weight:700;text-decoration:none;letter-spacing:0.01em;box-shadow:0 4px 18px rgba(58,181,74,0.45)">Explore the Series &#8594;</a>
+      <span style="font-size:0.8rem;color:rgba(245,249,246,0.4)">SSA &middot; sacred &amp; gospel repertoire</span>
+    </div>
   </div>
-</div>
+</section>
+
+<!-- WATCH & LISTEN -->
+<section class="videos-section" id="watch">
+  <div class="videos-inner">
+    <div class="section-label">Watch &amp; Listen</div>
+    <h2 class="section-heading">Hear the Music</h2>
+    <p class="section-sub">Performances by ensembles nationwide.</p>
+    <div class="videos-grid" id="videos-grid"><div style="grid-column:1/-1;color:var(--muted);font-size:0.9rem;padding:24px 0">Loading…</div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background:#f5f9f6;padding:80px 20px 88px;border-top:1px solid #c4d9c9">
+  <div style="max-width:700px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:52px">
+      <div style="font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:#3ab54a;font-weight:700;margin-bottom:12px">Director Voices</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,2.6rem);font-weight:900;color:#0f0d0a;letter-spacing:-0.02em;line-height:1.1">What conductors are saying</h2>
+    </div>
+    <div id="testimonials-grid" style="display:flex;flex-direction:column;gap:20px">
+
+      <div style="background:#fff;border-radius:16px;border:1px solid #c4d9c9;padding:28px;box-shadow:0 4px 24px rgba(15,13,10,0.07);display:flex;gap:24px;align-items:flex-start">
+        <div style="flex-shrink:0;width:80px;height:80px;position:relative">
+          <div style="position:absolute;inset:0;border-radius:40px;background:linear-gradient(135deg,#3ab54a,#2d9139);text-align:center;line-height:80px;font-size:1.2rem;font-weight:700;color:#fff">TC</div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:1.05rem;font-weight:700;color:#0f0d0a;margin-bottom:2px">Dr. Tamara Collins</div>
+          <div style="font-size:0.78rem;font-style:italic;color:#3ab54a;font-weight:500;margin-bottom:14px">Director of Choral Activities &middot; Morehouse College</div>
+          <p style="font-size:0.92rem;line-height:1.75;color:#3a4550;margin:0">My students connected with this music immediately. The arrangements are authentic, singable, and spiritually grounded — exactly what our program needed.</p>
+        </div>
+      </div>
+
+      <div style="background:#fff;border-radius:16px;border:1px solid #c4d9c9;padding:28px;box-shadow:0 4px 24px rgba(15,13,10,0.07);display:flex;gap:24px;align-items:flex-start">
+        <div style="flex-shrink:0;width:80px;height:80px;position:relative">
+          <div style="position:absolute;inset:0;border-radius:40px;background:linear-gradient(135deg,#3ab54a,#2d9139);text-align:center;line-height:80px;font-size:1.2rem;font-weight:700;color:#fff">MR</div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:1.05rem;font-weight:700;color:#0f0d0a;margin-bottom:2px">Marcus Reynolds</div>
+          <div style="font-size:0.78rem;font-style:italic;color:#3ab54a;font-weight:500;margin-bottom:14px">Choral Director &middot; Benjamin Banneker High School, Atlanta</div>
+          <p style="font-size:0.92rem;line-height:1.75;color:#3a4550;margin:0">I ordered during planning period and had parts printed before the bell rang. Every director should know about this. The download experience is seamless.</p>
+        </div>
+      </div>
+
+      <div style="background:#fff;border-radius:16px;border:1px solid #c4d9c9;padding:28px;box-shadow:0 4px 24px rgba(15,13,10,0.07);display:flex;gap:24px;align-items:flex-start">
+        <div style="flex-shrink:0;width:80px;height:80px;position:relative">
+          <div style="position:absolute;inset:0;border-radius:40px;background:linear-gradient(135deg,#3ab54a,#2d9139);text-align:center;line-height:80px;font-size:1.2rem;font-weight:700;color:#fff">AL</div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:1.05rem;font-weight:700;color:#0f0d0a;margin-bottom:2px">Angela Lawson</div>
+          <div style="font-size:0.78rem;font-style:italic;color:#3ab54a;font-weight:500;margin-bottom:14px">Founder &middot; Atlanta Children&rsquo;s Choir</div>
+          <p style="font-size:0.92rem;line-height:1.75;color:#3a4550;margin:0">Three pieces from the Soulful Singing Series at our spring concert &mdash; standing ovation. Dr. Johnson&rsquo;s voice is unique and deeply needed in this genre.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 <!-- NEWSLETTER -->
 <section class="nl-section">
@@ -426,11 +477,11 @@ footer{background:var(--ink);padding:48px 16px 32px}
     <p class="nl-sub">New arrivals, director resources, seasonal programming ideas, and exclusive discounts — delivered monthly.</p>
   </div>
   <div>
-    <div class="nl-form">
-      <input class="nl-input" type="email" placeholder="your@school.edu">
-      <button class="btn-p" style="padding:14px 24px">Subscribe &#8594;</button>
+    <div class="nl-form" id="nl-form">
+      <input class="nl-input" id="nl-email" type="email" placeholder="your@school.edu" onkeydown="if(event.key==='Enter')nlSubscribe()">
+      <button class="btn-p" id="nl-btn" onclick="nlSubscribe()" style="padding:14px 24px;white-space:nowrap">Subscribe &#8594;</button>
     </div>
-    <p class="nl-small">No spam. Unsubscribe anytime.</p>
+    <p class="nl-small" id="nl-msg">No spam. Unsubscribe anytime.</p>
   </div>
 </section>
 
@@ -438,7 +489,7 @@ footer{background:var(--ink);padding:48px 16px 32px}
 <footer>
   <div class="ft-top">
     <div class="ft-brand">
-      <div class="ft-brand-name">Forte Music</div>
+      <div class="ft-brand-name">Lion and Lamb Publishing</div>
       <p class="ft-brand-desc">The premier destination for band directors, choir conductors, and orchestra teachers. Sheet music and digital scores for every ensemble.</p>
       <div class="ft-social">
         <div class="ft-s">&#120143;</div><div class="ft-s">f</div><div class="ft-s">in</div><div class="ft-s">&#9654;</div>
@@ -447,40 +498,181 @@ footer{background:var(--ink);padding:48px 16px 32px}
     <div>
       <div class="ft-col-title">Shop</div>
       <ul class="ft-links">
-        <li><a href="search.html">Concert Band</a></li><li><a href="#">Choral Music</a></li><li><a href="#">String Orchestra</a></li><li><a href="#">Digital Downloads</a></li><li><a href="#">New Arrivals</a></li>
+        <li><a href="search.html">Sheet Music</a></li><li><a href="music.html">MP3s</a></li><li><a href="merch.html">Merch</a></li>
       </ul>
     </div>
     <div>
       <div class="ft-col-title">Directors</div>
       <ul class="ft-links">
-        <li><a href="cart.html">Purchase Orders</a></li><li><a href="director-dashboard.html">School Accounts</a></li><li><a href="#">Score Preview</a></li><li><a href="#">Bulk Discounts</a></li>
+        <li><a href="cart.html">Purchase Orders</a></li><li><a href="director-dashboard.html">School Accounts</a></li><li><a href="for-directors.html">Bulk Discounts</a></li>
       </ul>
     </div>
     <div>
       <div class="ft-col-title">Company</div>
       <ul class="ft-links">
-        <li><a href="#">About Us</a></li><li><a href="#">Contact</a></li><li><a href="#">Shipping Policy</a></li><li><a href="#">Returns</a></li>
+        <li><a href="blog.html">Blog</a></li>
+    <li><a href="free-resources.html">Free Resources</a></li>
+    <li><a href="about.html">About</a></li><li><a href="director-dashboard.html">My Account</a></li><li><a href="for-directors.html">For Directors</a></li>
       </ul>
     </div>
   </div>
   <div class="ft-bottom">
-    <span>&copy; 2026 Forte Music Co. All rights reserved.</span>
+    <span>&copy; 2026 Lion and Lamb Publishing. All rights reserved.</span>
     <span>Built for directors. Powered by music.</span>
   </div>
 </footer>
 
 <script>
-function toggleDrawer(){
-  var d=document.getElementById('drawer'),h=document.getElementById('ham');
-  d.classList.toggle('open');h.classList.toggle('open');
-  document.body.style.overflow=d.classList.contains('open')?'hidden':'';
+var API='https://lionandlambpublishing.com/api';
+var allProducts=[];
+var featuredProduct=null;
+function toggleDrawer(){var d=document.getElementById('drawer'),h=document.getElementById('ham');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
+function loadFeatured(){
+  fetch(API+'/products/featured').then(function(r){return r.ok?r.json():null}).then(function(p){
+    if(!p){setHeroDefault();return;}
+    featuredProduct=p;
+    var price=p.price_pdf?'$'+parseFloat(p.price_pdf).toFixed(2):p.price_print?'$'+parseFloat(p.price_print).toFixed(2):'';
+    var cat=(p.ensemble||'')+(p.grade?' · Gr.'+p.grade:'');
+    document.getElementById('featured-cat').textContent=cat||'Sheet Music';
+    document.getElementById('featured-title').textContent=p.title||'';
+    document.getElementById('featured-composer').textContent=p.composer||'';
+    document.getElementById('featured-price').textContent=price;
+  }).catch(function(){setHeroDefault();});
+}
+function setHeroDefault(){
+  document.getElementById('featured-cat').textContent='Featured Score';
+  document.getElementById('featured-title').textContent='Browse Our Catalog';
+  document.getElementById('featured-composer').textContent='Sheet music for every ensemble';
+  document.getElementById('featured-price').textContent='';
+}
+function featuredGoToProduct(){if(featuredProduct)location.href='product.html?id='+featuredProduct.id;else location.href='search.html';}
+var thumbClasses=['pt-a','pt-b','pt-c','pt-d'];
+function renderGrid(products){
+  var grid=document.getElementById('prods-grid');
+  if(!products||!products.length){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px 0;color:var(--muted);font-size:0.9rem">No products yet. Add them in the <a href=\"admin.html\" style=\"color:var(--green)\">admin panel</a>.</div>';return;}
+  grid.innerHTML=products.map(function(p,i){
+    var price=p.price_pdf?'$'+parseFloat(p.price_pdf).toFixed(2):p.price_print?'$'+parseFloat(p.price_print).toFixed(2):'';
+    var badge=p.featured?'<span style="position:absolute;top:8px;left:8px;background:var(--green);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">Featured</span>':(p.format==='PDF'?'<span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span>':'');
+    var isPdf=(p.format==='PDF'||p.format==='Print'||p.format==='Print + PDF Bundle');var thumb=(isPdf&&p.image_url)?'<img class="score-img" src="'+p.image_url+'" alt="" loading="lazy">':'<div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div>';
+    var ens=(p.ensemble||'')+(p.grade?' · Gr.'+p.grade:'');
+    return '<div class="prod-card" onclick="location.href=\'product.html?id='+p.id+'\'">'+'<div class="prod-thumb '+thumbClasses[i%4]+'">'+thumb+badge+'</div>'+'<div class="prod-body"><div class="prod-ens">'+ens+'</div><div class="prod-title">'+p.title+'</div><div class="prod-composer">'+p.composer+'</div><div class="prod-foot"><span class="prod-price">'+price+'</span><button class="prod-add" onclick="event.stopPropagation();addToCart('+p.id+')">+</button></div></div></div>';
+  }).join('');
+}
+function loadProducts(){
+  fetch(API+'/products').then(function(r){return r.json()}).then(function(products){allProducts=products.filter(function(p){var f=p.format||'';return f==='PDF'||f==='Print'||f==='Print + PDF Bundle';});var sorted=allProducts.slice().sort(function(a,b){var sa=(a.featured?2:0)+(a.image_url?1:0);var sb=(b.featured?2:0)+(b.image_url?1:0);if(sb!==sa)return sb-sa;return b.id-a.id;});renderGrid(sorted.slice(0,8));}).catch(function(){renderGrid([]);});
 }
 document.querySelectorAll('.f-btn').forEach(function(b){
   b.addEventListener('click',function(){
     document.querySelectorAll('.f-btn').forEach(function(x){x.classList.remove('active')});
     b.classList.add('active');
+    var map={'All':null,'Concert Band':'Concert Band','Choral':'Choral','Orchestra':'Orchestra','Jazz':'Jazz','Digital':'PDF'};
+    var val=map[b.textContent.trim()];
+    var filtered=val?allProducts.filter(function(p){return val==='PDF'?(p.format||'').toUpperCase()==='PDF':(p.ensemble||'').toLowerCase().indexOf(val.toLowerCase())>-1}):allProducts;
+    renderGrid(filtered.slice(0,8));
   });
 });
+function addToCart(id){
+  var cart=JSON.parse(localStorage.getItem('lal_cart')||'[]');
+  var idx=cart.findIndex(function(i){return i.id===id});
+  if(idx>-1)cart[idx].qty++;else cart.push({id:id,qty:1});
+  localStorage.setItem('lal_cart',JSON.stringify(cart));
+  var ct=cart.reduce(function(s,i){return s+i.qty},0);
+  var el=document.getElementById('cart-count');if(el)el.textContent=ct;
+}
+loadFeatured();
+loadProducts();
+loadTestimonials();
+loadVideos();
+
+function heroSearch(){
+  var q=(document.getElementById('hero-q').value||'').trim();
+  location.href=q?'search.html?q='+encodeURIComponent(q):'search.html';
+}
+
+async function nlSubscribe() {
+  const emailEl = document.getElementById('nl-email');
+  const btn = document.getElementById('nl-btn');
+  const msg = document.getElementById('nl-msg');
+  const email = emailEl.value.trim();
+  if (!email || !/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+    msg.textContent = 'Please enter a valid email address.';
+    msg.style.color = '#c0392b';
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Subscribing…';
+  try {
+    const r = await fetch(API + '/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Server error');
+    document.getElementById('nl-form').innerHTML = '<div style="font-size:1rem;font-weight:600;color:var(--green)">&#10003; You’re on the list!</div>';
+    msg.textContent = 'Check your inbox for a welcome email.';
+    msg.style.color = '';
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = 'Subscribe →';
+    msg.textContent = 'Something went wrong — please try again.';
+    msg.style.color = '#c0392b';
+  }
+}
+
+function loadVideos() {
+  fetch(API + '/videos')
+    .then(function(r) { return r.json(); })
+    .then(function(list) {
+      var grid = document.getElementById('videos-grid');
+      if (!list || !list.length) { grid.innerHTML = ''; return; }
+      grid.innerHTML = list.map(function(v) {
+        var esc = function(t) { return (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+        return '<div class="video-card">'
+          + '<div class="video-embed">'
+          + '<iframe src="https://www.youtube.com/embed/' + esc(v.youtube_id) + '?rel=0"'
+          + ' title="' + esc(v.title) + '"'
+          + ' frameborder="0" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"'
+          + ' allowfullscreen loading="lazy"></iframe>'
+          + '</div>'
+          + '<div class="video-info">'
+          + '<div class="video-title">' + esc(v.title) + '</div>'
+          + '<div class="video-meta">' + esc(v.meta || '') + '</div>'
+          + '</div></div>';
+      }).join('');
+    })
+    .catch(function() {
+      document.getElementById('videos-grid').innerHTML = '<div style="color:var(--muted);font-size:0.9rem">Unable to load videos.</div>';
+    });
+}
+
+function loadTestimonials() {
+  fetch(API + '/testimonials')
+    .then(function(r){ return r.json(); })
+    .then(function(list) {
+      var grid = document.getElementById('testimonials-grid');
+      if (!list || !list.length) { grid.innerHTML = ''; return; }
+      grid.innerHTML = list.map(function(t) {
+        var initials = t.initials || (t.name||'').split(' ').map(function(w){return w[0];}).join('').slice(0,2).toUpperCase();
+        var quote = t.quote || '';
+        // Strip surrounding quotes if present (DB stores plain text)
+        quote = quote.replace(/^["“‘]|["”’]$/g,'');
+        return '<div style=”background:#fff;border-radius:16px;border:1px solid #c4d9c9;padding:28px;box-shadow:0 4px 24px rgba(15,13,10,0.07);display:flex;gap:24px;align-items:flex-start”>'
+          + '<div style=”flex-shrink:0;width:80px;height:80px;position:relative”>'
+          + '<div style=”position:absolute;inset:0;border-radius:40px;background:linear-gradient(135deg,#3ab54a,#2d9139);text-align:center;line-height:80px;font-size:1.2rem;font-weight:700;color:#fff”>' + initials + '</div>'
+          + '</div>'
+          + '<div style=”flex:1;min-width:0”>'
+          + '<div style=”font-size:1.05rem;font-weight:700;color:#0f0d0a;margin-bottom:2px”>' + (t.name||'') + '</div>'
+          + '<div style=”font-size:0.78rem;font-style:italic;color:#3ab54a;font-weight:500;margin-bottom:14px”>' + (t.role||'') + '</div>'
+          + '<p style=”font-size:0.92rem;line-height:1.75;color:#3a4550;margin:0”>' + quote + '</p>'
+          + '</div></div>';
+      }).join('');
+    })
+    .catch(function() {
+      document.getElementById('testimonials-grid').innerHTML = '';
+    });
+}
 </script>
+<script>window.toggleDrawer=window.toggleDrawer||function(){var d=document.getElementById('drawer'),h=document.getElementById('ham');if(d)d.classList.toggle('open');if(h)h.classList.toggle('open');};</script>
 </body>
 </html>

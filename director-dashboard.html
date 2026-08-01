@@ -3,585 +3,1041 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Director Dashboard — Forte Music</title>
+<title>My Account — Lion and Lamb Publishing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--ink:#0f0d0a;--cream:#f7f3ec;--parchment:#ede6d6;--gold:#c49a2a;--gold-light:#e8c96a;--burgundy:#7b1f2e;--sage:#3d5a4a;--muted:#6b6257;--border:#d6cfc2}
+:root{--nav-h:64px;--px:16px;--ink:#0f0d0a;--cream:#f5f9f6;--parchment:#e8f2ea;--gold:#3ab54a;--green:#3ab54a;--green-dark:#2d9139;--sage:#1a7a2e;--muted:#5a6672;--border:#c4d9c9;--nav-h:68px;--r:8px;--err:#c0392b;--err-bg:#fdf2f2}
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);overflow-x:hidden;display:grid;grid-template-columns:240px 1fr;grid-template-rows:68px 1fr;min-height:100vh}
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:0.6}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased;padding-top:var(--nav-h)}
 
-/* TOP NAV */
-.top-nav{grid-column:1/-1;position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 32px;height:68px;background:rgba(247,243,236,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;letter-spacing:-0.02em;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px}
-.nav-logo span{display:inline-flex;width:28px;height:28px;background:var(--burgundy);color:var(--cream);border-radius:4px;align-items:center;justify-content:center;font-size:0.9rem}
-.top-nav-right{display:flex;align-items:center;gap:16px}
-.notif-btn{width:36px;height:36px;border:1.5px solid var(--border);border-radius:8px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.9rem;position:relative;transition:all 0.2s}
-.notif-btn:hover{border-color:var(--ink);background:var(--parchment)}
-.notif-badge{position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--burgundy);border-radius:50%;font-size:0.58rem;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--cream)}
-.user-chip{display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border:1.5px solid var(--border);border-radius:100px;cursor:pointer;transition:all 0.2s;background:var(--cream)}
-.user-chip:hover{border-color:var(--ink)}
-.user-avatar{width:30px;height:30px;background:var(--burgundy);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:0.78rem;font-weight:700}
-.user-name{font-size:0.82rem;font-weight:600;color:var(--ink)}
-.btn-primary{font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;padding:8px 16px;background:var(--burgundy);color:var(--cream);border:none;border-radius:6px;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
-.btn-primary:hover{background:#9a2638;transform:translateY(-1px)}
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(245,249,246,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 var(--px)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:'Playfair Display',serif;font-size:1.72rem;font-weight:900;white-space:nowrap;flex-shrink:0}
+.nav-logo img{height:48px;width:auto;object-fit:contain}
+.nav-links-desk{display:none;list-style:none;align-items:center;justify-content:center;gap:0;margin:0 12px;padding:0;flex:1;min-width:0}
+.nav-links-desk a{font-size:0.8rem;font-weight:500;color:var(--muted);text-decoration:none;padding:6px 8px;border-radius:6px;transition:color 0.2s;white-space:nowrap}
+.nav-links-desk a:hover{color:var(--ink)}
+.nav-links-desk a.active{color:var(--ink);font-weight:600}
+.btn-cart,.nav-cart{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--green);color:#fff;border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background 0.2s}
+.btn-cart:hover,.nav-cart:hover{background:var(--green-dark)}
+.nav-r{display:flex;align-items:center;gap:8px}
+.hamburger{width:38px;height:38px;background:transparent;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4.5px}
+.hamburger span{display:block;width:16px;height:1.5px;background:var(--ink);border-radius:2px;transition:all 0.3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+.drawer{position:fixed;top:var(--nav-h);left:0;right:0;bottom:0;background:var(--cream);z-index:190;transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);overflow-y:auto;border-top:1px solid var(--border)}
+.drawer.open{transform:translateX(0)}
+.drawer-inner{padding:20px var(--px) 48px}
+.drawer-link{display:flex;align-items:center;gap:12px;padding:14px 12px;font-size:0.95rem;font-weight:500;color:var(--ink);border-radius:6px;text-decoration:none}
+.drawer-link:active{background:var(--parchment)}
+.d-icon{width:22px;text-align:center;flex-shrink:0}
+.cart-count{background:rgba(255,255,255,0.25);border-radius:100px;padding:0 5px;font-size:0.72rem;min-width:18px;text-align:center;display:inline-block}
 
-/* SIDEBAR */
-.sidebar{margin-top:68px;background:var(--ink);padding:28px 0;position:fixed;left:0;top:0;bottom:0;width:240px;display:flex;flex-direction:column;z-index:50}
-.sidebar-section{padding:0 0 24px;margin-bottom:24px;border-bottom:1px solid rgba(247,243,236,0.07)}
-.sidebar-section:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.sidebar-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.12em;color:rgba(196,154,42,0.7);font-weight:700;padding:0 20px;margin-bottom:8px}
-.sidebar-link{display:flex;align-items:center;gap:12px;padding:10px 20px;font-size:0.85rem;font-weight:500;color:rgba(247,243,236,0.55);cursor:pointer;transition:all 0.2s;text-decoration:none;border-left:2px solid transparent}
-.sidebar-link:hover{color:var(--cream);background:rgba(247,243,236,0.06)}
-.sidebar-link.active{color:var(--cream);background:rgba(247,243,236,0.08);border-left-color:var(--gold)}
-.sidebar-link-icon{font-size:0.9rem;width:20px;text-align:center;flex-shrink:0}
-.sidebar-badge{margin-left:auto;background:var(--burgundy);color:#fff;font-size:0.62rem;font-weight:700;padding:2px 7px;border-radius:100px}
-.sidebar-bottom{margin-top:auto;padding:0 20px 0}
-.sidebar-user{padding:14px 0;border-top:1px solid rgba(247,243,236,0.08);display:flex;align-items:center;gap:10px}
-.sidebar-avatar{width:36px;height:36px;border-radius:50%;background:rgba(196,154,42,0.2);border:1.5px solid rgba(196,154,42,0.4);display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:0.82rem;font-weight:700;flex-shrink:0}
-.sidebar-user-name{font-size:0.82rem;font-weight:600;color:var(--cream);line-height:1.2}
-.sidebar-user-school{font-size:0.7rem;color:rgba(247,243,236,0.4)}
+/* AUTH SCREENS */
+.auth-wrap{min-height:calc(100vh - var(--nav-h));display:flex;align-items:center;justify-content:center;padding:40px var(--px)}
+.auth-card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:44px var(--px);max-width:420px;width:100%;box-shadow:0 8px 32px rgba(15,13,10,0.08)}
+.auth-logo{font-size:2rem;margin-bottom:12px;text-align:center}
+.auth-title{font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:800;color:var(--ink);margin-bottom:6px;text-align:center}
+.auth-sub{font-size:0.84rem;color:var(--muted);text-align:center;margin-bottom:28px;line-height:1.5}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:0.78rem;font-weight:600;color:var(--ink);margin-bottom:6px;letter-spacing:0.01em}
+.form-input{width:100%;padding:10px 13px;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.9rem;background:#fff;color:var(--ink);transition:border-color 0.2s;outline:none}
+.form-input:focus{border-color:var(--green)}
+.form-input.error{border-color:var(--err)}
+.field-error{font-size:0.73rem;color:var(--err);margin-top:4px;display:none}
+.form-error{background:var(--err-bg);border:1px solid rgba(192,57,43,0.2);border-radius:6px;padding:10px 13px;font-size:0.82rem;color:var(--err);margin-bottom:16px;display:none}
+.btn-submit{width:100%;padding:11px;background:var(--green);color:#fff;border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:600;cursor:pointer;transition:background 0.2s;margin-top:4px}
+.btn-submit:hover{background:var(--green-dark)}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed}
+.auth-switch{font-size:0.82rem;color:var(--muted);text-align:center;margin-top:20px}
+.auth-switch a{color:var(--green);font-weight:600;cursor:pointer;text-decoration:none}
+.auth-switch a:hover{text-decoration:underline}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--muted);font-size:0.75rem}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.pw-wrap{position:relative}
+.pw-toggle{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--muted);font-size:0.8rem;padding:2px 4px}
+.pw-toggle:hover{color:var(--ink)}
 
-/* MAIN */
-main{margin-left:240px;margin-top:68px;padding:36px 40px;min-height:calc(100vh - 68px)}
+/* SOCIAL BUTTONS */
+.btn-social{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:10px var(--px);border:1.5px solid var(--border);border-radius:6px;background:#fff;font-family:'DM Sans',sans-serif;font-size:0.875rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all 0.2s;text-decoration:none;margin-bottom:10px}
+.btn-social:hover{border-color:#aaa;background:#fafafa}
+.btn-social svg{flex-shrink:0}
+.btn-apple{background:#000;color:#fff;border-color:#000}
+.btn-apple:hover{background:#222;border-color:#222}
+.social-group{margin-bottom:4px}
 
-/* PAGE HEADER */
-.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:32px}
-.page-eyebrow{font-family:'DM Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
-.page-title{font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;letter-spacing:-0.02em;color:var(--ink)}
-.page-sub{font-size:0.875rem;color:var(--muted);margin-top:4px;font-weight:300}
-.header-actions{display:flex;gap:10px;align-items:center}
+/* ACCOUNT SCREEN */
+.acct-wrap{max-width:960px;margin:0 auto;padding:36px var(--px) 60px;display:none}
 
-/* STATS ROW */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px}
-.stat-card{background:var(--cream);border:1px solid var(--border);border-radius:8px;padding:20px 22px;transition:box-shadow 0.2s}
-.stat-card:hover{box-shadow:0 4px 20px rgba(15,13,10,0.08)}
-.stat-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;margin-bottom:8px}
-.stat-value{font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em;line-height:1;margin-bottom:4px}
-.stat-delta{font-size:0.75rem;display:flex;align-items:center;gap:4px}
-.stat-delta.up{color:var(--sage)}
-.stat-delta.neutral{color:var(--muted)}
+/* PROFILE BAR */
+.profile-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+.profile-left{display:flex;align-items:center;gap:16px}
+.profile-avatar{width:50px;height:50px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1rem;font-weight:700;flex-shrink:0}
+.profile-name{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:800;color:var(--ink);line-height:1.15}
+.profile-email{font-size:0.78rem;color:var(--muted);margin-top:2px;font-family:'DM Mono',monospace}
+.btn-signout{font-size:0.78rem;color:var(--muted);background:none;border:1.5px solid var(--border);padding:7px 14px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s}
+.btn-signout:hover{border-color:var(--ink);color:var(--ink)}
 
-/* GRID LAYOUT */
-.dashboard-grid{display:grid;grid-template-columns:1fr 340px;gap:24px}
-
-/* ORDERS TABLE */
-.card{background:var(--cream);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:24px}
-.card-header{padding:18px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink)}
-.card-action{font-size:0.78rem;color:var(--burgundy);cursor:pointer;text-decoration:none;font-weight:600}
-.card-action:hover{text-decoration:underline}
-
-.orders-table{width:100%;border-collapse:collapse}
-.orders-table th{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:700;padding:10px 20px;background:var(--parchment);border-bottom:1px solid var(--border);text-align:left}
-.orders-table td{padding:12px 20px;border-bottom:1px solid var(--border);font-size:0.85rem;color:var(--ink)}
-.orders-table tr:last-child td{border-bottom:none}
-.orders-table tr:hover td{background:rgba(237,230,214,0.4)}
-.order-title{font-weight:600;color:var(--ink);margin-bottom:1px}
-.order-meta{font-size:0.72rem;color:var(--muted)}
-.status-pill{font-size:0.65rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap}
-.status-shipped{background:rgba(61,90,74,0.12);color:var(--sage)}
-.status-processing{background:rgba(196,154,42,0.15);color:#8a6a10}
-.status-delivered{background:rgba(61,90,74,0.08);color:var(--sage);border:1px solid rgba(61,90,74,0.2)}
-.status-pending{background:rgba(196,154,42,0.1);color:#8a6a10;border:1px solid rgba(196,154,42,0.2)}
-.order-price{font-family:'DM Mono',monospace;font-size:0.875rem;font-weight:500}
-
-/* DIGITAL LIBRARY */
-.library-list{padding:0}
-.library-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background 0.2s;cursor:pointer}
-.library-item:last-child{border-bottom:none}
-.library-item:hover{background:var(--parchment)}
-.lib-icon{width:40px;height:40px;background:var(--ink);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;position:relative;overflow:hidden}
-.lib-staff{width:80%;position:absolute}
-.lib-staff div{height:1px;background:rgba(247,243,236,0.3);margin:4px 0}
-.lib-info{flex:1}
-.lib-title{font-weight:600;font-size:0.875rem;color:var(--ink);margin-bottom:1px}
-.lib-meta{font-size:0.72rem;color:var(--muted)}
-.lib-download{width:32px;height:32px;background:var(--parchment);border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;flex-shrink:0;font-size:0.85rem}
-.lib-download:hover{background:var(--burgundy);border-color:var(--burgundy);color:#fff}
-
-/* WISH LIST */
-.wish-item{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);transition:background 0.2s}
-.wish-item:last-child{border-bottom:none}
-.wish-item:hover{background:var(--parchment)}
-.wish-thumb{width:36px;height:36px;background:var(--ink);border-radius:5px;flex-shrink:0}
-.wish-info{flex:1}
-.wish-title{font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:1px}
-.wish-price{font-size:0.72rem;color:var(--muted);font-family:'DM Mono',monospace}
-.wish-add{font-size:0.72rem;font-weight:600;color:var(--burgundy);background:none;border:none;cursor:pointer;padding:0;white-space:nowrap}
-.wish-add:hover{text-decoration:underline}
-
-/* PO MANAGER */
-.po-item{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border)}
-.po-item:last-child{border-bottom:none}
-.po-num{font-family:'DM Mono',monospace;font-size:0.8rem;font-weight:500;color:var(--ink);min-width:100px}
-.po-school{flex:1;font-size:0.8rem;color:var(--muted)}
-.po-amount{font-family:'DM Mono',monospace;font-size:0.85rem;font-weight:500;color:var(--ink);min-width:64px;text-align:right}
-
-/* RIGHT COLUMN */
-.right-col{}
-
-/* ACCOUNT INFO CARD */
-.account-card{background:var(--ink);border-radius:8px;overflow:hidden;margin-bottom:20px}
-.account-card-top{padding:24px;background:linear-gradient(135deg,#1a1410 0%,var(--ink) 100%);position:relative;overflow:hidden}
-.account-card-top::before{content:'&#119070;';position:absolute;font-size:120px;right:-10px;top:-20px;opacity:0.05;color:var(--gold);line-height:1}
-.account-name{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--cream);margin-bottom:2px}
-.account-school{font-size:0.8rem;color:rgba(247,243,236,0.5)}
-.account-plan{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:4px 10px;background:rgba(196,154,42,0.15);border:1px solid rgba(196,154,42,0.3);border-radius:100px;font-size:0.7rem;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:0.08em}
-.account-stats{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid rgba(247,243,236,0.08)}
-.acct-stat{padding:14px 16px;text-align:center;border-right:1px solid rgba(247,243,236,0.08)}
-.acct-stat:last-child{border-right:none}
-.acct-stat-val{font-family:'DM Mono',monospace;font-size:1.1rem;font-weight:500;color:var(--cream);display:block;margin-bottom:2px}
-.acct-stat-label{font-size:0.6rem;text-transform:uppercase;letter-spacing:0.08em;color:rgba(247,243,236,0.35)}
-
-/* UPCOMING */
-.event-item{display:flex;gap:14px;align-items:flex-start;padding:14px 20px;border-bottom:1px solid var(--border)}
-.event-item:last-child{border-bottom:none}
-.event-date{width:40px;height:40px;background:var(--parchment);border:1px solid var(--border);border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
-.event-month{font-size:0.55rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--burgundy);font-weight:700;line-height:1}
-.event-day{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:800;color:var(--ink);line-height:1}
-.event-info{}
-.event-title{font-size:0.82rem;font-weight:600;color:var(--ink);margin-bottom:2px}
-.event-desc{font-size:0.72rem;color:var(--muted);line-height:1.4}
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:20px 22px}
+.stat-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);font-weight:700;margin-bottom:8px}
+.stat-value{font-family:'Playfair Display',serif;font-size:2rem;font-weight:800;color:var(--ink);letter-spacing:-0.02em;line-height:1}
 
 /* TABS */
-.tab-nav{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:0}
-.dash-tab{padding:12px 20px;background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.2s}
-.dash-tab.active{color:var(--ink);border-bottom-color:var(--burgundy)}
-.tab-content{display:none}
-.tab-content.active{display:block}
+.tab-bar{display:flex;border-bottom:1px solid var(--border);margin-bottom:0}
+.tab-btn{padding:11px var(--px);background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'DM Sans',sans-serif;font-size:0.82rem;font-weight:600;color:var(--muted);cursor:pointer;transition:all 0.2s}
+.tab-btn.active{color:var(--ink);border-bottom-color:var(--green)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
 
-/* RECOMMENDATION CARD */
-.rec-card{display:flex;gap:14px;align-items:center;padding:14px 20px;border-bottom:1px solid var(--border);transition:background 0.2s;cursor:pointer}
-.rec-card:last-child{border-bottom:none}
-.rec-card:hover{background:var(--parchment)}
-.rec-thumb{width:48px;height:48px;background:var(--ink);border-radius:6px;flex-shrink:0;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.rec-staff{width:80%;opacity:0.3}
-.rec-staff div{height:1px;background:var(--cream);margin:5px 0}
-.rec-info{flex:1}
-.rec-ensemble{font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--gold);font-weight:600;margin-bottom:2px}
-.rec-title{font-size:0.85rem;font-weight:700;font-family:'Playfair Display',serif;color:var(--ink);margin-bottom:1px;line-height:1.2}
-.rec-composer{font-size:0.7rem;color:var(--muted)}
-.rec-price{font-family:'DM Mono',monospace;font-size:0.85rem;font-weight:500;color:var(--ink);flex-shrink:0}
+/* CARD */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.card-head{padding:16px var(--px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--ink)}
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-.stats-row{animation:fadeUp 0.5s ease 0.1s both}
-.dashboard-grid{animation:fadeUp 0.5s ease 0.2s both}
+/* ORDERS TABLE */
+.orders-scroll{overflow-x:auto}
+.orders-table{width:100%;border-collapse:collapse}
+.orders-table th{font-size:0.63rem;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted);font-weight:700;padding:10px 18px;background:var(--parchment);border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
+.orders-table td{padding:13px 18px;border-bottom:1px solid var(--border);font-size:0.84rem;color:var(--ink);vertical-align:middle}
+.orders-table tr:last-child td{border-bottom:none}
+.orders-table tr:hover td{background:rgba(232,242,234,0.3)}
+.o-title{font-weight:600;color:var(--ink);margin-bottom:1px;font-size:0.84rem}
+.o-meta{font-size:0.71rem;color:var(--muted)}
+.o-price{font-family:'DM Mono',monospace;font-size:0.85rem;font-weight:500;white-space:nowrap}
+.o-date{font-size:0.78rem;color:var(--muted);white-space:nowrap}
+.pill{font-size:0.63rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 9px;border-radius:100px;white-space:nowrap}
+.pill-pdf{background:rgba(26,122,46,0.1);color:var(--sage);border:1px solid rgba(26,122,46,0.2)}
+.pill-mp3{background:rgba(58,181,74,0.12);color:#1a6e2e;border:1px solid rgba(58,181,74,0.25)}
+.pill-merch{background:#f0eafb;color:#6b3fa0;border:1px solid #d4c5ee}
+.pill-done{background:rgba(26,122,46,0.08);color:var(--sage);border:1px solid rgba(26,122,46,0.15)}
+.pill-default{background:var(--parchment);color:var(--muted);border:1px solid var(--border)}
+
+/* EMPTY STATE */
+.empty-state{padding:48px var(--px);text-align:center}
+.empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:0.4}
+.empty-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ink);margin-bottom:6px;font-weight:700}
+.empty-sub{font-size:0.82rem;color:var(--muted);margin-bottom:20px;line-height:1.5}
+.btn-green{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;background:var(--green);color:#fff;border:none;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.84rem;font-weight:600;cursor:pointer;text-decoration:none;transition:background 0.2s}
+.btn-green:hover{background:var(--green-dark)}
+
+/* LOADING */
+.spinner{display:inline-block;width:20px;height:20px;border:2.5px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 0.7s linear infinite;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-row{display:flex;align-items:center;justify-content:center;gap:10px;padding:36px;font-size:0.84rem;color:var(--muted)}
+
+/* DOWNLOAD NOTICE */
+.dl-notice{padding:12px 18px;font-size:0.78rem;color:var(--muted);background:var(--parchment);border-bottom:1px solid var(--border);line-height:1.5}
+.dl-item{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.dl-item:last-child{border-bottom:none}
+.dl-icon{width:40px;height:40px;background:var(--ink);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;color:#fff}
+.dl-info{flex:1}
+.dl-title{font-weight:600;font-size:0.875rem;color:var(--ink);margin-bottom:1px}
+.dl-meta{font-size:0.72rem;color:var(--muted)}
+.dl-label{font-size:0.75rem;color:var(--muted);text-align:right;line-height:1.4}
+
+/* CHANGE PW */
+.change-pw-section{margin-top:24px;background:#fff;border:1px solid var(--border);border-radius:var(--r);padding:24px}
+.section-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:16px}
+
+
+@media(min-width:768px){
+  .acct-wrap{padding:40px var(--px) 72px}
+  .auth-wrap{padding:60px var(--px)}
+  .stats-row{grid-template-columns:repeat(3,1fr)}
+  .stat-card:last-child{display:block}
+  .tab-btn{padding:12px var(--px);font-size:0.88rem}
+}
+@media(min-width:1024px){
+  .nav{padding:0 var(--px)}
+  .acct-wrap{padding:48px var(--px) 80px}
+  .auth-wrap{padding:72px var(--px)}
+}
+@media(min-width:1140px){
+  .nav-links-desk{display:flex}
+  .hamburger{display:none}
+  .drawer{display:none!important}
+}
+@media(max-width:640px){
+  .auth-card{padding:32px 22px}
+  .stats-row{grid-template-columns:1fr 1fr}
+  .stat-card:last-child{display:none}
+  .profile-bar{flex-direction:column;align-items:flex-start}
+  .acct-wrap{padding:24px 14px 48px}
+  .orders-table th:nth-child(3),.orders-table td:nth-child(3){display:none}
+}
+
+@media(min-width:480px){:root{--px:20px}}
+@media(min-width:640px){:root{--px:24px}}
+@media(min-width:768px){:root{--px:40px;--nav-h:68px}}
+@media(min-width:1024px){:root{--px:60px}}
+@media(min-width:1280px){:root{--px:80px}}
+.shimmer-link{font-style:italic;font-weight:600!important;background:linear-gradient(90deg,#3ab54a 0%,#3ab54a 40%,#6ed47a 50%,#3ab54a 60%,#3ab54a 100%);background-size:300% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer-move 4s ease-in-out infinite;text-decoration:none}
+@keyframes shimmer-move{0%{background-position:200% center}100%{background-position:-200% center}}
+</style>
+<style id="llp-header-fix">
+body{overflow-x:hidden}
+/* Unified header — auto-fits all screens */
+.nav-logo{font-size:clamp(1rem,0.62rem + 1vw,1.35rem)!important;white-space:nowrap!important;flex-shrink:1;min-width:0;overflow:hidden;gap:8px}
+.nav-logo img,.nav-logo-img{height:clamp(32px,26px + 1.2vw,42px)!important}
+.nav-cart,.btn-cart{white-space:nowrap!important;flex-shrink:0}
+.nav-links-desk{align-items:center;justify-content:center;gap:2px;list-style:none;flex:1 1 auto;min-width:0;margin:0 10px;padding:0}
+.nav-links-desk li{list-style:none}
+.nav-links-desk a{white-space:nowrap!important;font-size:0.8rem!important;padding:6px 8px}
+@media(max-width:1139.9px){.nav-links-desk{display:none!important}.hamburger{display:flex!important}.drawer{display:block!important}}
+@media(min-width:1140px){.nav-links-desk{display:flex!important}.hamburger{display:none!important}.drawer{display:none!important}}
+@media(max-width:480px){.nav-logo{font-size:0.9rem!important}.nav-cart,.btn-cart{padding:8px 10px!important}}
+@media(min-width:768px) and (max-width:1139.9px){
+  .nav-logo{font-size:1.5rem!important}
+  .nav-logo img,.nav-logo-img{height:46px!important}
+  .nav-cart,.btn-cart{font-size:0.9rem!important;padding:10px 18px!important}
+  .hamburger{width:44px!important;height:44px!important}
+}
 </style>
 </head>
 <body>
 
-<!-- TOP NAV -->
-<header class="top-nav">
-  <a class="nav-logo" href="music-store.html"><span>&#119070;</span> Forte Music</a>
-  <div class="top-nav-right">
-    <button class="notif-btn">&#128276;<span class="notif-badge">3</span></button>
-    <a class="btn-primary" href="search.html">+ New Order</a>
-    <div class="user-chip">
-      <div class="user-avatar">RO</div>
-      <span class="user-name">Rachel O.</span>
-    </div>
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav-logo" href="index.html"><img src="/img/lion-and-lamb-logo.png?v=2" alt="Lion and Lamb Publishing" class="nav-logo-img">Lion and Lamb Publishing</a>
+  <ul class="nav-links-desk">
+    <li><a href="search.html">Sheet Music</a></li>
+    <li><a href="music.html">MP3s</a></li>
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="/soulful-singing-series/" class="shimmer-link">Soulful Singing Series</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="free-resources.html">Free Resources</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="director-dashboard.html" class="active">Account</a></li>
+  </ul>
+  <div class="nav-r">
+    <a class="nav-cart" href="cart.html" id="cart-nav"><svg style="width:15px;height:15px;vertical-align:-2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2 2h3l2.6 12.5a2 2 0 0 0 2 1.5h8.7a2 2 0 0 0 2-1.5L22 7H6"/></svg> Cart <span id="cart-count">0</span></a>
+    <button class="hamburger" id="ham" onclick="toggleDrawer()">
+      <span></span><span></span><span></span>
+    </button>
   </div>
-</header>
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
-  <div style="padding:28px 20px 0">
-    <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.12em;color:rgba(196,154,42,0.5);font-weight:700;margin-bottom:4px">Director Portal</div>
-    <div style="font-size:0.78rem;color:rgba(247,243,236,0.3);font-weight:300">Lakewood Middle School</div>
-  </div>
-  <div style="margin-top:20px">
-    <div class="sidebar-section">
-      <div class="sidebar-label">Main</div>
-      <a class="sidebar-link active" href="#" onclick="showSection('overview')"><span class="sidebar-link-icon">&#9685;</span> Overview</a>
-      <a class="sidebar-link" href="search.html"><span class="sidebar-link-icon">&#127925;</span> Browse Music</a>
-      <a class="sidebar-link" href="cart.html"><span class="sidebar-link-icon">&#128722;</span> Cart<span class="sidebar-badge">2</span></a>
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">My Library</div>
-      <a class="sidebar-link" href="#" onclick="showSection('orders')"><span class="sidebar-link-icon">&#128230;</span> Orders</a>
-      <a class="sidebar-link" href="#" onclick="showSection('library')"><span class="sidebar-link-icon">&#128196;</span> Digital Library<span class="sidebar-badge">14</span></a>
-      <a class="sidebar-link" href="#" onclick="showSection('wishlist')"><span class="sidebar-link-icon">&#9825;</span> Wish List<span class="sidebar-badge">6</span></a>
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">School</div>
-      <a class="sidebar-link" href="#" onclick="showSection('po')"><span class="sidebar-link-icon">&#127979;</span> Purchase Orders<span class="sidebar-badge">2</span></a>
-      <a class="sidebar-link" href="#"><span class="sidebar-link-icon">&#128101;</span> Account Settings</a>
-      <a class="sidebar-link" href="#"><span class="sidebar-link-icon">&#10067;</span> Help &amp; Support</a>
-    </div>
-  </div>
-  <div class="sidebar-bottom">
-    <div class="sidebar-user">
-      <div class="sidebar-avatar">RO</div>
-      <div>
-        <div class="sidebar-user-name">Rachel Okonkwo</div>
-        <div class="sidebar-user-school">Band Director</div>
-      </div>
-    </div>
-  </div>
-</aside>
-
-<!-- MAIN CONTENT -->
-<main>
-
-  <!-- OVERVIEW SECTION -->
-  <div id="section-overview">
-    <div class="page-header">
-      <div>
-        <div class="page-eyebrow">Welcome back</div>
-        <h1 class="page-title">Director Dashboard</h1>
-        <p class="page-sub">Lakewood Middle School &middot; Spring 2026 Program</p>
-      </div>
-      <div class="header-actions">
-        <button style="font-family:'DM Sans',sans-serif;font-size:0.82rem;padding:8px 16px;border:1.5px solid var(--border);background:transparent;border-radius:6px;cursor:pointer;color:var(--ink);transition:all 0.2s" onmouseover="this.style.background='var(--parchment)'" onmouseout="this.style.background='transparent'">&#128196; Download Statement</button>
-        <a class="btn-primary" href="search.html">&#43; Shop Music</a>
-      </div>
-    </div>
-
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-label">Total Orders</div>
-        <div class="stat-value">24</div>
-        <div class="stat-delta up">&#8593; 6 this semester</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Digital Downloads</div>
-        <div class="stat-value">14</div>
-        <div class="stat-delta up">&#9889; Available now</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Total Spent</div>
-        <div class="stat-value">$1,284</div>
-        <div class="stat-delta neutral">This school year</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">Open POs</div>
-        <div class="stat-value">2</div>
-        <div class="stat-delta neutral">Pending approval</div>
-      </div>
-    </div>
-
-    <div class="dashboard-grid">
-      <div>
-        <!-- RECENT ORDERS -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Recent Orders</span>
-            <a class="card-action" href="#">View all &#8594;</a>
-          </div>
-          <table class="orders-table">
-            <tr><th>Item</th><th>Date</th><th>Format</th><th>Status</th><th>Total</th></tr>
-            <tr>
-              <td><div class="order-title">Appalachian Dawn</div><div class="order-meta">arr. Marcus L. Hendricks &middot; Grade 4</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Mar 22, 2026</td>
-              <td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td>
-              <td><span class="status-pill status-shipped">Shipped</span></td>
-              <td class="order-price">$49.95</td>
-            </tr>
-            <tr>
-              <td><div class="order-title">Lux Perpetua</div><div class="order-meta">Elena V&aacute;squez-Muro &middot; SATB</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Mar 22, 2026</td>
-              <td><span style="font-size:0.72rem;background:rgba(61,90,74,0.1);padding:3px 8px;border-radius:3px;border:1px solid rgba(61,90,74,0.2);color:var(--sage)">PDF</span></td>
-              <td><span class="status-pill status-delivered">Delivered</span></td>
-              <td class="order-price">$4.95</td>
-            </tr>
-            <tr>
-              <td><div class="order-title">Elegy for a Quiet Morning</div><div class="order-meta">Samuel Haverford &middot; Grade 3</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Feb 14, 2026</td>
-              <td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td>
-              <td><span class="status-pill status-delivered">Delivered</span></td>
-              <td class="order-price">$54.95</td>
-            </tr>
-            <tr>
-              <td><div class="order-title">Blue Horizon Shuffle</div><div class="order-meta">arr. Terrence W. Cole &middot; Jazz</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Feb 2, 2026</td>
-              <td><span style="font-size:0.72rem;background:rgba(61,90,74,0.1);padding:3px 8px;border-radius:3px;border:1px solid rgba(61,90,74,0.2);color:var(--sage)">PDF</span></td>
-              <td><span class="status-pill status-delivered">Delivered</span></td>
-              <td class="order-price">$6.50</td>
-            </tr>
-            <tr>
-              <td><div class="order-title">Thunder Canyon March</div><div class="order-meta">Richard D. Summers &middot; Grade 2</div></td>
-              <td style="font-size:0.8rem;color:var(--muted)">Jan 18, 2026</td>
-              <td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td>
-              <td><span class="status-pill status-delivered">Delivered</span></td>
-              <td class="order-price">$34.95</td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- PURCHASE ORDERS -->
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title">Purchase Orders</span>
-            <a class="card-action" href="cart.html">Submit new PO &#8594;</a>
-          </div>
-          <div class="tab-nav">
-            <button class="dash-tab active" onclick="switchDashTab('po-open',this)">Open (2)</button>
-            <button class="dash-tab" onclick="switchDashTab('po-closed',this)">Closed (8)</button>
-          </div>
-          <div class="tab-content active" id="tab-po-open">
-            <div class="po-item">
-              <div class="po-num">PO-2026-0034</div>
-              <div class="po-school">Lakewood SD Accounts Payable &middot; Submitted Mar 20</div>
-              <span class="status-pill status-pending" style="margin-right:12px">Pending</span>
-              <div class="po-amount">$312.80</div>
-            </div>
-            <div class="po-item">
-              <div class="po-num">PO-2026-0021</div>
-              <div class="po-school">Lakewood SD Accounts Payable &middot; Submitted Feb 28</div>
-              <span class="status-pill status-processing" style="margin-right:12px">Processing</span>
-              <div class="po-amount">$184.45</div>
-            </div>
-          </div>
-          <div class="tab-content" id="tab-po-closed">
-            <div style="padding:24px;text-align:center;color:var(--muted);font-size:0.85rem">8 completed purchase orders &middot; <a href="#" style="color:var(--burgundy)">Download history</a></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT COLUMN -->
-      <div class="right-col">
-
-        <!-- ACCOUNT CARD -->
-        <div class="account-card">
-          <div class="account-card-top">
-            <div class="account-name">Rachel Okonkwo</div>
-            <div class="account-school">Band Director &middot; Lakewood Middle School</div>
-            <div class="account-plan">&#9733; Director Pro Account</div>
-          </div>
-          <div class="account-stats">
-            <div class="acct-stat"><span class="acct-stat-val">24</span><span class="acct-stat-label">Orders</span></div>
-            <div class="acct-stat"><span class="acct-stat-val">14</span><span class="acct-stat-label">PDFs</span></div>
-            <div class="acct-stat"><span class="acct-stat-val">6</span><span class="acct-stat-label">Saved</span></div>
-          </div>
-        </div>
-
-        <!-- UPCOMING CONCERTS -->
-        <div class="card">
-          <div class="card-header"><span class="card-title">Upcoming Concerts</span><a class="card-action" href="#">Manage &#8594;</a></div>
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">Apr</span><span class="event-day">12</span></div>
-            <div class="event-info"><div class="event-title">Spring Concert</div><div class="event-desc">Lakewood Middle Auditorium &middot; 7:00 PM<br>Program: 4 pieces confirmed</div></div>
-          </div>
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">May</span><span class="event-day">3</span></div>
-            <div class="event-info"><div class="event-title">District Festival</div><div class="event-desc">Roosevelt High School &middot; TBD<br>Grade adjudication event</div></div>
-          </div>
-          <div class="event-item">
-            <div class="event-date"><span class="event-month">Jun</span><span class="event-day">8</span></div>
-            <div class="event-info"><div class="event-title">End-of-Year Showcase</div><div class="event-desc">Lakewood Middle Auditorium &middot; 6:30 PM<br>All ensembles participating</div></div>
-          </div>
-        </div>
-
-        <!-- RECOMMENDATIONS -->
-        <div class="card">
-          <div class="card-header"><span class="card-title">Recommended for You</span></div>
-          <div class="rec-card" onclick="location.href='product.html'">
-            <div class="rec-thumb"><div class="rec-staff"><div></div><div></div><div></div><div></div><div></div></div></div>
-            <div class="rec-info"><div class="rec-ensemble">Concert Band &middot; Grade 4</div><div class="rec-title">Kestrel Rising</div><div class="rec-composer">Naomi Aldridge</div></div>
-            <span class="rec-price">$44.95</span>
-          </div>
-          <div class="rec-card" onclick="location.href='product.html'">
-            <div class="rec-thumb" style="background:#0d1a14"><div class="rec-staff"><div></div><div></div><div></div><div></div><div></div></div></div>
-            <div class="rec-info"><div class="rec-ensemble">Concert Band &middot; Grade 3</div><div class="rec-title">Maplewood Celebration</div><div class="rec-composer">arr. Carrie Fontaine</div></div>
-            <span class="rec-price">$38.50</span>
-          </div>
-          <div class="rec-card" onclick="location.href='product.html'">
-            <div class="rec-thumb" style="background:#1a0d12"><div class="rec-staff"><div></div><div></div><div></div><div></div><div></div></div></div>
-            <div class="rec-info"><div class="rec-ensemble">Concert Band &middot; Grade 4</div><div class="rec-title">Velocity Suite</div><div class="rec-composer">Omar Reyes-Blanco</div></div>
-            <span class="rec-price">$5.95</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LIBRARY SECTION -->
-  <div id="section-library" style="display:none">
-    <div class="page-header">
-      <div><div class="page-eyebrow">Digital Library</div><h1 class="page-title">My PDF Downloads</h1><p class="page-sub">14 files &middot; All licensed for single-ensemble use</p></div>
-      <a class="btn-primary" href="search.html">&#43; Add More</a>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">All Downloads</span><a class="card-action" href="#">&#8595; Download All</a></div>
-      <div class="library-list">
-        <div class="library-item"><div class="lib-icon"><div class="lib-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="lib-info"><div class="lib-title">Lux Perpetua</div><div class="lib-meta">Elena V&aacute;squez-Muro &middot; SATB &middot; Purchased Mar 22</div></div><button class="lib-download" title="Download">&#8595;</button></div>
-        <div class="library-item"><div class="lib-icon" style="background:#0d1a14"><div class="lib-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="lib-info"><div class="lib-title">Solar Winds</div><div class="lib-meta">Deborah Kim-Chen &middot; Concert Band &middot; Purchased Feb 20</div></div><button class="lib-download" title="Download">&#8595;</button></div>
-        <div class="library-item"><div class="lib-icon" style="background:#1a0d12"><div class="lib-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="lib-info"><div class="lib-title">Blue Horizon Shuffle</div><div class="lib-meta">arr. Terrence W. Cole &middot; Jazz &middot; Purchased Feb 2</div></div><button class="lib-download" title="Download">&#8595;</button></div>
-        <div class="library-item"><div class="lib-icon" style="background:#111420"><div class="lib-staff"><div></div><div></div><div></div><div></div><div></div></div></div><div class="lib-info"><div class="lib-title">Velocity Suite</div><div class="lib-meta">Omar Reyes-Blanco &middot; Concert Band &middot; Purchased Jan 9</div></div><button class="lib-download" title="Download">&#8595;</button></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- WISH LIST SECTION -->
-  <div id="section-wishlist" style="display:none">
-    <div class="page-header">
-      <div><div class="page-eyebrow">Saved Items</div><h1 class="page-title">Wish List</h1><p class="page-sub">6 items saved for later</p></div>
-      <a class="btn-primary" href="cart.html">&#128722; Add All to Cart</a>
-    </div>
-    <div class="card">
-      <div class="wish-item"><div class="wish-thumb" style="background:#1a1410;border-radius:5px"></div><div class="wish-info"><div class="wish-title">Kestrel Rising &mdash; Naomi Aldridge</div><div class="wish-price">$44.95 &middot; Concert Band Grade 3</div></div><button class="wish-add">+ Add to Cart</button></div>
-      <div class="wish-item"><div class="wish-thumb" style="background:#0d1a14;border-radius:5px"></div><div class="wish-info"><div class="wish-title">Rivers of Iron &mdash; Thomas E. Winslow</div><div class="wish-price">$64.95 &middot; Concert Band Grade 5</div></div><button class="wish-add">+ Add to Cart</button></div>
-      <div class="wish-item"><div class="wish-thumb" style="background:#1a0d12;border-radius:5px"></div><div class="wish-info"><div class="wish-title">Pastoral Suite No. 2 &mdash; Li Wei-Zhang</div><div class="wish-price">$57.95 &middot; Concert Band Grade 4</div></div><button class="wish-add">+ Add to Cart</button></div>
-      <div class="wish-item"><div class="wish-thumb" style="background:#111420;border-radius:5px"></div><div class="wish-info"><div class="wish-title">Maplewood Celebration &mdash; arr. Carrie Fontaine</div><div class="wish-price">$38.50 &middot; Concert Band Grade 2</div></div><button class="wish-add">+ Add to Cart</button></div>
-    </div>
-  </div>
-
-  <!-- ORDERS SECTION -->
-  <div id="section-orders" style="display:none">
-    <div class="page-header">
-      <div><div class="page-eyebrow">Order History</div><h1 class="page-title">All Orders</h1><p class="page-sub">24 orders since account creation</p></div>
-    </div>
-    <div class="card">
-      <table class="orders-table">
-        <tr><th>Order #</th><th>Item</th><th>Date</th><th>Format</th><th>Status</th><th>Total</th></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.78rem">#FM-8821</td><td><div class="order-title">Appalachian Dawn</div><div class="order-meta">Grade 4 &middot; arr. Hendricks</div></td><td style="font-size:0.8rem;color:var(--muted)">Mar 22</td><td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td><td><span class="status-pill status-shipped">Shipped</span></td><td class="order-price">$49.95</td></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.78rem">#FM-8820</td><td><div class="order-title">Lux Perpetua</div><div class="order-meta">SATB &middot; V&aacute;squez-Muro</div></td><td style="font-size:0.8rem;color:var(--muted)">Mar 22</td><td><span style="font-size:0.72rem;background:rgba(61,90,74,0.1);padding:3px 8px;border-radius:3px;border:1px solid rgba(61,90,74,0.2);color:var(--sage)">PDF</span></td><td><span class="status-pill status-delivered">Delivered</span></td><td class="order-price">$4.95</td></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.78rem">#FM-8756</td><td><div class="order-title">Elegy for a Quiet Morning</div><div class="order-meta">Grade 3 &middot; Haverford</div></td><td style="font-size:0.8rem;color:var(--muted)">Feb 14</td><td><span style="font-size:0.72rem;background:var(--parchment);padding:3px 8px;border-radius:3px;border:1px solid var(--border)">Print</span></td><td><span class="status-pill status-delivered">Delivered</span></td><td class="order-price">$54.95</td></tr>
-      </table>
-    </div>
-  </div>
-
-  <!-- PO SECTION -->
-  <div id="section-po" style="display:none">
-    <div class="page-header">
-      <div><div class="page-eyebrow">School Billing</div><h1 class="page-title">Purchase Orders</h1><p class="page-sub">Submit and track POs for your school district</p></div>
-      <a class="btn-primary" href="cart.html">&#43; Submit New PO</a>
-    </div>
-    <div class="card">
-      <div class="card-header"><span class="card-title">All Purchase Orders</span></div>
-      <table class="orders-table">
-        <tr><th>PO Number</th><th>District / Billing</th><th>Submitted</th><th>Status</th><th>Amount</th></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.82rem">PO-2026-0034</td><td><div class="order-title">Lakewood USD</div><div class="order-meta">Accounts Payable &middot; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b1d7d8dfd0dfd2d4f1ddd0dad4c6deded5c4c2d59fd4d5c4">[email&#160;protected]</a></div></td><td style="font-size:0.8rem;color:var(--muted)">Mar 20, 2026</td><td><span class="status-pill status-pending">Pending</span></td><td class="order-price">$312.80</td></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.82rem">PO-2026-0021</td><td><div class="order-title">Lakewood USD</div><div class="order-meta">Accounts Payable &middot; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7a1c13141b14191f3a161b111f0d15151e0f091e541f1e0f">[email&#160;protected]</a></div></td><td style="font-size:0.8rem;color:var(--muted)">Feb 28, 2026</td><td><span class="status-pill status-processing">Processing</span></td><td class="order-price">$184.45</td></tr>
-        <tr><td style="font-family:'DM Mono',monospace;font-size:0.82rem">PO-2025-0198</td><td><div class="order-title">Lakewood USD</div><div class="order-meta">Accounts Payable &middot; <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="395f505758575a5c795558525c4e56565d4c4a5d175c5d4c">[email&#160;protected]</a></div></td><td style="font-size:0.8rem;color:var(--muted)">Nov 12, 2025</td><td><span class="status-pill status-delivered">Paid</span></td><td class="order-price">$228.00</td></tr>
-      </table>
-    </div>
-  </div>
-
-</main>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-function showSection(id){
-  ['overview','library','wishlist','orders','po'].forEach(function(s){
-    document.getElementById('section-'+s).style.display=s===id?'block':'none';
-  });
-  document.querySelectorAll('.sidebar-link').forEach(function(l){l="dash-section" id="section-wishlist">
-      <div class="page-head"><div><div class="page-eyebrow">Saved Items</div><h1 class="page-h">Wish List</h1><p class="page-sub">6 items saved</p></div><a class="btn-p" href="cart.html">&#128722; Add All</a></div>
-      <div class="card">
-        <div class="wish-item"><div class="wish-thumb" style="background:#1a1410;border-radius:4px"></div><div class="wish-info"><div class="wi-title">Kestrel Rising &mdash; Naomi Aldridge</div><div class="wi-price">$44.95 &middot; Band Gr.3</div></div><button class="wish-add">+ Cart</button></div>
-        <div class="wish-item"><div class="wish-thumb" style="background:#0d1a14;border-radius:4px"></div><div class="wish-info"><div class="wi-title">Rivers of Iron &mdash; T. E. Winslow</div><div class="wi-price">$64.95 &middot; Band Gr.5</div></div><button class="wish-add">+ Cart</button></div>
-        <div class="wish-item"><div class="wish-thumb" style="background:#1a0d12;border-radius:4px"></div><div class="wish-info"><div class="wi-title">Pastoral Suite No. 2 &mdash; Li Wei-Zhang</div><div class="wi-price">$57.95 &middot; Band Gr.4</div></div><button class="wish-add">+ Cart</button></div>
-        <div class="wish-item"><div class="wish-thumb" style="background:#111420;border-radius:4px"></div><div class="wish-info"><div class="wi-title">Maplewood Celebration &mdash; arr. Fontaine</div><div class="wi-price">$38.50 &middot; Band Gr.2</div></div><button class="wish-add">+ Cart</button></div>
-      </div>
-    </div>
-
-    <!-- ORDERS SECTION -->
-    <div class="dash-section" id="section-orders">
-      <div class="page-head"><div><div class="page-eyebrow">Order History</div><h1 class="page-h">All Orders</h1><p class="page-sub">24 orders total</p></div></div>
-      <div class="card">
-        <div class="orders-scroll">
-          <table class="orders-table">
-            <tr><th>Order #</th><th>Item</th><th>Date</th><th>Status</th><th>Total</th></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">#FM-8821</td><td><div class="o-title">Appalachian Dawn</div><div class="o-meta">Gr.4 Print</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Mar 22</td><td><span class="pill pill-shipped">Shipped</span></td><td class="o-price">$49.95</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">#FM-8820</td><td><div class="o-title">Lux Perpetua</div><div class="o-meta">SATB PDF</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Mar 22</td><td><span class="pill pill-delivered">Delivered</span></td><td class="o-price">$4.95</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">#FM-8756</td><td><div class="o-title">Elegy for a Quiet Morning</div><div class="o-meta">Gr.3 Print</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Feb 14</td><td><span class="pill pill-delivered">Delivered</span></td><td class="o-price">$54.95</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">#FM-8712</td><td><div class="o-title">Blue Horizon Shuffle</div><div class="o-meta">Jazz PDF</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Feb 2</td><td><span class="pill pill-delivered">Delivered</span></td><td class="o-price">$6.50</td></tr>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- PO SECTION -->
-    <div class="dash-section" id="section-po">
-      <div class="page-head"><div><div class="page-eyebrow">School Billing</div><h1 class="page-h">Purchase Orders</h1><p class="page-sub">Submit &amp; track POs</p></div><a class="btn-p" href="cart.html">+ New PO</a></div>
-      <div class="card">
-        <div class="orders-scroll">
-          <table class="orders-table">
-            <tr><th>PO Number</th><th>District</th><th>Submitted</th><th>Status</th><th>Amount</th></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">PO-2026-0034</td><td><div class="o-title">Lakewood USD</div><div class="o-meta">finance@lakewoodusd.edu</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Mar 20</td><td><span class="pill pill-pending">Pending</span></td><td class="o-price">$312.80</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">PO-2026-0021</td><td><div class="o-title">Lakewood USD</div><div class="o-meta">finance@lakewoodusd.edu</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Feb 28</td><td><span class="pill pill-processing">Processing</span></td><td class="o-price">$184.45</td></tr>
-            <tr><td style="font-family:'DM Mono',monospace;font-size:0.72rem">PO-2025-0198</td><td><div class="o-title">Lakewood USD</div><div class="o-meta">finance@lakewoodusd.edu</div></td><td style="font-size:0.75rem;color:var(--muted);white-space:nowrap">Nov 12</td><td><span class="pill pill-delivered">Paid</span></td><td class="o-price">$228.00</td></tr>
-          </table>
-        </div>
-      </div>
-    </div>
-
-  </main>
-</div>
-
-<!-- BOTTOM TAB BAR (mobile) -->
-<nav class="bottom-bar" id="bottom-bar">
-  <button class="bb-tab active" id="tab-overview" onclick="showSection('overview',event,this)">
-    <span class="bb-icon">&#9685;</span>Overview
-  </button>
-  <button class="bb-tab" id="tab-orders" onclick="showSection('orders',event,this)">
-    <span class="bb-icon">&#128230;</span>Orders
-  </button>
-  <button class="bb-tab" id="tab-library" onclick="showSection('library',event,this)">
-    <span class="bb-icon">&#128196;</span>Library
-    <span class="bb-badge">14</span>
-  </button>
-  <button class="bb-tab" id="tab-wishlist" onclick="showSection('wishlist',event,this)">
-    <span class="bb-icon">&#9825;</span>Saved
-  </button>
-  <button class="bb-tab" id="tab-po" onclick="showSection('po',event,this)">
-    <span class="bb-icon">&#127979;</span>POs
-    <span class="bb-badge">2</span>
-  </button>
 </nav>
 
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-inner">
+    <div class="drawer-links">
+      <a class="drawer-link" href="index.html"><span class="d-icon">&#127968;</span>Home</a>
+      <a class="drawer-link" href="search.html"><span class="d-icon">&#127925;</span>Sheet Music</a>
+      <a class="drawer-link" href="music.html"><span class="d-icon">&#127911;</span>MP3s</a>
+      <a class="drawer-link" href="merch.html"><span class="d-icon">&#128717;</span>Merch</a>
+      <a class="drawer-link" href="/soulful-singing-series/" style="font-style:italic;color:var(--green);font-weight:600"><span class="d-icon">&#127925;</span>Soulful Singing Series</a>
+      <a class="drawer-link" href="about.html"><span class="d-icon">&#128196;</span>About</a>
+      <a class="drawer-link" href="director-dashboard.html"><span class="d-icon">&#128100;</span>Account</a>
+      <a class="drawer-link" href="cart.html"><span class="d-icon">&#128722;</span>Cart</a>
+    </div>
+    <div class="drawer-sep"></div>
+    <div class="drawer-ctas">
+      <a class="btn-p" href="director-dashboard.html">&#9685; Director Dashboard</a>
+      <a class="btn-g" href="director-dashboard.html">Sign In</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<!-- AUTH WRAPPER (login / register) -->
+<div class="auth-wrap" id="auth-wrap">
+
+  <!-- LOGIN CARD -->
+  <div class="auth-card" id="login-card">
+    <div class="auth-logo">&#9835;</div>
+    <h1 class="auth-title">Sign in</h1>
+    <p class="auth-sub">Welcome back to Lion and Lamb Publishing</p>
+    <!-- Social sign-in -->
+    <div class="social-group" style="display:flex;justify-content:center">
+      <div id="google-login-btn"></div>
+    </div>
+    <div class="divider">or sign in with email</div>
+    <div class="form-error" id="login-error"></div>
+    <div class="form-group">
+      <label class="form-label" for="login-email">Email</label>
+      <input class="form-input" type="email" id="login-email" autocomplete="email" placeholder="you@example.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="login-password">Password</label>
+      <div class="pw-wrap">
+        <input class="form-input" type="password" id="login-password" autocomplete="current-password" placeholder="••••••••">
+        <button type="button" class="pw-toggle" onclick="togglePw('login-password',this)">Show</button>
+      </div>
+    </div>
+    <button class="btn-submit" id="login-btn" onclick="doLogin()">Sign in</button>
+    <p style="text-align:center;margin-top:10px;font-size:0.8rem"><a onclick="showForgot()" style="color:var(--muted);cursor:pointer;text-decoration:none">Forgot password?</a></p>
+    <p class="auth-switch">Don't have an account? <a onclick="showRegister()">Create one</a></p>
+  </div>
+
+  <!-- FORGOT PASSWORD CARD -->
+  <div class="auth-card" id="forgot-card" style="display:none">
+    <div class="auth-logo">&#128274;</div>
+    <h1 class="auth-title">Reset password</h1>
+    <p class="auth-sub" style="margin-bottom:20px">Enter your email and we'll send a reset link</p>
+    <div class="form-error" id="forgot-error"></div>
+    <div id="forgot-success" style="background:#f0fbf1;border:1px solid var(--border);border-radius:6px;padding:10px 13px;font-size:0.82rem;color:var(--sage);margin-bottom:16px;display:none"></div>
+    <div class="form-group">
+      <label class="form-label">Email address</label>
+      <input class="form-input" type="email" id="forgot-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doForgot()">
+    </div>
+    <button class="btn-submit" id="forgot-btn" onclick="doForgot()">Send reset link</button>
+    <p class="auth-switch"><a onclick="showLogin()" style="color:var(--muted)">&#8592; Back to sign in</a></p>
+  </div>
+
+  <!-- RESET PASSWORD CARD -->
+  <div class="auth-card" id="reset-card" style="display:none">
+    <div class="auth-logo">&#128274;</div>
+    <h1 class="auth-title">Choose new password</h1>
+    <p class="auth-sub" style="margin-bottom:20px">Enter a new password for your account</p>
+    <div class="form-error" id="reset-error"></div>
+    <div id="reset-success" style="background:#f0fbf1;border:1px solid var(--border);border-radius:6px;padding:10px 13px;font-size:0.82rem;color:var(--sage);margin-bottom:16px;display:none"></div>
+    <div class="form-group">
+      <label class="form-label">New password</label>
+      <div class="pw-wrap">
+        <input class="form-input" type="password" id="reset-password" placeholder="Min. 8 characters">
+        <button type="button" class="pw-toggle" onclick="togglePw('reset-password',this)">Show</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Confirm password</label>
+      <div class="pw-wrap">
+        <input class="form-input" type="password" id="reset-confirm" placeholder="••••••••">
+        <button type="button" class="pw-toggle" onclick="togglePw('reset-confirm',this)">Show</button>
+      </div>
+    </div>
+    <button class="btn-submit" id="reset-btn" onclick="doReset()">Update password</button>
+  </div>
+
+  <!-- REGISTER CARD -->
+  <div class="auth-card" id="register-card" style="display:none">
+    <div class="auth-logo">&#9835;</div>
+    <h1 class="auth-title">Create account</h1>
+    <p class="auth-sub">Join to track orders and download purchases</p>
+    <!-- Social sign-in -->
+    <div class="social-group" style="display:flex;justify-content:center">
+      <div id="google-register-btn"></div>
+    </div>
+    <div class="divider">or sign up with email</div>
+    <div class="form-error" id="register-error"></div>
+    <div class="form-group">
+      <label class="form-label" for="reg-name">Full name</label>
+      <input class="form-input" type="text" id="reg-name" autocomplete="name" placeholder="Your name">
+      <div class="field-error" id="err-name">Please enter your name</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="reg-email">Email</label>
+      <input class="form-input" type="email" id="reg-email" autocomplete="email" placeholder="you@example.com">
+      <div class="field-error" id="err-email">Please enter a valid email</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="reg-password">Password <span style="font-weight:400;color:var(--muted)">(min. 8 characters)</span></label>
+      <div class="pw-wrap">
+        <input class="form-input" type="password" id="reg-password" autocomplete="new-password" placeholder="••••••••">
+        <button type="button" class="pw-toggle" onclick="togglePw('reg-password',this)">Show</button>
+      </div>
+      <div class="field-error" id="err-password">Password must be at least 8 characters</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="reg-confirm">Confirm password</label>
+      <div class="pw-wrap">
+        <input class="form-input" type="password" id="reg-confirm" autocomplete="new-password" placeholder="••••••••">
+        <button type="button" class="pw-toggle" onclick="togglePw('reg-confirm',this)">Show</button>
+      </div>
+      <div class="field-error" id="err-confirm">Passwords don't match</div>
+    </div>
+    <button class="btn-submit" id="register-btn" onclick="doRegister()">Create account</button>
+    <p class="auth-switch">Already have an account? <a onclick="showLogin()">Sign in</a></p>
+  </div>
+
+</div>
+
+<!-- ACCOUNT SCREEN -->
+<div class="acct-wrap" id="acct-wrap">
+
+  <div class="profile-bar">
+    <div class="profile-left">
+      <div class="profile-avatar" id="acct-avatar">?</div>
+      <div>
+        <div class="profile-name" id="acct-name">—</div>
+        <div class="profile-email" id="acct-email">—</div>
+      </div>
+    </div>
+    <button class="btn-signout" onclick="signOut()">Sign out</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Total Orders</div>
+      <div class="stat-value" id="stat-orders">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Spent</div>
+      <div class="stat-value" id="stat-spent">—</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Downloads</div>
+      <div class="stat-value" id="stat-pdfs">—</div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('orders',this)">Order History</button>
+    <button class="tab-btn" onclick="switchTab('downloads',this)">Downloads</button>
+    <button class="tab-btn" onclick="switchTab('school',this)">Purchase Orders</button>
+    <button class="tab-btn" onclick="switchTab('settings',this)">Settings</button>
+  </div>
+
+  <div class="tab-panel active card" id="tab-orders">
+    <div class="loading-row"><div class="spinner"></div>&nbsp;Loading orders…</div>
+  </div>
+
+  <div class="tab-panel card" id="tab-downloads">
+    <div class="loading-row"><div class="spinner"></div>&nbsp;Loading…</div>
+  </div>
+
+  <div class="tab-panel card" id="tab-school">
+    <div id="school-unverified">
+      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:6px">Submit a Purchase Order</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin-bottom:20px">School accounts can place orders on invoice with Net 30 terms. Enter your school account code to continue.</p>
+      <div class="form-error" id="school-err"></div>
+      <div class="form-group">
+        <label class="form-label">School Account Code</label>
+        <input class="form-input" id="school-code" type="text" placeholder="e.g. LLP-12345" maxlength="20" onkeydown="if(event.key==='Enter')verifySchool()">
+      </div>
+      <div class="form-group">
+        <label class="form-label">School Email</label>
+        <input class="form-input" id="school-email" type="email" placeholder="director@school.edu">
+      </div>
+      <button class="btn-submit" style="width:auto;padding:10px 24px" onclick="verifySchool()">Verify Account</button>
+      <div style="margin-top:20px;padding:16px 18px;background:var(--parchment);border:1px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap">
+        <span style="font-size:0.95rem;color:var(--ink)">Don't have a school account yet?</span>
+        <a href="for-directors.html" style="display:inline-block;background:var(--green);color:#fff;padding:12px 24px;border-radius:6px;font-size:0.95rem;font-weight:700;text-decoration:none;white-space:nowrap">Apply Here &#8594;</a>
+      </div>
+    </div>
+    <div id="school-verified" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700" id="school-name-display">School Account</div>
+          <div style="font-size:0.8rem;color:var(--muted)" id="school-status-display"></div>
+        </div>
+        <button onclick="clearSchool()" style="background:none;border:1px solid var(--border);border-radius:5px;padding:6px 12px;font-size:0.78rem;cursor:pointer;color:var(--muted)">Switch Account</button>
+      </div>
+      <div style="background:var(--parchment);border-radius:8px;padding:16px;margin-bottom:20px">
+        <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px">Order Details</div>
+        <div class="form-group">
+          <label class="form-label">Director Name</label>
+          <input class="form-input" id="po-director-name" type="text" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact Email</label>
+          <input class="form-input" id="po-email" type="email" placeholder="director@school.edu">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notes / Order Instructions <span style="font-weight:400;color:var(--muted)">(optional)</span></label>
+          <textarea class="form-input" id="po-notes" rows="2" placeholder="e.g. 30 copies of SATB edition, 15 copies of SSAA edition..." style="resize:vertical"></textarea>
+        </div>
+      </div>
+      <div style="margin-bottom:16px">
+        <div style="font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:10px">Items</div>
+        <div id="po-items-list"></div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center">
+          <input class="form-input" id="po-item-title" type="text" placeholder="Title / product name" style="flex:2;min-width:120px">
+          <input class="form-input" id="po-item-qty" type="number" placeholder="Qty" min="1" style="width:70px">
+          <input class="form-input" id="po-item-price" type="number" placeholder="Unit price $" min="0" step="0.01" style="width:100px">
+          <button onclick="addPOItem()" style="background:var(--green);color:#fff;border:none;border-radius:6px;padding:10px 16px;font-size:0.83rem;font-weight:600;cursor:pointer;white-space:nowrap">+ Add</button>
+        </div>
+      </div>
+      <div class="form-error" id="po-err"></div>
+      <button class="btn-submit" style="width:auto;padding:11px 28px" onclick="submitPO()">Submit Purchase Order</button>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-settings">
+    <div class="change-pw-section">
+      <div class="section-title">Change Password</div>
+      <div class="form-error" id="pw-error"></div>
+      <div id="pw-success" style="background:#f0fbf1;border:1px solid var(--border);border-radius:6px;padding:10px 13px;font-size:0.82rem;color:var(--sage);margin-bottom:16px;display:none">Password updated successfully.</div>
+      <div class="form-group">
+        <label class="form-label" for="pw-current">Current password</label>
+        <div class="pw-wrap">
+          <input class="form-input" type="password" id="pw-current" placeholder="••••••••">
+          <button type="button" class="pw-toggle" onclick="togglePw('pw-current',this)">Show</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="pw-new">New password</label>
+        <div class="pw-wrap">
+          <input class="form-input" type="password" id="pw-new" placeholder="Min. 8 characters">
+          <button type="button" class="pw-toggle" onclick="togglePw('pw-new',this)">Show</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="pw-confirm2">Confirm new password</label>
+        <div class="pw-wrap">
+          <input class="form-input" type="password" id="pw-confirm2" placeholder="••••••••">
+          <button type="button" class="pw-toggle" onclick="togglePw('pw-confirm2',this)">Show</button>
+        </div>
+      </div>
+      <button class="btn-submit" style="width:auto;padding:10px 24px" onclick="changePassword()">Update password</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ORDER DETAIL MODAL -->
+<div id="order-modal-bg" style="display:none;position:fixed;inset:0;background:rgba(15,13,10,0.45);z-index:9999;align-items:center;justify-content:center;padding:16px" onclick="if(event.target===this)closeOrderModal()">
+  <div style="background:#fff;border-radius:12px;width:min(580px,100%);max-height:88vh;overflow-y:auto;box-shadow:0 8px 40px rgba(0,0,0,0.2);padding:28px 28px 32px;position:relative">
+    <button onclick="closeOrderModal()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);line-height:1">&#215;</button>
+    <div id="order-modal-body">Loading…</div>
+  </div>
+</div>
+
 <script>
-// Show/hide desktop sidebar on resize
-function applyLayout(){
-  var isDesk=window.innerWidth>=1024;
-  var bws=document.querySelector('.body-with-sidebar');
-  var sb=document.querySelector('.sidebar');
-  var bb=document.getElementById('bottom-bar');
-  var shopBtn=document.getElementById('shop-btn');
-  if(isDesk){
-    bws.style.display='grid';
-    sb.style.display='flex';
-    bb.style.display='none';
-    shopBtn.style.display='none';
-  } else {
-    bws.style.display='block';
-    sb.style.display='none';
-    bb.style.display='flex';
-    shopBtn.style.display='inline-flex';
+const API = '/api';
+const TOKEN_KEY = 'lal_token';
+const USER_KEY = 'lal_user';
+
+// Cart count
+function updateCartCount(){
+  try{const c=JSON.parse(localStorage.getItem('lal_cart')||'[]');document.getElementById('cart-count').textContent=c.reduce((s,i)=>s+(i.qty||1),0);}catch(e){}
+}
+updateCartCount();
+
+// Helpers
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtDate(iso){if(!iso)return '';const d=new Date(iso);return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}
+function fmtAmt(cents){return '$'+((cents||0)/100).toFixed(2);}
+function getToken(){return localStorage.getItem(TOKEN_KEY);}
+function getUser(){try{return JSON.parse(localStorage.getItem(USER_KEY)||'null');}catch(e){return null;}}
+function saveSession(token,user){localStorage.setItem(TOKEN_KEY,token);localStorage.setItem(USER_KEY,JSON.stringify(user));if(user&&user.is_admin&&!wantsTab())window.location.href='/admin.html';}
+function clearSession(){localStorage.removeItem(TOKEN_KEY);localStorage.removeItem(USER_KEY);}
+
+// Password toggle
+function togglePw(id,btn){
+  const el=document.getElementById(id);
+  if(el.type==='password'){el.type='text';btn.textContent='Hide';}
+  else{el.type='password';btn.textContent='Show';}
+}
+
+// Show/hide cards
+function showLogin(){document.getElementById('login-card').style.display='';document.getElementById('register-card').style.display='none';}
+function showRegister(){
+  document.getElementById('register-card').style.display='';
+  document.getElementById('login-card').style.display='none';
+  document.getElementById('forgot-card').style.display='none';
+  document.getElementById('reset-card').style.display='none';
+}
+function showAuth(){
+  document.getElementById('auth-wrap').style.display='';
+  document.getElementById('acct-wrap').style.display='none';
+  document.getElementById('forgot-card').style.display='none';
+  document.getElementById('reset-card').style.display='none';
+}
+function showAccount(){document.getElementById('auth-wrap').style.display='none';document.getElementById('acct-wrap').style.display='block';applyHashTab();}
+
+// Deep-link tabs: #po, #orders, #downloads, #settings
+function wantsTab(){var map={po:'school',orders:'orders',downloads:'downloads',settings:'settings'};return map[(window.location.hash||'').replace('#','')]||null;}
+
+// Guest PO mode — submit a purchase order without a customer account.
+// School-code verification is its own auth; no user login required.
+function enterGuestPO(){
+  showAccount();
+  var pb=document.querySelector('.profile-bar'); if(pb)pb.style.display='none';
+  var sr=document.querySelector('.stats-row'); if(sr)sr.style.display='none';
+  document.querySelectorAll('.tab-btn').forEach(function(b){
+    if((b.getAttribute('onclick')||'').indexOf("'school'")===-1) b.style.display='none';
+  });
+  var panel=document.getElementById('tab-school');
+  if(panel && !document.getElementById('guest-po-note')){
+    var note=document.createElement('div');
+    note.id='guest-po-note';
+    note.style.cssText='font-size:0.8rem;color:var(--muted);margin-bottom:16px;padding:10px 14px;background:var(--parchment);border:1px solid var(--border);border-radius:6px';
+    note.innerHTML='No customer account needed to submit a purchase order &mdash; just your school account code. Have a customer login? <a href="director-dashboard.html" style="color:var(--green)">Sign in</a> to also see orders and downloads.';
+    panel.insertBefore(note, panel.firstChild);
   }
 }
-applyLayout();
-window.addEventListener('resize',applyLayout);
-
-function showSection(id, e, tabEl){
-  if(e) e.preventDefault();
-  // Hide all sections
-  document.querySelectorAll('.dash-section').forEach(function(s){s.classList.remove('active')});
-  document.getElementById('section-'+id).classList.add('active');
-  // Mobile tabs
-  document.querySelectorAll('.bb-tab').forEach(function(t){t.classList.remove('active')});
-  var mTab=document.getElementById('tab-'+id);
-  if(mTab) mTab.classList.add('active');
-  if(tabEl) tabEl.classList.add('active');
-  // Desktop sidebar links
-  document.querySelectorAll('.sb-link').forEach(function(l){
-    l.style.color='rgba(247,243,236,0.55)';
-    l.style.borderLeftColor='transparent';
-    l.style.background='transparent';
+function applyHashTab(){
+  var id=wantsTab();
+  if(!id)return;
+  document.querySelectorAll('.tab-btn').forEach(function(b){
+    if((b.getAttribute('onclick')||'').indexOf("'"+id+"'")>-1) switchTab(id,b);
   });
-  // Scroll to top of main
-  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function switchDTab(id,btn){
-  document.querySelectorAll('.dtab-content').forEach(function(t){t.classList.remove('active')});
-  document.querySelectorAll('.d-tab').forEach(function(b){b.classList.remove('active')});
-  document.getElementById('tab-'+id).classList.add('active');
+// Tab switching
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   btn.classList.add('active');
+  document.getElementById('tab-'+id).classList.add('active');
+}
+
+// Login
+function doLogin(){
+  const email=(document.getElementById('login-email').value||'').trim();
+  const password=document.getElementById('login-password').value||'';
+  const errEl=document.getElementById('login-error');
+  errEl.style.display='none';
+  if(!email||!password){errEl.textContent='Please enter your email and password.';errEl.style.display='block';return;}
+  const btn=document.getElementById('login-btn');
+  btn.textContent='Signing in…';btn.disabled=true;
+  fetch(API+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})})
+    .then(r=>r.json())
+    .then(data=>{
+      btn.textContent='Sign in';btn.disabled=false;
+      if(data.error){errEl.textContent=data.error;errEl.style.display='block';return;}
+      saveSession(data.token,data.user);
+      loadAccount();
+    })
+    .catch(()=>{btn.textContent='Sign in';btn.disabled=false;errEl.textContent='Network error. Please try again.';errEl.style.display='block';});
+}
+
+// Register
+function doRegister(){
+  const name=(document.getElementById('reg-name').value||'').trim();
+  const email=(document.getElementById('reg-email').value||'').trim();
+  const password=document.getElementById('reg-password').value||'';
+  const confirm=document.getElementById('reg-confirm').value||'';
+  const errEl=document.getElementById('register-error');
+  errEl.style.display='none';
+  // Validate
+  let valid=true;
+  ['name','email','password','confirm'].forEach(f=>{document.getElementById('err-'+f).style.display='none';document.getElementById('reg-'+(f==='confirm'?'confirm':f)).classList.remove('error');});
+  if(!name){document.getElementById('err-name').style.display='block';document.getElementById('reg-name').classList.add('error');valid=false;}
+  if(!email||!email.includes('@')){document.getElementById('err-email').style.display='block';document.getElementById('reg-email').classList.add('error');valid=false;}
+  if(password.length<8){document.getElementById('err-password').style.display='block';document.getElementById('reg-password').classList.add('error');valid=false;}
+  if(password!==confirm){document.getElementById('err-confirm').style.display='block';document.getElementById('reg-confirm').classList.add('error');valid=false;}
+  if(!valid)return;
+  const btn=document.getElementById('register-btn');
+  btn.textContent='Creating account…';btn.disabled=true;
+  fetch(API+'/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password})})
+    .then(r=>r.json())
+    .then(data=>{
+      btn.textContent='Create account';btn.disabled=false;
+      if(data.error){errEl.textContent=data.error;errEl.style.display='block';return;}
+      saveSession(data.token,data.user);
+      loadAccount();
+    })
+    .catch(()=>{btn.textContent='Create account';btn.disabled=false;errEl.textContent='Network error. Please try again.';errEl.style.display='block';});
+}
+
+// Sign out
+function signOut(){clearSession();showAuth();showLogin();}
+
+// Load account data
+function loadAccount(){
+  const token=getToken();
+  const user=getUser();
+  if(!token||!user){showAuth();return;}
+  // Fill profile
+  const initials=(user.name||user.email).split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('acct-avatar').textContent=initials;
+  document.getElementById('acct-name').textContent=user.name||user.email;
+  document.getElementById('acct-email').textContent=user.email;
+  showAccount();
+  fetch(API+'/me',{headers:{'Authorization':'Bearer '+token}})
+    .then(r=>{if(r.status===401){clearSession();showAuth();return null;}return r.json();})
+    .then(data=>{
+      if(!data)return;
+      const orders=data.orders||[];
+      document.getElementById('stat-orders').textContent=orders.length;
+      const total=orders.reduce((s,o)=>s+(o.amount_total||0),0);
+      document.getElementById('stat-spent').textContent='$'+Math.round(total/100);
+      const dlCount=orders.flatMap(o=>(o.items||[]).filter(i=>{const f=(i.format||'').toUpperCase();return f==='PDF'||f==='MP3'||f==='BUNDLE';})).length;
+      document.getElementById('stat-pdfs').textContent=dlCount;
+      renderOrders(orders);
+      renderDownloads(orders);
+    })
+    .catch(()=>{});
+}
+
+function fmtBadge(format){
+  const f=(format||'').toUpperCase();
+  if(f==='PDF')return '<span class="pill pill-pdf">PDF</span>';
+  if(f==='MP3')return '<span class="pill pill-mp3">MP3</span>';
+  if(f==='MERCH')return '<span class="pill pill-merch">Merch</span>';
+  return '<span class="pill pill-default">Order</span>';
+}
+
+let _ordersCache = [];
+function renderOrders(orders){
+  _ordersCache = orders;
+  const el=document.getElementById('tab-orders');
+  if(!orders.length){
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">&#128230;</div><div class="empty-title">No orders yet</div><div class="empty-sub">Your orders will appear here after you make a purchase.</div><a class="btn-green" href="search.html">Browse music</a></div>';
+    return;
+  }
+  const rows=orders.map((o,idx)=>{
+    const items=o.items||[];
+    const title=items[0]&&items[0].title?escHtml(items[0].title):('Order');
+    const extra=items.length>1?' <span style="color:var(--muted);font-weight:400">+'+( items.length-1)+' more</span>':'';
+    const composer=items[0]&&items[0].composer?escHtml(items[0].composer):'';
+    const fmt=fmtBadge(items[0]&&items[0].format);
+    const statusPill = o.tracking_number
+      ? '<span class="pill" style="background:#e8f2ea;color:#2d9139">Shipped</span>'
+      : '<span class="pill pill-done">Completed</span>';
+    return '<tr style="cursor:pointer" onclick="openOrderModal('+idx+')">'
+      +'<td class="o-date">'+fmtDate(o.created_at)+'</td>'
+      +'<td><div class="o-title">'+title+extra+'</div>'+(composer?'<div class="o-meta">'+composer+'</div>':'')+'</td>'
+      +'<td>'+fmt+'</td>'
+      +'<td>'+statusPill+'</td>'
+      +'<td class="o-price">'+fmtAmt(o.amount_total)+'</td></tr>';
+  }).join('');
+  el.innerHTML='<div class="orders-scroll"><table class="orders-table"><tr><th>Date</th><th>Item</th><th>Format</th><th>Status</th><th>Total</th></tr>'+rows+'</table></div>';
+}
+
+function openOrderModal(idx) {
+  const o = _ordersCache[idx];
+  if (!o) return;
+  const modal = document.getElementById('order-modal-bg');
+  modal.style.display = 'flex';
+  const items = o.items || [];
+  const itemRows = items.map(i => {
+    const f = (i.format||'').toUpperCase();
+    const isDigital = f==='PDF'||f==='MP3'||f==='BUNDLE';
+    return '<tr><td style="padding:8px 0;border-bottom:1px solid #e8f2ea">'
+      + escHtml(i.title||'Item') + (i.composer?'<div style="font-size:0.75rem;color:var(--muted)">'+escHtml(i.composer)+'</div>':'')
+      + '</td><td style="padding:8px 0;border-bottom:1px solid #e8f2ea;text-align:center">'
+      + (i.format ? '<span style="font-size:0.7rem;background:#e8f2ea;padding:2px 7px;border-radius:4px;font-weight:700">'+escHtml(i.format)+'</span>' : '')
+      + '</td><td style="padding:8px 0;border-bottom:1px solid #e8f2ea;text-align:right;color:var(--muted);font-size:0.8rem">'
+      + (isDigital ? 'Digital download' : 'Physical') + '</td></tr>';
+  }).join('');
+  const trackingSection = o.tracking_number
+    ? '<div style="background:#e8f2ea;border-radius:8px;padding:14px 16px;margin-top:16px">'
+      + '<div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px">Shipment</div>'
+      + '<div style="font-family:monospace;font-size:0.9rem;font-weight:700">'+escHtml(o.tracking_number)+'</div>'
+      + (o.carrier ? '<div style="font-size:0.78rem;color:var(--muted)">'+escHtml(o.carrier)+(o.service?' · '+escHtml(o.service):'')+'</div>' : '')
+      + (o.tracking_url ? '<a href="'+escHtml(o.tracking_url)+'" target="_blank" style="font-size:0.8rem;color:var(--green);text-decoration:none;font-weight:600">Track package &#8599;</a>' : '')
+      + '</div>' : '';
+  const digitalNote = items.some(i=>{const f=(i.format||'').toUpperCase();return f==='PDF'||f==='MP3'||f==='BUNDLE';})
+    ? '<div style="background:#f5f9f6;border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-top:16px;font-size:0.82rem;color:var(--muted)">&#9993; Download links were emailed to <strong>'+escHtml((getUser()&&getUser().email)||'you')+'</strong> at the time of purchase.</div>'
+    : '';
+  document.getElementById('order-modal-body').innerHTML =
+    '<div style="font-family:\'Playfair Display\',serif;font-size:1.1rem;font-weight:700;margin-bottom:4px">Order Details</div>'
+    + '<div style="font-size:0.75rem;color:var(--muted);margin-bottom:20px;font-family:monospace">'+(o.stripe_session_id||'').slice(-16)+'</div>'
+    + '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">'
+    + '<div style="background:#f5f9f6;border-radius:8px;padding:12px"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)">Date</div><div style="font-weight:600;margin-top:4px;font-size:0.88rem">'+fmtDate(o.created_at)+'</div></div>'
+    + '<div style="background:#f5f9f6;border-radius:8px;padding:12px"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)">Total</div><div style="font-weight:700;margin-top:4px;font-size:1rem">'+fmtAmt(o.amount_total)+'</div></div>'
+    + '<div style="background:#f5f9f6;border-radius:8px;padding:12px"><div style="font-size:0.68rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted)">Status</div><div style="font-weight:600;margin-top:4px;font-size:0.88rem;color:#2d9139">'+(o.tracking_number?'Shipped':'Completed')+'</div></div>'
+    + '</div>'
+    + '<table style="width:100%;border-collapse:collapse"><tbody>'+itemRows+'</tbody></table>'
+    + trackingSection + digitalNote;
+}
+
+function closeOrderModal() {
+  document.getElementById('order-modal-bg').style.display = 'none';
+}
+
+function renderDownloads(orders){
+  const el=document.getElementById('tab-downloads');
+  const dlItems=orders.flatMap(o=>(o.items||[]).filter(i=>{const f=(i.format||'').toUpperCase();return f==='PDF'||f==='MP3'||f==='BUNDLE';}).map(i=>({...i,order_id:o.id,date:o.created_at})));
+  if(!dlItems.length){
+    el.innerHTML='<div class="empty-state"><div class="empty-icon">&#128196;</div><div class="empty-title">No digital downloads</div><div class="empty-sub">PDF and MP3 purchases will appear here. Download links are sent to your email immediately at checkout.</div><a class="btn-green" href="search.html">Browse PDFs</a></div>';
+    return;
+  }
+  const userEmail=escHtml(getUser()&&getUser().email||'');
+  const items=dlItems.map((i,idx)=>'<div class="dl-item"><div class="dl-icon">&#127925;</div><div class="dl-info"><div class="dl-title">'+escHtml(i.title||'Download')+'</div><div class="dl-meta">'+(i.composer?escHtml(i.composer)+' &middot; ':'')+fmtDate(i.date)+'</div></div><div class="dl-label"><button onclick="redownloadItem('+idx+')" id="redl-btn-'+idx+'" style="background:var(--green);color:#fff;border:none;border-radius:5px;padding:6px 12px;font-size:0.75rem;font-weight:600;cursor:pointer;white-space:nowrap">&#11123; Download Again</button></div></div>').join('');
+  el.innerHTML='<div class="card-head"><span class="card-title">Digital Purchases</span></div><div class="dl-notice">&#9993;&nbsp; Download links are sent to your email at purchase. You can also re-download directly here at any time.</div>'+items;
+  window._dlItems=dlItems;
+}
+
+function redownloadItem(idx){
+  const item=window._dlItems&&window._dlItems[idx];
+  if(!item)return;
+  const user=getUser();
+  if(!user||!user.email){alert('Please sign in to re-download.');return;}
+  const btn=document.getElementById('redl-btn-'+idx);
+  if(btn){btn.textContent='Loading…';btn.disabled=true;}
+  fetch(API+'/orders/redownload?order_id='+encodeURIComponent(item.order_id||'')+'&email='+encodeURIComponent(user.email))
+    .then(r=>r.json())
+    .then(data=>{
+      if(btn){btn.textContent='&#11123; Download Again';btn.disabled=false;}
+      if(data.error){alert(data.error);return;}
+      const products=data.products||[];
+      const match=products.find(p=>p.title===item.title)||products[0];
+      if(match&&match.download_url){window.open(match.download_url,'_blank');}
+      else if(products.length){alert('Download links emailed to '+user.email);}
+      else{alert('No download found for this item.');}
+    })
+    .catch(()=>{if(btn){btn.textContent='&#11123; Download Again';btn.disabled=false;}alert('Network error. Please try again.');});
+}
+
+// Change password
+function changePassword(){
+  const cur=document.getElementById('pw-current').value;
+  const nw=document.getElementById('pw-new').value;
+  const conf=document.getElementById('pw-confirm2').value;
+  const errEl=document.getElementById('pw-error');
+  const okEl=document.getElementById('pw-success');
+  errEl.style.display='none';okEl.style.display='none';
+  if(!cur||!nw||!conf){errEl.textContent='Please fill in all fields.';errEl.style.display='block';return;}
+  if(nw.length<8){errEl.textContent='New password must be at least 8 characters.';errEl.style.display='block';return;}
+  if(nw!==conf){errEl.textContent='New passwords do not match.';errEl.style.display='block';return;}
+  // Re-authenticate then update (simple: re-login then update not implemented — call change-password endpoint)
+  // For now use the login endpoint to verify current password, then register a new hash
+  const user=getUser();
+  if(!user){signOut();return;}
+  fetch(API+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:user.email,password:cur})})
+    .then(r=>r.json())
+    .then(data=>{
+      if(data.error){errEl.textContent='Current password is incorrect.';errEl.style.display='block';return;}
+      return fetch(API+'/change-password',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+getToken()},body:JSON.stringify({password:nw})});
+    })
+    .then(r=>r&&r.json())
+    .then(data=>{
+      if(!data)return;
+      if(data.error){errEl.textContent=data.error;errEl.style.display='block';return;}
+      okEl.style.display='block';
+      document.getElementById('pw-current').value='';
+      document.getElementById('pw-new').value='';
+      document.getElementById('pw-confirm2').value='';
+    })
+    .catch(()=>{errEl.textContent='Something went wrong.';errEl.style.display='block';});
+}
+
+// Google Sign-In
+// Google Sign-In — credential callback
+function handleGoogleCredential(response){
+  if(!response||!response.credential){showSocialError('Google sign-in failed.');return;}
+  fetch(API+'/auth/google',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({credential:response.credential})})
+    .then(r=>r.json())
+    .then(data=>{
+      if(data.error){showSocialError(data.error);return;}
+      saveSession(data.token,data.user);
+      loadAccount();
+    })
+    .catch(()=>showSocialError('Network error. Please try again.'));
+}
+
+// Called automatically when GSI library finishes loading
+window.onGoogleLibraryLoad = function(){
+  const CLIENT_ID = '765503198029-tvajij0aa9k6h6b4rikh0bmdj10frglo.apps.googleusercontent.com';
+  google.accounts.id.initialize({
+    client_id: CLIENT_ID,
+    callback: handleGoogleCredential,
+    auto_select: false,
+    cancel_on_tap_outside: true
+  });
+  const opts = {theme:'outline', size:'large', width:320, logo_alignment:'left'};
+  const loginEl  = document.getElementById('google-login-btn');
+  const regEl    = document.getElementById('google-register-btn');
+  if(loginEl)  google.accounts.id.renderButton(loginEl,  {...opts, text:'signin_with'});
+  if(regEl)    google.accounts.id.renderButton(regEl,    {...opts, text:'signup_with'});
+};
+
+// Apple Sign-In
+function signInWithApple(){
+  if(!window.AppleID){
+    showSocialError('Apple Sign-In is not configured yet. Please use email/password.');
+    return;
+  }
+  AppleID.auth.init({
+    clientId: window.APPLE_CLIENT_ID || '',
+    scope: 'name email',
+    redirectURI: window.location.origin+'/api/auth/apple/callback',
+    usePopup: true
+  });
+  AppleID.auth.signIn().then(resp=>{
+    const id_token = resp.authorization && resp.authorization.id_token;
+    const user = resp.user || null;
+    return fetch(API+'/auth/apple',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id_token,user})});
+  }).then(r=>r.json()).then(data=>{
+    if(data.error){showSocialError(data.error);return;}
+    saveSession(data.token,data.user);
+    loadAccount();
+  }).catch(err=>{
+    if(err&&err.error==='popup_closed_by_user')return;
+    showSocialError('Apple sign-in failed. Please try again.');
+  });
+}
+
+function showSocialError(msg){
+  // Show error in whichever card is visible
+  const loginVisible=document.getElementById('login-card').style.display!=='none';
+  const errId=loginVisible?'login-error':'register-error';
+  const el=document.getElementById(errId);
+  el.textContent=msg;el.style.display='block';
+  setTimeout(()=>{el.style.display='none';},5000);
+}
+
+// Enter key support
+document.getElementById('login-password').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+document.getElementById('login-email').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+document.getElementById('reg-confirm').addEventListener('keydown',function(e){if(e.key==='Enter')doRegister();});
+
+// Google Client ID
+
+// ── Forgot / Reset Password ──────────────────────────────────────────────────
+function showForgot() {
+  document.getElementById('login-card').style.display='none';
+  document.getElementById('register-card').style.display='none';
+  document.getElementById('forgot-card').style.display='block';
+  document.getElementById('reset-card').style.display='none';
+}
+function showLogin() {
+  document.getElementById('login-card').style.display='block';
+  document.getElementById('register-card').style.display='none';
+  document.getElementById('forgot-card').style.display='none';
+  document.getElementById('reset-card').style.display='none';
+}
+function doForgot() {
+  const email=(document.getElementById('forgot-email').value||'').trim();
+  const errEl=document.getElementById('forgot-error');
+  const okEl=document.getElementById('forgot-success');
+  errEl.style.display='none'; okEl.style.display='none';
+  if(!email||!email.includes('@')){errEl.textContent='Please enter a valid email.';errEl.style.display='block';return;}
+  const btn=document.getElementById('forgot-btn');
+  btn.textContent='Sending…';btn.disabled=true;
+  fetch(API+'/forgot-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})})
+    .then(r=>r.json())
+    .then(()=>{
+      btn.textContent='Send reset link';btn.disabled=false;
+      okEl.textContent='If an account exists for '+email+', you\'ll receive a reset link shortly.';
+      okEl.style.display='block';
+    })
+    .catch(()=>{btn.textContent='Send reset link';btn.disabled=false;errEl.textContent='Network error. Please try again.';errEl.style.display='block';});
+}
+function doReset() {
+  const password=document.getElementById('reset-password').value||'';
+  const confirm=document.getElementById('reset-confirm').value||'';
+  const errEl=document.getElementById('reset-error');
+  const okEl=document.getElementById('reset-success');
+  errEl.style.display='none';okEl.style.display='none';
+  if(password.length<8){errEl.textContent='Password must be at least 8 characters.';errEl.style.display='block';return;}
+  if(password!==confirm){errEl.textContent='Passwords do not match.';errEl.style.display='block';return;}
+  const token=new URLSearchParams(window.location.search).get('reset');
+  if(!token){errEl.textContent='Invalid reset link.';errEl.style.display='block';return;}
+  const btn=document.getElementById('reset-btn');
+  btn.textContent='Updating…';btn.disabled=true;
+  fetch(API+'/reset-password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token,password})})
+    .then(r=>r.json())
+    .then(data=>{
+      btn.textContent='Update password';btn.disabled=false;
+      if(data.error){errEl.textContent=data.error;errEl.style.display='block';return;}
+      okEl.textContent='Password updated! You can now sign in.';okEl.style.display='block';
+      setTimeout(()=>{window.history.replaceState({},'','/director-dashboard.html');showLogin();},2500);
+    })
+    .catch(()=>{btn.textContent='Update password';btn.disabled=false;errEl.textContent='Network error.';errEl.style.display='block';});
+}
+
+// ── School PO ─────────────────────────────────────────────────────────────────
+let _schoolData = null;
+let _poItems = [];
+
+function verifySchool() {
+  const code=(document.getElementById('school-code').value||'').trim();
+  const email=(document.getElementById('school-email').value||'').trim();
+  const errEl=document.getElementById('school-err');
+  errEl.style.display='none';
+  if(!code||!email){errEl.textContent='Enter your account code and email.';errEl.style.display='block';return;}
+  fetch(API+'/school-verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code,email})})
+    .then(r=>r.json())
+    .then(data=>{
+      if(data.error){errEl.textContent=data.error;errEl.style.display='block';return;}
+      _schoolData={code,email,school:data.school};
+      document.getElementById('school-unverified').style.display='none';
+      document.getElementById('school-verified').style.display='block';
+      document.getElementById('school-name-display').textContent=data.school.school_name||'School Account';
+      document.getElementById('school-status-display').textContent='Account code verified · '+email;
+      document.getElementById('po-email').value=email;
+      document.getElementById('po-director-name').value=(getUser()&&getUser().name)||'';
+      _poItems=[];renderPOItems();
+    })
+    .catch(()=>{errEl.textContent='Network error.';errEl.style.display='block';});
+}
+
+function clearSchool() {
+  _schoolData=null;_poItems=[];
+  document.getElementById('school-unverified').style.display='block';
+  document.getElementById('school-verified').style.display='none';
+  document.getElementById('school-err').style.display='none';
+  document.getElementById('school-code').value='';
+}
+
+function addPOItem() {
+  const title=(document.getElementById('po-item-title').value||'').trim();
+  const qty=parseInt(document.getElementById('po-item-qty').value)||1;
+  const price=parseFloat(document.getElementById('po-item-price').value)||0;
+  if(!title){document.getElementById('po-err').textContent='Enter an item title.';document.getElementById('po-err').style.display='block';return;}
+  _poItems.push({title,qty,price});
+  document.getElementById('po-item-title').value='';
+  document.getElementById('po-item-qty').value='';
+  document.getElementById('po-item-price').value='';
+  document.getElementById('po-err').style.display='none';
+  renderPOItems();
+}
+
+function removePOItem(i) { _poItems.splice(i,1); renderPOItems(); }
+
+function renderPOItems() {
+  const el=document.getElementById('po-items-list');
+  if(!_poItems.length){el.innerHTML='<div style="font-size:0.82rem;color:var(--muted);padding:8px 0">No items added yet.</div>';return;}
+  el.innerHTML='<table style="width:100%;border-collapse:collapse;font-size:0.83rem;margin-bottom:8px">'
+    +'<thead><tr><th style="text-align:left;padding:5px 0;color:var(--muted);font-weight:600">Title</th><th style="text-align:center;color:var(--muted);font-weight:600">Qty</th><th style="text-align:right;color:var(--muted);font-weight:600">Unit Price</th><th></th></tr></thead>'
+    +_poItems.map((item,i)=>'<tr><td style="padding:6px 0;border-bottom:1px solid #e8f2ea">'+escHtml(item.title)+'</td><td style="text-align:center;border-bottom:1px solid #e8f2ea">'+item.qty+'</td><td style="text-align:right;border-bottom:1px solid #e8f2ea">$'+item.price.toFixed(2)+'</td><td style="text-align:right;border-bottom:1px solid #e8f2ea;padding-left:8px"><button onclick="removePOItem('+i+')" style="background:none;border:none;cursor:pointer;color:#c44a2a;font-size:0.8rem">&#215;</button></td></tr>').join('')
+    +'</table><div style="text-align:right;font-weight:700;font-size:0.88rem">Total: $'+_poItems.reduce((s,i)=>s+(i.qty*i.price),0).toFixed(2)+'</div>';
+}
+
+function submitPO() {
+  if(!_schoolData){return;}
+  const name=(document.getElementById('po-director-name').value||'').trim();
+  const email=(document.getElementById('po-email').value||'').trim();
+  const notes=(document.getElementById('po-notes').value||'').trim();
+  const errEl=document.getElementById('po-err');
+  errEl.style.display='none';
+  if(!name||!email){errEl.textContent='Director name and email required.';errEl.style.display='block';return;}
+  if(!_poItems.length){errEl.textContent='Add at least one item.';errEl.style.display='block';return;}
+  const body={
+    customer_name:name, customer_email:email,
+    school_name:_schoolData.school.school_name,
+    items:_poItems.map(i=>({description:i.title,quantity:i.qty,unit_amount:Math.round(i.price*100)})),
+    days_until_due:30, notes
+  };
+  fetch(API+'/admin/invoices',{method:'POST',
+    headers:{'Content-Type':'application/json','x-account-code':_schoolData.code,'x-account-email':_schoolData.email},
+    body:JSON.stringify(body)
+  }).then(r=>r.json()).then(data=>{
+    if(data.error){errEl.textContent=data.error;errEl.style.display='block';return;}
+    document.getElementById('school-verified').innerHTML='<div style="text-align:center;padding:32px 0"><div style="font-size:2.5rem;margin-bottom:12px">&#127881;</div><div style="font-family:\'Playfair Display\',serif;font-size:1.2rem;font-weight:700;margin-bottom:8px">Purchase Order Submitted!</div><p style="color:var(--muted);font-size:0.88rem;line-height:1.7">An invoice has been sent to <strong>'+escHtml(email)+'</strong> with Net 30 payment terms. Your order will be processed once payment is received.</p></div>';
+  }).catch(()=>{errEl.textContent='Network error. Please try again.';errEl.style.display='block';});
+}
+
+// Auto-login
+(function(){
+  const params=new URLSearchParams(window.location.search);
+  const resetToken=params.get('reset');
+  const token=getToken();
+  if(resetToken){
+    // Show reset password form
+    showAuth();
+    setTimeout(()=>{
+      document.getElementById('forgot-card').style.display='none';
+      document.getElementById('login-card').style.display='none';
+      document.getElementById('register-card').style.display='none';
+      document.getElementById('reset-card').style.display='block';
+    }, 50);
+  } else if(token) {
+    const u=getUser();
+    if(u&&u.is_admin&&!wantsTab()) window.location.href='/admin.html';
+    else loadAccount();
+  } else showAuth();
+})();
+
+function toggleDrawer(){
+  const d=document.getElementById('drawer');
+  const h=document.getElementById('ham');
+  if(!d||!h)return;
+  d.classList.toggle('open');
+  h.classList.toggle('open');
 }
 </script>
+<script>window.toggleDrawer=window.toggleDrawer||function(){var d=document.getElementById('drawer'),h=document.getElementById('ham');if(d)d.classList.toggle('open');if(h)h.classList.toggle('open');};</script>
 </body>
 </html>

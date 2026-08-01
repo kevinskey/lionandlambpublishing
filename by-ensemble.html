@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>By Ensemble — Forte Music</title>
+<title>By Ensemble — Lion and Lamb Publishing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -115,10 +115,28 @@ footer{background:var(--ink);padding:40px 16px 32px}
   footer{padding:64px 72px 40px}
 }
 </style>
+<style id="llp-header-fix">
+/* Unified header — auto-fits all screens */
+.nav-logo{font-size:clamp(1rem,0.62rem + 1vw,1.35rem)!important;white-space:nowrap!important;flex-shrink:1;min-width:0;overflow:hidden;gap:8px}
+.nav-logo img,.nav-logo-img{height:clamp(32px,26px + 1.2vw,42px)!important}
+.nav-cart,.btn-cart{white-space:nowrap!important;flex-shrink:0}
+.nav-links-desk{align-items:center;justify-content:center;gap:2px;list-style:none;flex:1 1 auto;min-width:0;margin:0 10px;padding:0}
+.nav-links-desk li{list-style:none}
+.nav-links-desk a{white-space:nowrap!important;font-size:0.8rem!important;padding:6px 8px}
+@media(max-width:1139.9px){.nav-links-desk{display:none!important}.hamburger{display:flex!important}.drawer{display:block!important}}
+@media(min-width:1140px){.nav-links-desk{display:flex!important}.hamburger{display:none!important}.drawer{display:none!important}}
+@media(max-width:480px){.nav-logo{font-size:0.9rem!important}.nav-cart,.btn-cart{padding:8px 10px!important}}
+@media(min-width:768px) and (max-width:1139.9px){
+  .nav-logo{font-size:1.5rem!important}
+  .nav-logo img,.nav-logo-img{height:46px!important}
+  .nav-cart,.btn-cart{font-size:0.9rem!important;padding:10px 18px!important}
+  .hamburger{width:44px!important;height:44px!important}
+}
+</style>
 </head>
 <body>
 <nav class="nav">
-  <a class="nav-logo" href="index.html"><span class="nav-mark">&#119070;</span>Forte Music</a>
+  <a class="nav-logo" href="index.html"><span class="nav-mark">&#119070;</span>Lion and Lamb Publishing</a>
   <ul class="nav-links-desk">
     <li><a href="search.html">Sheet Music</a></li>
     <li><a href="digital-downloads.html">Digital Downloads</a></li>
@@ -126,7 +144,7 @@ footer{background:var(--ink);padding:40px 16px 32px}
     <li><a href="for-directors.html">For Directors</a></li>
   </ul>
   <div class="nav-r">
-    <a class="nav-cart" href="cart.html">&#128722; Cart (0)</a>
+    <a class="nav-cart" href="cart.html"><svg style="width:15px;height:15px;vertical-align:-2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.4"/><circle cx="19" cy="21" r="1.4"/><path d="M2 2h3l2.6 12.5a2 2 0 0 0 2 1.5h8.7a2 2 0 0 0 2-1.5L22 7H6"/></svg> Cart (0)</a>
     <button class="hamburger" id="ham" onclick="toggleDrawer()"><span></span><span></span><span></span></button>
   </div>
 </nav>
@@ -152,27 +170,27 @@ footer{background:var(--ink);padding:40px 16px 32px}
   <div class="ens-grid">
     <a class="ens-card" href="search.html">
       <div class="ens-card-top ec-a"><div class="ens-staff-bg"><div></div><div></div><div></div><div></div><div></div></div><span class="ens-icon-big">&#127932;</span><span class="ens-count-badge">18,400+</span></div>
-      <div class="ens-card-body"><div class="ens-name">Concert Band <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">Full wind &amp; percussion ensemble scores for every grade level.</div><div class="ens-tags"><span class="ens-tag">Grade 1&ndash;6</span><span class="ens-tag">Print &amp; PDF</span></div></div>
+      <div class="ens-card-body"><div class="ens-name">SATB <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">Full wind &amp; percussion ensemble scores for every grade level.</div><div class="ens-tags"><span class="ens-tag">Grade 1&ndash;6</span><span class="ens-tag">Print &amp; PDF</span></div></div>
     </a>
     <a class="ens-card" href="search.html">
       <div class="ens-card-top ec-b"><div class="ens-staff-bg"><div></div><div></div><div></div><div></div><div></div></div><span class="ens-icon-big">&#127926;</span><span class="ens-count-badge">22,100+</span></div>
-      <div class="ens-card-body"><div class="ens-name">Choral &amp; Vocal <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">SATB, SSA, TTB, unison, and more for every vocal program.</div><div class="ens-tags"><span class="ens-tag">SATB</span><span class="ens-tag">SSA</span><span class="ens-tag">Unison</span></div></div>
+      <div class="ens-card-body"><div class="ens-name">SSAA <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">SATB, SSA, TTB, unison, and more for every vocal program.</div><div class="ens-tags"><span class="ens-tag">SATB</span><span class="ens-tag">SSA</span><span class="ens-tag">Unison</span></div></div>
     </a>
     <a class="ens-card" href="search.html">
       <div class="ens-card-top ec-c"><div class="ens-staff-bg"><div></div><div></div><div></div><div></div><div></div></div><span class="ens-icon-big">&#127931;</span><span class="ens-count-badge">9,800+</span></div>
-      <div class="ens-card-body"><div class="ens-name">String Orchestra <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">From beginner strings to full symphony orchestra repertoire.</div><div class="ens-tags"><span class="ens-tag">Grade 1&ndash;5</span><span class="ens-tag">Full Orchestra</span></div></div>
+      <div class="ens-card-body"><div class="ens-name">TTBB <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">From beginner strings to full symphony orchestra repertoire.</div><div class="ens-tags"><span class="ens-tag">Grade 1&ndash;5</span><span class="ens-tag">Full Orchestra</span></div></div>
     </a>
     <a class="ens-card" href="search.html">
       <div class="ens-card-top ec-d"><div class="ens-staff-bg"><div></div><div></div><div></div><div></div><div></div></div><span class="ens-icon-big">&#127927;</span><span class="ens-count-badge">7,300+</span></div>
-      <div class="ens-card-body"><div class="ens-name">Jazz Ensemble <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">Big band, combo, and small group jazz charts for all levels.</div><div class="ens-tags"><span class="ens-tag">Big Band</span><span class="ens-tag">Combo</span></div></div>
+      <div class="ens-card-body"><div class="ens-name">SAB <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">Big band, combo, and small group jazz charts for all levels.</div><div class="ens-tags"><span class="ens-tag">Big Band</span><span class="ens-tag">Combo</span></div></div>
     </a>
     <a class="ens-card" href="search.html">
       <div class="ens-card-top ec-e"><div class="ens-staff-bg"><div></div><div></div><div></div><div></div><div></div></div><span class="ens-icon-big">&#129345;</span><span class="ens-count-badge">5,200+</span></div>
-      <div class="ens-card-body"><div class="ens-name">Marching Band <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">Marching arrangements, pep band charts, and field show music.</div><div class="ens-tags"><span class="ens-tag">Marching</span><span class="ens-tag">Pep Band</span></div></div>
+      <div class="ens-card-body"><div class="ens-name">Unison and 2-part <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">Marching arrangements, pep band charts, and field show music.</div><div class="ens-tags"><span class="ens-tag">Marching</span><span class="ens-tag">Pep Band</span></div></div>
     </a>
     <a class="ens-card" href="search.html">
       <div class="ens-card-top ec-f"><div class="ens-staff-bg"><div></div><div></div><div></div><div></div><div></div></div><span class="ens-icon-big">&#127929;</span><span class="ens-count-badge">12,600+</span></div>
-      <div class="ens-card-body"><div class="ens-name">Piano &amp; Keyboard <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">Solo, duet, and ensemble keyboard music for all levels.</div><div class="ens-tags"><span class="ens-tag">Solo</span><span class="ens-tag">Duet</span><span class="ens-tag">Accompaniment</span></div></div>
+      <div class="ens-card-body"><div class="ens-name">Church Music &amp; Keyboard <span class="ens-arrow">&#8599;</span></div><div class="ens-desc">Solo, duet, and ensemble keyboard music for all levels.</div><div class="ens-tags"><span class="ens-tag">Solo</span><span class="ens-tag">Duet</span><span class="ens-tag">Accompaniment</span></div></div>
     </a>
     <a class="ens-card" href="search.html">
       <div class="ens-card-top ec-g"><div class="ens-staff-bg"><div></div><div></div><div></div><div></div><div></div></div><span class="ens-icon-big">&#128276;</span><span class="ens-count-badge">3,100+</span></div>
@@ -188,14 +206,14 @@ footer{background:var(--ink);padding:40px 16px 32px}
 <div class="sub-section">
   <h2 class="sub-title">Chamber &amp; Small Group</h2>
   <div class="sub-grid">
-    <a class="sub-card" href="search.html"><div class="sub-icon">&#127931;</div><div><div class="sub-name">String Quartet</div><div class="sub-count">2,400+ titles</div></div><span class="sub-arr">&#8594;</span></a>
-    <a class="sub-card" href="search.html"><div class="sub-icon">&#129511;</div><div><div class="sub-name">Woodwind Quintet</div><div class="sub-count">1,800+ titles</div></div><span class="sub-arr">&#8594;</span></a>
-    <a class="sub-card" href="search.html"><div class="sub-icon">&#127930;</div><div><div class="sub-name">Brass Quintet</div><div class="sub-count">1,600+ titles</div></div><span class="sub-arr">&#8594;</span></a>
-    <a class="sub-card" href="search.html"><div class="sub-icon">&#127897;</div><div><div class="sub-name">Show Choir</div><div class="sub-count">980+ titles</div></div><span class="sub-arr">&#8594;</span></a>
-    <a class="sub-card" href="search.html"><div class="sub-icon">&#129345;</div><div><div class="sub-name">Percussion Ensemble</div><div class="sub-count">1,200+ titles</div></div><span class="sub-arr">&#8594;</span></a>
-    <a class="sub-card" href="search.html"><div class="sub-icon">&#127929;</div><div><div class="sub-name">Piano Trio</div><div class="sub-count">760+ titles</div></div><span class="sub-arr">&#8594;</span></a>
+    <a class="sub-card" href="search.html"><div class="sub-icon">&#127931;</div><div><div class="sub-name">SATB</div><div class="sub-count">2,400+ titles</div></div><span class="sub-arr">&#8594;</span></a>
+    <a class="sub-card" href="search.html"><div class="sub-icon">&#129511;</div><div><div class="sub-name">SSAA</div><div class="sub-count">1,800+ titles</div></div><span class="sub-arr">&#8594;</span></a>
+    <a class="sub-card" href="search.html"><div class="sub-icon">&#127930;</div><div><div class="sub-name">TTBB</div><div class="sub-count">1,600+ titles</div></div><span class="sub-arr">&#8594;</span></a>
+    <a class="sub-card" href="search.html"><div class="sub-icon">&#127897;</div><div><div class="sub-name">SAB</div><div class="sub-count">980+ titles</div></div><span class="sub-arr">&#8594;</span></a>
+    <a class="sub-card" href="search.html"><div class="sub-icon">&#129345;</div><div><div class="sub-name">Unison and 2-part</div><div class="sub-count">1,200+ titles</div></div><span class="sub-arr">&#8594;</span></a>
+    <a class="sub-card" href="search.html"><div class="sub-icon">&#127929;</div><div><div class="sub-name">Church Music</div><div class="sub-count">760+ titles</div></div><span class="sub-arr">&#8594;</span></a>
     <a class="sub-card" href="search.html"><div class="sub-icon">&#127926;</div><div><div class="sub-name">Vocal Quartet</div><div class="sub-count">540+ titles</div></div><span class="sub-arr">&#8594;</span></a>
-    <a class="sub-card" href="search.html"><div class="sub-icon">&#127927;</div><div><div class="sub-name">Jazz Combo</div><div class="sub-count">1,100+ titles</div></div><span class="sub-arr">&#8594;</span></a>
+    <a class="sub-card" href="search.html"><div class="sub-icon">&#127927;</div><div><div class="sub-name">Psalms</div><div class="sub-count">1,100+ titles</div></div><span class="sub-arr">&#8594;</span></a>
   </div>
 </div>
 
@@ -215,16 +233,17 @@ footer{background:var(--ink);padding:40px 16px 32px}
 </section>
 
 <footer>
-  <div class="ft-logo">Forte Music</div>
+  <div class="ft-logo">Lion and Lamb Publishing</div>
   <p class="ft-desc">The premier destination for band directors, choir conductors, and orchestra teachers.</p>
   <div class="ft-links-row">
     <a href="index.html">Home</a><a href="search.html">Sheet Music</a><a href="digital-downloads.html">Digital Downloads</a><a href="by-ensemble.html">By Ensemble</a><a href="for-directors.html">For Directors</a><a href="cart.html">Cart</a>
   </div>
-  <div class="ft-bottom">&copy; 2026 Forte Music Co. All rights reserved.</div>
+  <div class="ft-bottom">&copy; 2026 Lion and Lamb Publishing. All rights reserved.</div>
 </footer>
 
 <script>
 function toggleDrawer(){var d=document.getElementById('drawer'),h=document.getElementById('ham');d.classList.toggle('open');h.classList.toggle('open');document.body.style.overflow=d.classList.contains('open')?'hidden':'';}
 </script>
+<script>window.toggleDrawer=window.toggleDrawer||function(){var d=document.getElementById('drawer'),h=document.getElementById('ham');if(d)d.classList.toggle('open');if(h)h.classList.toggle('open');};</script>
 </body>
 </html>
