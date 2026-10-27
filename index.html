@@ -43,10 +43,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);o
 .btn-g{display:flex;align-items:center;justify-content:center;gap:6px;font-size:0.9rem;font-weight:500;padding:12px 20px;border:1.5px solid var(--border);background:transparent;border-radius:var(--r);cursor:pointer;color:var(--ink);transition:all 0.2s;text-decoration:none}
 .btn-g:hover{border-color:var(--ink);background:var(--parchment)}
 /* HERO */
-.hero{padding:24px var(--px) 32px;display:flex;flex-direction:column;gap:20px}
-.hero-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,7.5vw,5rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;color:var(--ink);margin-bottom:10px}
+.hero{padding:18px var(--px) 24px;display:flex;flex-direction:column;gap:16px}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5.5vw,3.4rem);font-weight:900;line-height:1.05;letter-spacing:-0.03em;color:var(--ink);margin-bottom:8px}
 .hero-title em{font-style:italic;color:var(--green)}
-.hero-sub{font-size:0.9rem;line-height:1.65;color:var(--muted);margin-bottom:16px;font-weight:300}
+.hero-sub{font-size:0.9rem;line-height:1.6;color:var(--muted);margin-bottom:12px;font-weight:300}
 .hero-search{display:flex;border:1.5px solid var(--ink);border-radius:var(--r);overflow:hidden;background:#fff;box-shadow:3px 3px 0 var(--ink);margin-bottom:14px}
 .hero-search input{flex:1;padding:12px 14px;font-size:0.92rem;border:none;outline:none;background:transparent;color:var(--ink);min-width:0}
 .hero-search input::placeholder{color:#aaa}
@@ -149,7 +149,7 @@ footer{background:var(--ink);padding:44px var(--px) 28px}
 @media(min-width:768px){
   .nav-logo{font-size:2.1rem}
   .nav-logo-img{height:75px}
-  .hero{flex-direction:row;align-items:center;padding:48px var(--px) 64px;gap:48px}
+  .hero{flex-direction:row;align-items:center;padding:26px var(--px) 32px;gap:40px}
   .hero-left{flex:1;min-width:0}
   .hero-right{flex:0 0 300px}
   .prod-section{padding:60px var(--px)}
@@ -162,7 +162,7 @@ footer{background:var(--ink);padding:44px var(--px) 28px}
 }
 /* 1024px — desktop */
 @media(min-width:1024px){
-  .hero{padding:64px var(--px) 80px}
+  .hero{padding:30px var(--px) 36px}
   .hero-right{flex:0 0 380px}
   .prods-grid{grid-template-columns:repeat(4,1fr)}
   .prod-section{padding:80px var(--px)}
