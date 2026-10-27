@@ -625,12 +625,12 @@ function selectFmt(el){
   var isDigital=fmt==='PDF'||fmt==='MP3'||fmt==='BUNDLE';
   var minQty=(product&&product.min_qty>1)?product.min_qty:1;
   document.getElementById('price-disp').textContent='$'+selectedPrice.toFixed(2);
-  document.getElementById('price-note').textContent=(isDigital&&minQty>1)?'per copy (min. '+minQty+')':'';
+  document.getElementById('price-note').textContent=(minQty>1)?'per copy (min. '+minQty+')':'';
   document.getElementById('sticky-price').textContent='$'+selectedPrice.toFixed(2);
-  if(isDigital&&qty<minQty){qty=minQty;document.getElementById('qty-d').textContent=minQty;}
+  if(qty<minQty){qty=minQty;document.getElementById('qty-d').textContent=minQty;}
 }
 
-function changeQty(d){var minQty=(product&&product.min_qty>1)?product.min_qty:1;var min=1;if(selectedFormat){var f=selectedFormat.toUpperCase();if(f==='PDF'||f==='MP3'||f==='BUNDLE')min=minQty;}qty=Math.max(min,qty+d);document.getElementById('qty-d').textContent=qty;}
+function changeQty(d){var min=(product&&product.min_qty>1)?product.min_qty:1;qty=Math.max(min,qty+d);document.getElementById('qty-d').textContent=qty;}
 
 function addToCart(){
   if(!product||!selectedPriceId)return;

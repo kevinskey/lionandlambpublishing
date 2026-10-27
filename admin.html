@@ -268,7 +268,7 @@ tr:hover td{background:rgba(232,242,234,0.4)}
         </div>
         <div class="form-group music-field">
           <label class="form-label">Voicing</label>
-          <select class="form-input" id="f-ensemble">
+          <select class="form-input" id="f-ensemble" onchange="onFormatChange()">
             <option value="">Select voicing...</option>
             <option>SATB</option><option>SSAA</option><option>TTBB</option>
             <option>SAB</option><option>Unison/2-part</option><option>Solo</option>
@@ -423,7 +423,7 @@ tr:hover td{background:rgba(232,242,234,0.4)}
         <!-- Minimum quantity -->
         <div class="form-group">
           <label class="form-label">Minimum Purchase Qty <span style="font-weight:400;color:var(--muted)">(1 = no minimum)</span></label>
-          <input class="form-input" id="f-min-qty" type="number" min="1" placeholder="1" value="1">
+          <input class="form-input" id="f-min-qty" type="number" min="1" placeholder="1" value="1" oninput="window._minQtyDirty=true">
         </div>
 
         <div class="form-group full music-field">
@@ -1365,6 +1365,7 @@ function toggleStockQty() {
 }
 
 function clearForm() {
+  window._kpjEditMode=false; window._minQtyDirty=false;
   ['f-title','f-composer','f-ensemble','f-format','f-price-print','f-price-pdf','f-price-bundle','f-stripe-print','f-stripe-pdf','f-stripe-bundle','f-pdf','f-sample','f-audio','f-image','f-video'].forEach(id => { document.getElementById(id).value=''; }); document.getElementById('f-featured').checked=false; document.getElementById('p-requires-shipping').checked=false; document.getElementById('p-weight-oz').value=''; document.getElementById('f-sku').value=''; document.getElementById('f-description').value=''; document.getElementById('f-tags-merch').value=''; document.getElementById('f-price-single').value=''; document.getElementById('f-album').value=''; document.getElementById('f-track-number').value=''; document.getElementById('f-min-qty').value='1';
   if(document.getElementById('f-seo-desc')) document.getElementById('f-seo-desc').value='';
   if(document.getElementById('f-stock-qty')) document.getElementById('f-stock-qty').value='';
@@ -1498,6 +1499,7 @@ function getVariations() {
 }
 
 function editProduct(id) {
+  window._kpjEditMode=true; window._minQtyDirty=false;
   const p = products.find(x => x.id===id);
   if (!p) return;
   editingId=id;
@@ -2060,6 +2062,17 @@ function onFormatChange() {
   // Variations label
   document.querySelectorAll('#variations-label .music-field').forEach(function(el) { el.style.display = (isMusic||isMp3) ? '' : 'none'; });
   document.querySelectorAll('#variations-label .merch-field').forEach(function(el) { el.style.display = isMerch ? '' : 'none'; });
+  // Policy default: choral PDF titles carry a 10-copy minimum (digital-downloads.html promise).
+  // Applies only on NEW products and only until the field is edited by hand.
+  if (!window._kpjEditMode && !window._minQtyDirty) {
+    var mqEl = document.getElementById('f-min-qty');
+    var ens = (document.getElementById('f-ensemble').value || '');
+    var choral = ens !== '' && ens !== 'Solo';
+    var pdfFmt = fmt === 'PDF' || fmt === 'Print' || fmt === 'Print + PDF Bundle' || fmt === 'PDF + MP3 Bundle';
+    if (pdfFmt && choral) { if (mqEl.value === '1' || mqEl.value === '') mqEl.value = '10'; }
+    else if (mqEl.value === '10') { mqEl.value = '1'; }
+  }
+
 }
 
 

@@ -302,6 +302,7 @@ function loadCart() {
 }
 
 function renderCart() {
+  enforceMinimums();
   if (cartItems.length === 0) {
     document.getElementById('cart-empty').style.display = 'block';
     document.getElementById('cart-content').style.display = 'none';
@@ -331,10 +332,16 @@ function renderCart() {
   updateSummary();
 }
 
+function enforceMinimums() {
+  var changed = false;
+  cartItems.forEach(function(it) {
+    if (it.min_qty > 1 && it.qty < it.min_qty) { it.qty = it.min_qty; changed = true; }
+  });
+  if (changed) localStorage.setItem('lal_cart', JSON.stringify(cartItems));
+}
+
 function chgQty(idx, d) {
-  var f = (cartItems[idx].format || '').toUpperCase();
-  var isDigital = f === 'PDF' || f === 'MP3' || f === 'BUNDLE';
-  var minQ = (isDigital && cartItems[idx].min_qty > 1) ? cartItems[idx].min_qty : 1;
+  var minQ = (cartItems[idx].min_qty > 1) ? cartItems[idx].min_qty : 1;
   cartItems[idx].qty = Math.max(minQ, cartItems[idx].qty + d);
   document.getElementById('qn-' + idx).textContent = cartItems[idx].qty;
   document.getElementById('cp-' + idx).textContent = '$' + (cartItems[idx].qty * cartItems[idx].price).toFixed(2);

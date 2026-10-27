@@ -1383,6 +1383,18 @@ app.post('/create-checkout-session', async (req, res) => {
     const lineItems = validItems.map(i => ({ price: i.price_id, quantity: i.quantity || 1 }));
     const productIds = validItems.map(i => i.product_id).filter(Boolean);
 
+    // Enforce per-title minimum copy counts (choral licensing) server-side
+    if (productIds.length) {
+      const mh = productIds.map((_, i) => '$' + (i + 1)).join(',');
+      const minRows = await pool.query('SELECT id, title, min_qty FROM products WHERE id IN (' + mh + ') AND min_qty > 1', productIds.map(Number));
+      for (const row of minRows.rows) {
+        const item = validItems.find(i => Number(i.product_id) === row.id);
+        if (item && (item.quantity || 1) < row.min_qty) {
+          return res.status(400).json({ error: '"' + row.title + '" has a ' + row.min_qty + '-copy minimum. Please increase the quantity to at least ' + row.min_qty + '.' });
+        }
+      }
+    }
+
     // Check if any items require physical shipping
     let hasPhysical = false;
     if (productIds.length) {
