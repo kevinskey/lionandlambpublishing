@@ -69,11 +69,11 @@ body{overflow-x:hidden}
   .hamburger{width:44px!important;height:44px!important}
 }
 </style>
-</head>
+<style>.nav-logo-short{display:none}@media(max-width:640px){.nav-logo-full{display:none}.nav-logo-short{display:inline}}</style></head>
 <body>
 <!-- NAV -->
 <nav class="nav" style="position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);background:rgba(245,249,246,0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 var(--px)">
-  <a class="nav-logo" href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:900;white-space:nowrap"><img src="/img/lion-and-lamb-logo.png?v=2" alt="Lion and Lamb Publishing" style="height:48px;width:auto;object-fit:contain;flex-shrink:0">Lion and Lamb Publishing</a>
+  <a class="nav-logo" href="index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);font-family:'Playfair Display',serif;font-size:1.65rem;font-weight:900;white-space:nowrap"><img src="/img/lion-and-lamb-logo.png?v=2" alt="Lion and Lamb Publishing" style="height:48px;width:auto;object-fit:contain;flex-shrink:0"><span class="nav-logo-full">Lion and Lamb Publishing</span><span class="nav-logo-short">Lion &amp; Lamb</span></a>
   <ul class="nav-links-desk">
     <li><a href="search.html">Sheet Music</a></li>
     <li><a href="music.html">MP3s</a></li>
