@@ -212,6 +212,16 @@ footer{background:var(--ink);padding:44px var(--px) 28px}
   .hamburger{display:none}
   .drawer{display:none}
 }
+/* Mobile landing: compact hero so New & Noteworthy is visible without scrolling */
+@media(max-width:767px){
+  .hero{padding:10px var(--px) 16px;gap:10px}
+  .hero-right{display:none}
+  .hero-title{font-size:clamp(1.65rem,7.5vw,2.1rem);margin-bottom:6px}
+  .hero-sub{font-size:0.82rem;line-height:1.5;margin-bottom:8px}
+  .hero-search input{padding:10px 12px}
+  .hero-ctas{margin-top:8px}
+  .hero-btn-p,.hero-btn-g{padding:10px 16px;font-size:0.82rem}
+}
 </style>
 <style id="llp-header-fix">
 /* Unified header — auto-fits all screens */
