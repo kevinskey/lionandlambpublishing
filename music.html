@@ -142,7 +142,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);o
 
 /* Track body */
 .t-body{display:flex;align-items:center;gap:12px;min-width:0}
-.t-art{width:44px;height:44px;border-radius:5px;flex-shrink:0;background:linear-gradient(135deg,#1a2a1a,#0d1a0d);display:flex;align-items:center;justify-content:center;font-size:1.2rem;overflow:hidden;position:relative}
+.t-art{width:44px;height:44px;border-radius:5px;flex-shrink:0;background:var(--parchment,#e8f2ea);border:1px solid #c4d9c9;display:flex;align-items:center;justify-content:center;font-size:1.2rem;overflow:hidden;position:relative}
 .t-art img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 .t-info-wave{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
 .t-meta{min-width:0}
@@ -243,6 +243,7 @@ footer{background:var(--parchment);border-top:1px solid var(--border);padding:36
 /* TOAST */
 .toast{position:fixed;bottom:calc(var(--player-h)+14px);left:50%;transform:translateX(-50%) translateY(10px);background:var(--ink);color:var(--cream);padding:10px 20px;border-radius:8px;font-size:0.8rem;font-weight:500;opacity:0;pointer-events:none;transition:all 0.28s;z-index:500;white-space:nowrap;border:1px solid rgba(255,255,255,0.1)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.t-owned{position:absolute;right:2px;bottom:2px;font-size:0.7rem}
 </style>
 <style id="llp-header-fix">
 /* Unified header — auto-fits all screens */
@@ -607,7 +608,7 @@ function trackRowHTML(p, idx, barCount, curId, trackNum){
         <div class="t-eq" style="display:none"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
       </div>
       <div class="t-body">
-        <div class="t-art">${p.image_url?`<img src="${esc(p.image_url)}" alt="">`:''}<span>${owned?'&#127911;':'&#9836;'}</span></div>
+        <div class="t-art"><img src="${p.image_url?esc(p.image_url):'/img/fallback-mp3.svg'}" alt="">${owned?`<span class="t-owned">&#127911;</span>`:''}</div>
         <div class="t-info-wave">
           <div class="t-meta">
             <div class="t-title">${esc(p.title)}</div>
@@ -731,7 +732,7 @@ function startAudio(p){
   else { badge.textContent='20s preview'; badge.className='player-badge'; document.getElementById('pl-purchase').style.display='flex'; }
 
   const art=document.getElementById('pl-art');
-  art.innerHTML=p.image_url?`<img src="${esc(p.image_url)}" alt="">`:'&#127911;';
+  art.innerHTML=`<img src="${p.image_url?esc(p.image_url):'/img/fallback-mp3.svg'}" alt="">`;
 
   document.getElementById('player').classList.remove('hidden');
   setPlayIcon(true);

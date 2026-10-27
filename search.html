@@ -426,7 +426,7 @@ function renderProducts(products){
     const starsHtml = p._avg_rating ? renderStars(p._avg_rating, p._review_count) : '';
     return '<div class="p-card" onclick="openModal('+p.id+')">' +
       '<div class="p-thumb '+tc+'" style="position:relative">'+
-        ((p.image_url&&(p.format==='PDF'||p.format==='Print'||p.format==='Print + PDF Bundle')) ? '<img class="score-img" src="'+p.image_url+'" alt="" loading="lazy">' : '<div class="p-staff"><div></div><div></div><div></div><div></div><div></div></div>')+
+        ((p.image_url&&(p.format==='PDF'||p.format==='Print'||p.format==='Print + PDF Bundle')) ? '<img class="score-img" src="'+p.image_url+'" alt="" loading="lazy">' : '<img class="score-img" src="/img/fallback-pdf.svg" alt="" loading="lazy">')+
         badgeHtml+
         newBadge+
         '<div class="p-formats">'+chips+'</div>'+

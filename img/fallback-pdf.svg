@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <rect width="400" height="400" fill="#e8f2ea"/>
+  <rect x="6" y="6" width="388" height="388" fill="none" stroke="#c4d9c9" stroke-width="3" rx="14"/>
+  <path d="M140 78 h85 l35 35 v135 h-120 z" fill="#f5f9f6" stroke="#3ab54a" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M225 78 v35 h35" fill="none" stroke="#3ab54a" stroke-width="7" stroke-linejoin="round"/>
+  <line x1="160" y1="150" x2="240" y2="150" stroke="#1a7a2e" stroke-width="8" stroke-linecap="round"/>
+  <line x1="160" y1="178" x2="240" y2="178" stroke="#1a7a2e" stroke-width="8" stroke-linecap="round"/>
+  <line x1="160" y1="206" x2="212" y2="206" stroke="#1a7a2e" stroke-width="8" stroke-linecap="round"/>
+  <text x="200" y="310" font-family="Georgia, 'DM Sans', sans-serif" font-size="64" font-weight="bold" fill="#0f0d0a" text-anchor="middle" letter-spacing="6">PDF</text>
+  <text x="200" y="348" font-family="monospace" font-size="17" fill="#1a7a2e" text-anchor="middle" letter-spacing="3">DIGITAL SCORE</text>
+</svg>

@@ -503,7 +503,7 @@ function loadProduct(){
     loadReviews(p.id);
     document.getElementById('bc-title').textContent=p.title||'';
     if(p.ensemble){document.getElementById('bc-cat').textContent=p.ensemble;document.getElementById('bc-cat').href='search.html?ensemble='+encodeURIComponent(p.ensemble);}
-    if(p.image_url){var img=document.createElement('img');img.src=p.image_url;img.alt=p.title||'';img.className='cover-img';document.getElementById('cover-placeholder').style.display='none';document.getElementById('cover-box').appendChild(img);}
+    if(p.image_url){var img=document.createElement('img');img.src=p.image_url;img.alt=p.title||'';img.className='cover-img';document.getElementById('cover-placeholder').style.display='none';document.getElementById('cover-box').appendChild(img);else{var ph=document.querySelector('#cover-placeholder img');if(ph){ph.src=(p.format==='MP3'?'/img/fallback-mp3.svg':'/img/fallback-pdf.svg');ph.style.opacity='1';ph.style.width='70%';}var pt=document.querySelector('#cover-placeholder span');if(pt)pt.textContent='';}
     if(p.ensemble){document.getElementById('voicing-text').textContent=p.ensemble;document.getElementById('voicing-badge').style.display='inline-flex';}
     // Variations (multi-voicing)
     var variations = p.variations && Array.isArray(p.variations) ? p.variations.filter(function(v){return v.ensemble;}) : [];

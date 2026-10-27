@@ -563,7 +563,7 @@ function renderGrid(products){
   grid.innerHTML=products.map(function(p,i){
     var price=p.price_pdf?'$'+parseFloat(p.price_pdf).toFixed(2):p.price_print?'$'+parseFloat(p.price_print).toFixed(2):'';
     var badge=p.featured?'<span style="position:absolute;top:8px;left:8px;background:var(--green);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">Featured</span>':(p.format==='PDF'?'<span style="position:absolute;top:8px;left:8px;background:var(--sage);color:#fff;font-size:0.58rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;padding:3px 7px;border-radius:3px">PDF</span>':'');
-    var isPdf=(p.format==='PDF'||p.format==='Print'||p.format==='Print + PDF Bundle');var thumb=(isPdf&&p.image_url)?'<img class="score-img" src="'+p.image_url+'" alt="" loading="lazy">':'<div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div>';
+    var isPdf=(p.format==='PDF'||p.format==='Print'||p.format==='Print + PDF Bundle');var thumb=(isPdf&&p.image_url)?'<img class="score-img" src="'+p.image_url+'" alt="" loading="lazy">':'<img class="score-img" src="/img/fallback-pdf.svg" alt="" loading="lazy">';
     var ens=(p.ensemble||'')+(p.grade?' · Gr.'+p.grade:'');
     return '<div class="prod-card" onclick="location.href=\'product.html?id='+p.id+'\'">'+'<div class="prod-thumb '+thumbClasses[i%4]+'">'+thumb+badge+'</div>'+'<div class="prod-body"><div class="prod-ens">'+ens+'</div><div class="prod-title">'+p.title+'</div><div class="prod-composer">'+p.composer+'</div><div class="prod-foot"><span class="prod-price">'+price+'</span><button class="prod-add" onclick="event.stopPropagation();addToCart('+p.id+')">+</button></div></div></div>';
   }).join('');

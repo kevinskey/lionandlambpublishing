@@ -405,7 +405,7 @@ function renderProducts(products){
     const thumb=getThumbClass(p.ensemble);
     return '<div class="p-card" onclick="location.href=\'product.html?id='+p.id+'\'">'+
       '<div class="p-thumb '+thumb+'">'+
-        (p.image_url ? '<img src="'+p.image_url+'" alt="">' : '<div class="pt-staff"><div></div><div></div><div></div><div></div><div></div></div>')+
+        (p.image_url ? '<img src="'+p.image_url+'" alt="">' : '<img src="/img/fallback-' + (p.format==='MP3'?'mp3':'pdf') + '.svg" alt="" style="width:100%;height:100%;object-fit:cover">')+
         '<div class="instant-badge">&#9889; PDF</div>'+
         '<div class="dl-icon">&#8595;</div>'+
       '</div>'+

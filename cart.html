@@ -35,7 +35,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* CART ITEMS */
 .cart-items{display:flex;flex-direction:column;gap:12px;margin-bottom:20px}
 .c-item{display:grid;grid-template-columns:68px 1fr;gap:12px;padding:14px;background:var(--cream);border:1px solid var(--border);border-radius:var(--r);align-items:start;transition:box-shadow 0.2s}
-.c-thumb{width:68px;height:68px;background:var(--ink);border-radius:5px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;position:relative}
+.c-thumb{width:68px;height:68px;background:var(--parchment);border:1px solid var(--border);border-radius:5px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;position:relative}
 .ct-lines{width:70%;opacity:0.3}
 .ct-lines div{height:1px;background:var(--cream);margin:5px 0}
 .ct-badge{position:absolute;bottom:4px;right:4px;font-size:0.5rem;font-weight:700;text-transform:uppercase;padding:2px 5px;border-radius:2px}
@@ -315,10 +315,10 @@ function renderCart() {
   document.getElementById('cart-items').innerHTML = cartItems.map(function(item, idx) {
     var fmtLabel = item.format === 'pdf' ? '&#9889; Digital PDF &mdash; Instant Download' : (item.format === 'bundle' ? '&#128230; Print + Digital Bundle' : '&#128220; Print Score &amp; Parts');
     var fmtBadge = item.format === 'pdf' ? 'PDF' : (item.format === 'bundle' ? 'Bundle' : 'Print');
-    var bgColor = item.format === 'pdf' ? '#0d1a14' : (item.format === 'bundle' ? '#111420' : '#1a1410');
+    var thumbSrc = item.format === 'mp3' ? '/img/fallback-mp3.svg' : '/img/fallback-pdf.svg';
     var badgeColor = item.format === 'pdf' ? 'var(--sage)' : (item.format === 'bundle' ? '#3a4a6a' : 'var(--green)');
     return '<div class="c-item" id="ci-' + idx + '">'
-      + '<div class="c-thumb" style="background:' + bgColor + '"><div class="ct-lines"><div></div><div></div><div></div><div></div><div></div></div><div class="ct-badge" style="background:' + badgeColor + ';color:#fff">' + fmtBadge + '</div></div>'
+      + '<div class="c-thumb"><img src="' + thumbSrc + '" alt="" style="width:100%;height:100%;object-fit:cover"><div class="ct-badge" style="background:' + badgeColor + ';color:#fff">' + fmtBadge + '</div></div>'
       + '<div class="c-info">'
       + '<div class="ci-ens">' + (item.ensemble || '') + '</div>'
       + '<div class="ci-title">' + item.title + '</div>'
